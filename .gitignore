@@ -1,0 +1,6 @@
+/vendor/
+/composer.phar
+/phpunit.xml
+/phpcs.xml
+/.phpcs-cache
+/phpstan.neon
