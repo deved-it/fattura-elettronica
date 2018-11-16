@@ -2,9 +2,14 @@
 
 namespace Deved\FatturaElettronica;
 
+use Sabre\Xml\Service;
+
 class Invoice implements InvoiceInterface
 {
     protected $data;
+
+    /** @var Service */
+    protected $xmlService;
 
     protected static $regimiFiscali = array(
         'RF01' => 'Ordinario',
@@ -99,10 +104,19 @@ class Invoice implements InvoiceInterface
     public function __construct(array $data = null)
     {
         $this->data = $data;
+        $this->xmlService = new Service();
     }
 
     public static function create(array $data = null)
     {
         return new static($data);
+    }
+
+    public function exportXml()
+    {
+        $this->xmlService->namespaceMap = [
+            'http://example.org/' => 'e'
+        ];
+        return $this->xmlService->write('{http://example.org/}root', 'hello');
     }
 }
