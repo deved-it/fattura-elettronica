@@ -2,14 +2,10 @@
 
 namespace Deved\FatturaElettronica;
 
-use Sabre\Xml\Service;
-
 class Invoice implements InvoiceInterface
 {
+    protected $xmlWriter;
     protected $data;
-
-    /** @var Service */
-    protected $xmlService;
 
     protected static $regimiFiscali = array(
         'RF01' => 'Ordinario',
@@ -104,7 +100,7 @@ class Invoice implements InvoiceInterface
     public function __construct(array $data = null)
     {
         $this->data = $data;
-        $this->xmlService = new Service();
+        $this->xmlWriter = new \XMLWriter();
     }
 
     public static function create(array $data = null)
@@ -114,9 +110,14 @@ class Invoice implements InvoiceInterface
 
     public function exportXml()
     {
-        $this->xmlService->namespaceMap = [
-            'http://example.org/' => 'e'
-        ];
-        return $this->xmlService->write('{http://example.org/}root', 'hello');
+        $this->xmlWriter->openMemory();
+        $this->xmlWriter->startDocument('1.0','UTF-8');
+        $this->xmlWriter->setIndent(4);
+        $this->xmlWriter->startElementNS('p','FatturaElettronica', null);
+        $this->xmlWriter->writeAttribute('versione', 'FPR12');
+        $this->xmlWriter->writeAttributeNS('xmlns', 'ds', null, 'http://www.w3.org/2000/09/xmldsig#');
+        $this->xmlWriter->writeAttributeNS('xmlns', 'p', null, 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2');
+        $this->xmlWriter->writeAttributeNS('xmlns', 'xsi', null, 'http://www.w3.org/2001/XMLSchema-instance');
+        return $this->xmlWriter->outputMemory(true);
     }
 }
