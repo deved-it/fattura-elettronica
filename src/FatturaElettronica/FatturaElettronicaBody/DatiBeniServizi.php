@@ -10,8 +10,9 @@ namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody;
 
 
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi\DettaglioLinee;
+use Deved\FatturaElettronica\XmlSerializableInterface;
 
-class DatiBeniServizi
+class DatiBeniServizi implements XmlSerializableInterface
 {
 
     /** @var DettaglioLinee */
@@ -24,5 +25,14 @@ class DatiBeniServizi
     public function __construct(DettaglioLinee $dettaglioLinee)
     {
         $this->dettaglioLinee = $dettaglioLinee;
+    }
+
+    /**
+     * @param \XMLWriter $writer
+     * @return \XMLWriter
+     */
+    public function toXmlBlock(\XMLWriter $writer)
+    {
+        // TODO: Implement toXmlBlock() method.
     }
 }

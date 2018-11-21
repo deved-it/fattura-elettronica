@@ -12,8 +12,9 @@ namespace Deved\FatturaElettronica\FatturaElettronica;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiPagamento;
+use Deved\FatturaElettronica\XmlSerializableInterface;
 
-class FatturaElettronicaBody
+class FatturaElettronicaBody implements XmlSerializableInterface
 {
     /** @var DatiGenerali  */
     protected $datGenerali;
@@ -37,5 +38,14 @@ class FatturaElettronicaBody
         $this->datGenerali = $datiGenerali;
         $this->datiBeniServizi = $datiBeniServizi;
         $this->datiPagamento = $datiPagamento;
+    }
+
+    /**
+     * @param \XMLWriter $writer
+     * @return \XMLWriter
+     */
+    public function toXmlBlock(\XMLWriter $writer)
+    {
+        // TODO: Implement toXmlBlock() method.
     }
 }

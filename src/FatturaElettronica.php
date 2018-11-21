@@ -12,7 +12,7 @@ namespace Deved\FatturaElettronica;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader;
 
-class FatturaElettronica
+class FatturaElettronica implements XmlSerializableInterface
 {
     /** @var FatturaElettronicaHeader */
     protected $fatturaElettronicaHeader;
@@ -26,5 +26,13 @@ class FatturaElettronica
     {
         $this->fatturaElettronicaHeader = $fatturaElettronicaHeader;
         $this->fatturaElettronicaBody = $fatturaElettronicaBody;
+    }
+
+    /**
+     * @return string
+     */
+    public function toXmlBlock()
+    {
+        // TODO: Implement toXmlBlock() method.
     }
 }

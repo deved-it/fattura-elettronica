@@ -9,7 +9,9 @@
 namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi;
 
 
-class DettaglioLinee implements \Countable, \Iterator
+use Deved\FatturaElettronica\XmlSerializableInterface;
+
+class DettaglioLinee implements \Countable, \Iterator, XmlSerializableInterface
 {
 
     /** @var Linea[] */
@@ -20,6 +22,7 @@ class DettaglioLinee implements \Countable, \Iterator
 
     public function addLinea(Linea $linea)
     {
+        $linea->setNumeroLinea($this->count() + 1);
         $this->linee[] = $linea;
     }
 
@@ -91,5 +94,17 @@ class DettaglioLinee implements \Countable, \Iterator
     public function count()
     {
         return count($this->linee);
+    }
+
+    /**
+     * @param \XMLWriter $writer
+     * @return \XMLWriter
+     */
+    public function toXmlBlock(\XMLWriter $writer)
+    {
+        /** @var Linea $linea */
+        foreach ($this as $linea) {
+            $linea->toXmlBlock($writer);
+        }
     }
 }

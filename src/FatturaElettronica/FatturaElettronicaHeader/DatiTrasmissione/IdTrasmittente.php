@@ -9,7 +9,9 @@
 namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\DatiTrasmissione;
 
 
-class IdTrasmittente
+use Deved\FatturaElettronica\XmlSerializableInterface;
+
+class IdTrasmittente implements XmlSerializableInterface
 {
     /** @var string */
     protected $idPaese;
@@ -25,5 +27,18 @@ class IdTrasmittente
     {
         $this->idPaese = $idPaese;
         $this->idCodice = $idCodice;
+    }
+
+    /**
+     * @param \XMLWriter $writer
+     * @return \XMLWriter
+     */
+    public function toXmlBlock(\XMLWriter $writer)
+    {
+        $writer->startElement('IdTrasmittente');
+            $writer->writeElement('IdPaese', $this->idPaese);
+            $writer->writeElement('IdCodice', $this->idCodice);
+        $writer->endElement();
+        return $writer;
     }
 }
