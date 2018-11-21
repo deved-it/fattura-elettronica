@@ -46,6 +46,10 @@ class FatturaElettronicaBody implements XmlSerializableInterface
      */
     public function toXmlBlock(\XMLWriter $writer)
     {
-        // TODO: Implement toXmlBlock() method.
+        $writer->startElement('FatturaElettronicaBody');
+            $this->datGenerali->toXmlBlock($writer);
+            $this->datiBeniServizi->toXmlBlock($writer);
+            $this->datiPagamento->toXmlBlock($writer);
+        $writer->endElement();
     }
 }

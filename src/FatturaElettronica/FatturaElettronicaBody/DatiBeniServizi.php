@@ -33,6 +33,8 @@ class DatiBeniServizi implements XmlSerializableInterface
      */
     public function toXmlBlock(\XMLWriter $writer)
     {
-        // TODO: Implement toXmlBlock() method.
+        $writer->startElement('DatiBeniServizi');
+            $this->dettaglioLinee->toXmlBlock($writer);
+        $writer->endElement();
     }
 }
