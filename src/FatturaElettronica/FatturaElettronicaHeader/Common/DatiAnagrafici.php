@@ -1,9 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: salgua
- * Date: 21/11/2018
- * Time: 15:46
+ * This file is part of deved/fattura-elettronica
+ *
+ * Copyright (c) Salvatore Guarino <sg@deved.it>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
  */
 
 namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\Common;
@@ -13,15 +16,15 @@ use Deved\FatturaElettronica\XmlSerializableInterface;
 class DatiAnagrafici implements XmlSerializableInterface
 {
     /** @var string */
-    protected $codiceFiscale;
+    public $codiceFiscale;
     /** @var string */
-    protected $denominazione;
+    public $denominazione;
     /** @var string */
-    protected $idPaese;
+    public $idPaese;
     /** @var string */
-    protected $idCodice;
+    public $idCodice;
     /** @var string */
-    protected $regimeFiscale;
+    public $regimeFiscale;
 
     public function __construct
     (

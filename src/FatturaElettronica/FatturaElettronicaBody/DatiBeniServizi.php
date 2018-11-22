@@ -1,15 +1,20 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: salgua
- * Date: 20/11/2018
- * Time: 17:57
+ * This file is part of deved/fattura-elettronica
+ *
+ * Copyright (c) Salvatore Guarino <sg@deved.it>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
  */
 
 namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody;
 
 
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi\DatiRiepilogo;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi\DettaglioLinee;
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi\Linea;
 use Deved\FatturaElettronica\XmlSerializableInterface;
 
 class DatiBeniServizi implements XmlSerializableInterface
@@ -17,14 +22,22 @@ class DatiBeniServizi implements XmlSerializableInterface
 
     /** @var DettaglioLinee */
     protected $dettaglioLinee;
+    /** @var DatiRiepilogo */
+    protected $datiRiepilogo;
 
     /**
      * DatiBeniServizi constructor.
      * @param DettaglioLinee $dettaglioLinee
+     * @param DatiRiepilogo|null $datiRiepilogo
      */
-    public function __construct(DettaglioLinee $dettaglioLinee)
+    public function __construct(DettaglioLinee $dettaglioLinee, DatiRiepilogo $datiRiepilogo = null)
     {
         $this->dettaglioLinee = $dettaglioLinee;
+        if ($datiRiepilogo) {
+            $this->datiRiepilogo = $datiRiepilogo;
+        } else {
+            $this->datiRiepilogo = $this->calcolaDatiRiepilogo();
+        }
     }
 
     /**
@@ -35,6 +48,23 @@ class DatiBeniServizi implements XmlSerializableInterface
     {
         $writer->startElement('DatiBeniServizi');
             $this->dettaglioLinee->toXmlBlock($writer);
+            $this->datiRiepilogo->toXmlBlock($writer);
         $writer->endElement();
+    }
+
+    /**
+     * @return DatiRiepilogo
+     */
+    protected function calcolaDatiRiepilogo()
+    {
+        $imponibile = 0;
+        $aliquota = 22;
+        /** @var Linea $linea */
+        foreach ($this->dettaglioLinee as $linea)
+        {
+            $imponibile += $linea->prezzoTotale(false);
+            $aliquota = $linea->getAliquotaIva();
+        }
+        return new DatiRiepilogo($imponibile, $aliquota);
     }
 }

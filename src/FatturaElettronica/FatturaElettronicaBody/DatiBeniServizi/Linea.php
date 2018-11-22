@@ -1,9 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: salgua
- * Date: 20/11/2018
- * Time: 18:01
+ * This file is part of deved/fattura-elettronica
+ *
+ * Copyright (c) Salvatore Guarino <sg@deved.it>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
  */
 
 namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi;
@@ -76,18 +79,22 @@ class Linea implements XmlSerializableInterface
             $writer->writeElement('UnitaMisura', $this->unitaMisura);
             $writer->writeElement('PrezzoUnitario', number_format($this->prezzoUnitario, 2));
             $writer->writeElement('PrezzoTotale', $this->prezzoTotale());
-            $writer->writeElement('AliquotaIva', number_format($this->aliquotaIva, 2));
+            $writer->writeElement('AliquotaIVA', number_format($this->aliquotaIva, 2));
         $writer->endElement();
     }
 
     /**
      * Calcola e restituisce il prezzo totale della linea
      *
-     * @return string
+     * @param bool $format
+     * @return string | float
      */
-    protected function prezzoTotale()
+    public function prezzoTotale($format = true)
     {
-        return number_format($this->prezzoUnitario * $this->quantita, 2);
+        if ($format) {
+            return number_format($this->prezzoUnitario * $this->quantita, 2);
+        }
+        return $this->prezzoUnitario * $this->quantita;
     }
 
     /**
@@ -98,5 +105,15 @@ class Linea implements XmlSerializableInterface
     public function setNumeroLinea($n)
     {
         $this->numeroLinea = $n;
+    }
+
+    /**
+     * Restituisce Aliquota IVA
+     *
+     * @return float
+     */
+    public function getAliquotaIva()
+    {
+        return $this->aliquotaIva;
     }
 }

@@ -1,9 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: salgua
- * Date: 20/11/2018
- * Time: 18:33
+ * This file is part of deved/fattura-elettronica
+ *
+ * Copyright (c) Salvatore Guarino <sg@deved.it>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
  */
 
 namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\DatiTrasmissione;
@@ -14,9 +17,9 @@ use Deved\FatturaElettronica\XmlSerializableInterface;
 class IdTrasmittente implements XmlSerializableInterface
 {
     /** @var string */
-    protected $idPaese;
+    public $idPaese;
     /** @var int */
-    protected $idCodice;
+    public $idCodice;
 
     /**
      * IdTrasmittente constructor.
