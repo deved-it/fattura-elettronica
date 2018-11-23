@@ -21,14 +21,18 @@ class FatturaElettronica implements XmlSerializableInterface
     protected $fatturaElettronicaHeader;
     /** @var FatturaElettronicaBody */
     protected $fatturaElettronicaBody;
+    /** @var XmlFactory */
+    protected $xmlFactory;
 
     public function __construct(
         FatturaElettronicaHeader $fatturaElettronicaHeader,
-        FatturaElettronicaBody $fatturaElettronicaBody
+        FatturaElettronicaBody $fatturaElettronicaBody,
+        XmlFactory $xmlFactory = null
     )
     {
         $this->fatturaElettronicaHeader = $fatturaElettronicaHeader;
         $this->fatturaElettronicaBody = $fatturaElettronicaBody;
+        $this->xmlFactory = $xmlFactory;
     }
 
     /**
@@ -55,5 +59,17 @@ class FatturaElettronica implements XmlSerializableInterface
         $progressivoInvio = $this->fatturaElettronicaHeader->datiTrasmissione->progressivoInvio;
 
         return $idPaese . $idCodice . '_' . $progressivoInvio . '.xml';
+    }
+
+    /**
+     * @return string
+     * @throws \Exception
+     */
+    public function toXml()
+    {
+        if ($this->xmlFactory) {
+            return $this->xmlFactory->toXml($this);
+        }
+        throw new \Exception('xmlFactory non presente, utilizzare FatturaElettronicaFactory per generare le fatture');
     }
 }

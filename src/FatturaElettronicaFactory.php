@@ -42,6 +42,8 @@ class FatturaElettronicaFactory
     protected $email;
     /** @var string | integer */
     protected $progressivoInvio = 0;
+    /** @var XmlFactory */
+    protected $xmlFactory;
 
 
     /**
@@ -55,6 +57,7 @@ class FatturaElettronicaFactory
     {
         $this->setCedentePrestatore($datiAnagraficiCedente, $sedeCedente);
         $this->setInformazioniContatto($telefonoCedente, $emailCedente);
+        $this->xmlFactory = new XmlFactory();
     }
 
     /**
@@ -99,16 +102,25 @@ class FatturaElettronicaFactory
         $this->pa = $pa;
     }
 
+    /**
+     * @param DatiGenerali $datiGenerali
+     * @param DatiPagamento $datiPagamento
+     * @param DettaglioLinee $linee
+     * @param bool $progessivoInvio
+     * @param FatturaElettronicaBody\DatiBeniServizi\DatiRiepilogo|null $datiRiepilogo
+     * @return FatturaElettronica
+     * @throws \Exception
+     */
     public function create
     (
         DatiGenerali $datiGenerali,
         DatiPagamento $datiPagamento,
         DettaglioLinee $linee,
-        $progessivoInvio = false
+        $progessivoInvio = false,
+        FatturaElettronicaBody\DatiBeniServizi\DatiRiepilogo $datiRiepilogo = null
     )
     {
         if (!$this->cessionarioCommittente) {
-            /** @noinspection PhpUnhandledExceptionInspection */
             throw new \Exception('Dati cessionario non presenti!');
         }
         if ($progessivoInvio) {
@@ -130,12 +142,12 @@ class FatturaElettronicaFactory
             $this->cedentePrestatore,
             $this->cessionarioCommittente
         );
-        $datiBeniServizi = new FatturaElettronicaBody\DatiBeniServizi($linee);
+        $datiBeniServizi = new FatturaElettronicaBody\DatiBeniServizi($linee,$datiRiepilogo);
         $fatturaElettronicaBody = new FatturaElettronicaBody(
             $datiGenerali,
             $datiBeniServizi,
             $datiPagamento
         );
-        return new FatturaElettronica($fatturaElettronicaHeader, $fatturaElettronicaBody);
+        return new FatturaElettronica($fatturaElettronicaHeader, $fatturaElettronicaBody, $this->xmlFactory);
     }
 }

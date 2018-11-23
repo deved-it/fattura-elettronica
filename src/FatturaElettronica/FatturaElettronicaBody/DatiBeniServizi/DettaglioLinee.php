@@ -23,10 +23,39 @@ class DettaglioLinee implements \Countable, \Iterator, XmlSerializableInterface
     /** @var int  */
     private $currentIndex = 0;
 
+    /**
+     * DettaglioLinee constructor.
+     * @param null | Linea[] $linee
+     */
+    public function __construct($linee = null)
+    {
+        if ($linee) {
+            $this->addLinee($linee);
+        }
+    }
+
+    /**
+     * Add single row
+     * @param Linea $linea
+     */
     public function addLinea(Linea $linea)
     {
         $linea->setNumeroLinea($this->count() + 1);
         $this->linee[] = $linea;
+    }
+
+    /**
+     * Add multiple rows
+     * @param Linea[] $linee
+     */
+    public function addLinee($linee)
+    {
+        /** @var Linea $linea */
+        foreach ($linee as $linea) {
+            if ($linea instanceof Linea) {
+                $this->addLinea($linea);
+            }
+        }
     }
 
     /**

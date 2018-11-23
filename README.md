@@ -13,65 +13,59 @@ Potete segnalare qualsiasi necessità o problema
 ## Esempio
 
     $anagraficaCedente = new DatiAnagrafici(
-        '12345678901',
-         'ACME Srl',
-         'IT',
-         '12345678901',
-         RegimeFiscale::Ordinario
-    );
-    
+                '123456789',
+                'Acme SpA',
+                'IT',
+                '12345678901',
+                RegimeFiscale::Ordinario);
     $sedeCedente = new Sede('IT', 'Via Roma 10', '33018', 'Tarvisio', 'UD');
-    
-    $factory = new FatturaElettronicaFactory(
-        $anagraficaCedente, $sedeCedente, '+39 123 456', 'info@email.com'
-    );
-    
+
+    $fatturaElettronicaFactory = new FatturaElettronicaFactory(
+        $anagraficaCedente, $sedeCedente, '+391234567', 'info@email.it');
+
     $anagraficaCessionario = new DatiAnagrafici('XYZYZX77M04H888K', 'Pinco Palla');
-    
+
     $sedeCessionario = new Sede('IT', 'Via Diaz 35', '33018', 'Tarvisio', 'UD');
-    
-    $factory->setCessionarioCommittente($anagraficaCessionario, $sedeCessionario);
-    
+
+    $fatturaElettronicaFactory->setCessionarioCommittente($anagraficaCessionario, $sedeCessionario);
+
     $datiGenerali = new DatiGenerali(
         TipoDocumento::Fattura,
         '2018-11-22',
         '2018221111',
         122
     );
-    
+
     $datiPagamento = new DatiPagamento(
         ModalitaPagamento::SEPA_CORE,
         '2018-11-30',
         122
     );
-    
-    $linea1 = new Linea('Articolo1', 50, 1);
-    $linea2 = new Linea('Articolo2', 50, 1);
-    
-    $dettaglioLinee = new DettaglioLinee();
-    
-    // aggiungere solo linee con la stessa aliquota,
-    // altrimenti creare nuovo dettaglio linee
-    $dettaglioLinee->addLinea($linea1);
-    $dettaglioLinee->addLinea($linea2);
-    
-    $fattura = $factory->create(
+    $linee = [];
+    // linee fattura
+    // aggiungere solo linee con la stessa aliquota. Per adesso non gestisce blocchi DatiBeniServizi multipli
+
+    $linee[] = new Linea('Articolo1', 50, 'ABC');
+    $linee[]= new Linea('Articolo2', 50, 'CDE');
+
+    $dettaglioLinee = new DettaglioLinee($linee);
+
+    $fattura = $fatturaElettronicaFactory->create(
         $datiGenerali,
         $datiPagamento,
         $dettaglioLinee,
         '001'
     );
-    
+
     // ottenere il nome della fattura conforme per l'SDI
     $file = $fattura->getFileName();
     
-    //generazione file XML con XmlFactory
-    $xmlFactory = new XmlFactory();
-    $xml = $xmlFactory->toXml($fattura);
+    //generazione file XML 
+    $xml = $fattura->toXml();
     
     //print su schermo
     echo $xml;
     
-    //write file
+    //scrivi file
     file_put_contents($file, $xml);
 
