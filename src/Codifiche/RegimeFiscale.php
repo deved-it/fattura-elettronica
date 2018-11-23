@@ -45,7 +45,8 @@ abstract class RegimeFiscale
         'RF07' => 'Editoria (art.74, c.1, DPR  633/72)',
         'RF08' => 'Gestione servizi telefonia pubblica (art.74, c.1, DPR 633/72)',
         'RF09' => 'Rivendita documenti di trasporto pubblico e di sosta (art.74, c.1, DPR  633/72)',
-        'RF10' => 'Intrattenimenti, giochi e altre attività di cui alla tariffa allegata al DPR 640/72 (art.74, c.6, DPR 633/72)',
+        'RF10' => 'Intrattenimenti, giochi e altre attività di cui alla tariffa 
+        allegata al DPR 640/72 (art.74, c.6, DPR 633/72)',
         'RF11' => 'Agenzie viaggi e turismo (art.74-ter, DPR 633/72)',
         'RF12' => 'Agriturismo (art.5, c.2, L. 413/91)',
         'RF13' => 'Vendite a domicilio (art.25-bis, c.6, DPR  600/73)',

@@ -32,7 +32,6 @@ class Linea implements XmlSerializableInterface
 
     /**
      * Linea constructor.
-     * @param $numeroLinea
      * @param $codiceArticolo
      * @param $descrizione
      * @param $prezzoUnitario
@@ -40,16 +39,14 @@ class Linea implements XmlSerializableInterface
      * @param string $unitaMisura
      * @param float $aliquotaIva
      */
-    public function __construct
-    (
+    public function __construct(
         $descrizione,
         $prezzoUnitario,
         $codiceArticolo = null,
         $quantita = 1.00,
         $unitaMisura = 'pz',
         $aliquotaIva = 22.00
-    )
-    {
+    ) {
         $this->codiceArticolo = $codiceArticolo;
         $this->descrizione = $descrizione;
         $this->prezzoUnitario = $prezzoUnitario;
@@ -66,21 +63,23 @@ class Linea implements XmlSerializableInterface
     public function toXmlBlock(\XMLWriter $writer)
     {
         $writer->startElement('DettaglioLinee');
-            $writer->writeElement('NumeroLinea', $this->numeroLinea);
-            if ($this->codiceArticolo) {
-                $writer->startElement('CodiceArticolo');
-                    $writer->writeElement('CodiceTipo', 'FORN');
-                    //todo: implementare altri tipi di codice
-                    $writer->writeElement('CodiceValore', $this->codiceArticolo);
-                $writer->endElement();
-            }
-            $writer->writeElement('Descrizione', $this->descrizione);
-            $writer->writeElement('Quantita', number_format($this->quantita, 2));
-            $writer->writeElement('UnitaMisura', $this->unitaMisura);
-            $writer->writeElement('PrezzoUnitario', number_format($this->prezzoUnitario, 2));
-            $writer->writeElement('PrezzoTotale', $this->prezzoTotale());
-            $writer->writeElement('AliquotaIVA', number_format($this->aliquotaIva, 2));
+        $writer->writeElement('NumeroLinea', $this->numeroLinea);
+        if ($this->codiceArticolo) {
+            $writer->startElement('CodiceArticolo');
+                $writer->writeElement('CodiceTipo', 'FORN');
+                //todo: implementare altri tipi di codice
+                $writer->writeElement('CodiceValore', $this->codiceArticolo);
+            $writer->endElement();
+        }
+        $writer->writeElement('Descrizione', $this->descrizione);
+        $writer->writeElement('Quantita', number_format($this->quantita, 2));
+        $writer->writeElement('UnitaMisura', $this->unitaMisura);
+        $writer->writeElement('PrezzoUnitario', number_format($this->prezzoUnitario, 2));
+        $writer->writeElement('PrezzoTotale', $this->prezzoTotale());
+        $writer->writeElement('AliquotaIVA', number_format($this->aliquotaIva, 2));
         $writer->endElement();
+
+        return $writer;
     }
 
     /**

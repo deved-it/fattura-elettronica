@@ -31,16 +31,14 @@ class DatiPagamento implements XmlSerializableInterface
      * @param string | null $istitutoFinanziario
      * @param string $condizioniPagamento
      */
-    public function __construct
-    (
+    public function __construct(
         $modalitaPagamento,
         $dataScadenzaPagamento,
         $importoPagamento,
         $iban = null,
         $istitutoFinanziario = null,
         $condizioniPagamento = 'TP02'
-    )
-    {
+    ) {
         $this->modalitaPagamento = $modalitaPagamento;
         $this->dataScadenzaPagamento = $dataScadenzaPagamento;
         $this->importoPagamento = $importoPagamento;
@@ -56,16 +54,20 @@ class DatiPagamento implements XmlSerializableInterface
     public function toXmlBlock(\XMLWriter $writer)
     {
         $writer->startElement('DatiPagamento');
-            $writer->writeElement('CondizioniPagamento', $this->condizioniPagamento);
-            $writer->startElement('DettaglioPagamento');
-                $writer->writeElement('ModalitaPagamento', $this->modalitaPagamento);
-                $writer->writeElement('DataScadenzaPagamento', $this->dataScadenzaPagamento);
-                $writer->writeElement('ImportoPagamento', number_format($this->importoPagamento, 2));
-                if ($this->istitutoFinanziario)
-                    $writer->writeElement('IstitutoFinanziario', $this->istitutoFinanziario);
-                if ($this->iban)
-                    $writer->writeElement('IBAN', $this->iban);
-            $writer->endElement();
+        $writer->writeElement('CondizioniPagamento', $this->condizioniPagamento);
+        $writer->startElement('DettaglioPagamento');
+        $writer->writeElement('ModalitaPagamento', $this->modalitaPagamento);
+        $writer->writeElement('DataScadenzaPagamento', $this->dataScadenzaPagamento);
+        $writer->writeElement('ImportoPagamento', number_format($this->importoPagamento, 2));
+        if ($this->istitutoFinanziario) {
+            $writer->writeElement('IstitutoFinanziario', $this->istitutoFinanziario);
+        }
+        if ($this->iban) {
+            $writer->writeElement('IBAN', $this->iban);
+        }
         $writer->endElement();
+        $writer->endElement();
+
+        return $writer;
     }
 }

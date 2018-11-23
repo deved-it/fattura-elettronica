@@ -11,7 +11,6 @@
 
 namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader;
 
-
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\DatiTrasmissione\IdTrasmittente;
 use Deved\FatturaElettronica\XmlSerializableInterface;
 
@@ -52,8 +51,7 @@ class DatiTrasmissione implements XmlSerializableInterface
         $telefono = '',
         $email = '',
         $pecDestinatario = ''
-    )
-    {
+    ) {
         $this->idTrasmittente = $idTrasmittente;
         $this->progressivoInvio = $progressivoInvio;
         $this->codiceDestinatario = $codiceDestinatario;
@@ -92,5 +90,6 @@ class DatiTrasmissione implements XmlSerializableInterface
             $writer->writeElement('PECDestinatario', $this->pecDestinatario);
         }
         $writer->endElement();
+        return $writer;
     }
 }

@@ -9,10 +9,7 @@
  *
  */
 
-
-
 namespace Deved\FatturaElettronica\Traits;
-
 
 trait CodificaTrait
 {
@@ -29,7 +26,7 @@ trait CodificaTrait
         try {
             $descrizione = self::$codifiche[$codice];
         } catch (\Exception $exception) {
-
+            //
         }
         return $descrizione;
     }

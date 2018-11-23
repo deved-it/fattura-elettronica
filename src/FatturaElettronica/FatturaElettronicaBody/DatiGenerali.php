@@ -34,15 +34,13 @@ class DatiGenerali implements XmlSerializableInterface
      * @param float $importoTotaleDocumento
      * @param string $divisa
      */
-    public function __construct
-    (
+    public function __construct(
         $tipoDocumento,
         $data,
         $numero,
         $importoTotaleDocumento,
         $divisa = 'EUR'
-    )
-    {
+    ) {
         $this->tipoDocumento = $tipoDocumento;
         $this->data = $data;
         $this->numero = $numero;
@@ -62,10 +60,13 @@ class DatiGenerali implements XmlSerializableInterface
                 $writer->writeElement('Divisa', $this->divisa);
                 $writer->writeElement('Data', $this->data);
                 $writer->writeElement('Numero', $this->numero);
-                $writer->writeElement('ImportoTotaleDocumento',
-                    number_format($this->importoTotaleDocumento, 2));
+                $writer->writeElement(
+                    'ImportoTotaleDocumento',
+                    number_format($this->importoTotaleDocumento, 2)
+                );
             $writer->endElement();
         $writer->endElement();
         //todo: implementare DatiOrdineAcquisto, DatiContratto etc. (facoltativi)
+        return $writer;
     }
 }

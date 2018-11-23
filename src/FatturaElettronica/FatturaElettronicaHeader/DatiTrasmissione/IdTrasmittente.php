@@ -11,7 +11,6 @@
 
 namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\DatiTrasmissione;
 
-
 use Deved\FatturaElettronica\XmlSerializableInterface;
 
 class IdTrasmittente implements XmlSerializableInterface

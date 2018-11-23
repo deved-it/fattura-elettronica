@@ -11,7 +11,6 @@
 
 namespace Deved\FatturaElettronica;
 
-
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader;
 
@@ -28,8 +27,7 @@ class FatturaElettronica implements XmlSerializableInterface
         FatturaElettronicaHeader $fatturaElettronicaHeader,
         FatturaElettronicaBody $fatturaElettronicaBody,
         XmlFactory $xmlFactory = null
-    )
-    {
+    ) {
         $this->fatturaElettronicaHeader = $fatturaElettronicaHeader;
         $this->fatturaElettronicaBody = $fatturaElettronicaBody;
         $this->xmlFactory = $xmlFactory;
@@ -41,7 +39,7 @@ class FatturaElettronica implements XmlSerializableInterface
      */
     public function toXmlBlock(\XMLWriter $writer)
     {
-        $writer->startElementNS('p','FatturaElettronica', null);
+        $writer->startElementNS('p', 'FatturaElettronica', null);
         $writer->writeAttribute('versione', 'FPR12');
         $writer->writeAttributeNS('xmlns', 'ds', null, 'http://www.w3.org/2000/09/xmldsig#');
         $writer->writeAttributeNS('xmlns', 'p', null, 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2');

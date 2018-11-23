@@ -11,7 +11,6 @@
 
 namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader;
 
-
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\Common\DatiAnagrafici;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\Common\Sede;
 use Deved\FatturaElettronica\XmlSerializableInterface;
@@ -28,12 +27,10 @@ class CedentePrestatore implements XmlSerializableInterface
      * @param DatiAnagrafici $datiAnagrafici
      * @param Sede $sede
      */
-    public function __construct
-    (
+    public function __construct(
         DatiAnagrafici $datiAnagrafici,
         Sede $sede
-    )
-    {
+    ) {
         $this->datiAnagrafici = $datiAnagrafici;
         $this->sede = $sede;
     }
@@ -48,5 +45,6 @@ class CedentePrestatore implements XmlSerializableInterface
             $this->datiAnagrafici->toXmlBlock($writer);
             $this->sede->toXmlBlock($writer);
         $writer->endElement();
+        return $writer;
     }
 }

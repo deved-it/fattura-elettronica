@@ -55,5 +55,7 @@ class DatiRiepilogo implements XmlSerializableInterface
             $writer->writeElement('Imposta', number_format($this->imposta, 2));
             $writer->writeElement('EsigibilitaIVA', $this->esigibilitaIVA);
         $writer->endElement();
+
+        return $writer;
     }
 }

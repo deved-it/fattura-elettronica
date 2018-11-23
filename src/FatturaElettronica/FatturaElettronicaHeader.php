@@ -11,7 +11,6 @@
 
 namespace Deved\FatturaElettronica\FatturaElettronica;
 
-
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\CedentePrestatore;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\CessionarioCommittente;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\DatiTrasmissione;
@@ -36,8 +35,7 @@ class FatturaElettronicaHeader implements XmlSerializableInterface
         DatiTrasmissione $datiTrasmissione,
         CedentePrestatore $cedentePrestatore,
         CessionarioCommittente $cessionarioCommittente
-    )
-    {
+    ) {
         $this->datiTrasmissione = $datiTrasmissione;
         $this->cedentePrestatore = $cedentePrestatore;
         $this->cessionarioCommittente = $cessionarioCommittente;
@@ -54,5 +52,6 @@ class FatturaElettronicaHeader implements XmlSerializableInterface
             $this->cedentePrestatore->toXmlBlock($writer);
             $this->cessionarioCommittente->toXmlBlock($writer);
         $writer->endElement();
+        return $writer;
     }
 }

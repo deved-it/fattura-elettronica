@@ -27,12 +27,10 @@ class CessionarioCommittente implements XmlSerializableInterface
      * @param DatiAnagrafici $datiAnagrafici
      * @param Sede $sede
      */
-    public function __construct
-    (
+    public function __construct(
         DatiAnagrafici $datiAnagrafici,
         Sede $sede
-    )
-    {
+    ) {
         $this->datiAnagrafici = $datiAnagrafici;
         $this->sede = $sede;
     }
@@ -47,5 +45,6 @@ class CessionarioCommittente implements XmlSerializableInterface
             $this->datiAnagrafici->toXmlBlock($writer);
             $this->sede->toXmlBlock($writer);
         $writer->endElement();
+        return $writer;
     }
 }

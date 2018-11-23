@@ -11,7 +11,6 @@
 
 namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi;
 
-
 use Deved\FatturaElettronica\XmlSerializableInterface;
 
 class DettaglioLinee implements \Countable, \Iterator, XmlSerializableInterface
@@ -138,5 +137,7 @@ class DettaglioLinee implements \Countable, \Iterator, XmlSerializableInterface
         foreach ($this as $linea) {
             $linea->toXmlBlock($writer);
         }
+
+        return $writer;
     }
 }

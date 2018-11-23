@@ -11,7 +11,6 @@
 
 namespace Deved\FatturaElettronica;
 
-
 class XmlFactory
 {
     /** @var \XMLWriter */
@@ -42,7 +41,7 @@ class XmlFactory
     public function toXml(XmlSerializableInterface $document)
     {
         $this->writer->openMemory();
-        $this->writer->startDocument('1.0','UTF-8');
+        $this->writer->startDocument('1.0', 'UTF-8');
         $this->writer->setIndent(4);
         $this->processXmlBlock($document);
         return $this->writer->outputMemory(true);

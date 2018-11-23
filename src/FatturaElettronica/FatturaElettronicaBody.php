@@ -11,7 +11,6 @@
 
 namespace Deved\FatturaElettronica\FatturaElettronica;
 
-
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiPagamento;
@@ -36,8 +35,7 @@ class FatturaElettronicaBody implements XmlSerializableInterface
         DatiGenerali $datiGenerali,
         DatiBeniServizi $datiBeniServizi,
         DatiPagamento $datiPagamento
-    )
-    {
+    ) {
         $this->datGenerali = $datiGenerali;
         $this->datiBeniServizi = $datiBeniServizi;
         $this->datiPagamento = $datiPagamento;
@@ -54,5 +52,6 @@ class FatturaElettronicaBody implements XmlSerializableInterface
             $this->datiBeniServizi->toXmlBlock($writer);
             $this->datiPagamento->toXmlBlock($writer);
         $writer->endElement();
+        return $writer;
     }
 }

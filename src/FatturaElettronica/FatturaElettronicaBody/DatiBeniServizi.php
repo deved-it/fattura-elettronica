@@ -11,7 +11,6 @@
 
 namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody;
 
-
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi\DatiRiepilogo;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi\DettaglioLinee;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi\Linea;
@@ -50,6 +49,7 @@ class DatiBeniServizi implements XmlSerializableInterface
             $this->dettaglioLinee->toXmlBlock($writer);
             $this->datiRiepilogo->toXmlBlock($writer);
         $writer->endElement();
+        return $writer;
     }
 
     /**
@@ -60,8 +60,7 @@ class DatiBeniServizi implements XmlSerializableInterface
         $imponibile = 0;
         $aliquota = 22;
         /** @var Linea $linea */
-        foreach ($this->dettaglioLinee as $linea)
-        {
+        foreach ($this->dettaglioLinee as $linea) {
             $imponibile += $linea->prezzoTotale(false);
             $aliquota = $linea->getAliquotaIva();
         }

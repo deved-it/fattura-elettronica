@@ -11,7 +11,6 @@
 
 namespace Deved\FatturaElettronica;
 
-
 interface XmlSerializableInterface
 {
     /**

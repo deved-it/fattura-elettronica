@@ -11,7 +11,6 @@
 
 namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\Common;
 
-
 use Deved\FatturaElettronica\XmlSerializableInterface;
 
 class Sede implements XmlSerializableInterface
@@ -36,15 +35,13 @@ class Sede implements XmlSerializableInterface
      * @param string $comune
      * @param string $provincia
      */
-    public function __construct
-    (
+    public function __construct(
         $nazione,
         $indirizzo,
         $cap,
         $comune,
         $provincia = ''
-    )
-    {
+    ) {
         $this->nazione = $nazione;
         $this->indirizzo = $indirizzo;
         $this->cap = $cap;
@@ -59,13 +56,14 @@ class Sede implements XmlSerializableInterface
     public function toXmlBlock(\XMLWriter $writer)
     {
         $writer->startElement('Sede');
-            $writer->writeElement('Indirizzo', $this->indirizzo);
-            $writer->writeElement('CAP', $this->cap);
-            $writer->writeElement('Comune', $this->comune);
-            if ($this->provincia) {
-                $writer->writeElement('Provincia', $this->provincia);
-            }
-            $writer->writeElement('Nazione', $this->nazione);
+        $writer->writeElement('Indirizzo', $this->indirizzo);
+        $writer->writeElement('CAP', $this->cap);
+        $writer->writeElement('Comune', $this->comune);
+        if ($this->provincia) {
+            $writer->writeElement('Provincia', $this->provincia);
+        }
+        $writer->writeElement('Nazione', $this->nazione);
         $writer->endElement();
+        return $writer;
     }
 }

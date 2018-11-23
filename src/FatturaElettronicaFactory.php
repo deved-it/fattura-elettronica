@@ -53,8 +53,12 @@ class FatturaElettronicaFactory
      * @param string $telefonoCedente
      * @param string $emailCedente
      */
-    public function __construct(DatiAnagrafici $datiAnagraficiCedente, Sede $sedeCedente, $telefonoCedente, $emailCedente)
-    {
+    public function __construct(
+        DatiAnagrafici $datiAnagraficiCedente,
+        Sede $sedeCedente,
+        $telefonoCedente,
+        $emailCedente
+    ) {
         $this->setCedentePrestatore($datiAnagraficiCedente, $sedeCedente);
         $this->setInformazioniContatto($telefonoCedente, $emailCedente);
         $this->xmlFactory = new XmlFactory();
@@ -65,7 +69,7 @@ class FatturaElettronicaFactory
      * @param Sede $sede
      * @param bool $idTrasmittente
      */
-    public function setCedentePrestatore (DatiAnagrafici $datiAnagrafici, Sede $sede, $idTrasmittente = true)
+    public function setCedentePrestatore(DatiAnagrafici $datiAnagrafici, Sede $sede, $idTrasmittente = true)
     {
         $this->cedentePrestatore = new CedentePrestatore($datiAnagrafici, $sede);
         if ($idTrasmittente) {
@@ -77,21 +81,19 @@ class FatturaElettronicaFactory
      * @param string $telefono
      * @param string $email
      */
-    public function setInformazioniContatto ($telefono, $email)
+    public function setInformazioniContatto($telefono, $email)
     {
         $this->telefono = $telefono;
         $this->email = $email;
     }
 
-    public function setCessionarioCommittente
-    (
+    public function setCessionarioCommittente(
         DatiAnagrafici $datiAnagrafici,
         Sede $sede,
         $codiceDestinatario = null,
         $pec = null,
         $pa = false
-    )
-    {
+    ) {
         $this->cessionarioCommittente = new CessionarioCommittente($datiAnagrafici, $sede);
         if ($codiceDestinatario) {
             $this->codiceDestinatario = $codiceDestinatario;
@@ -111,15 +113,13 @@ class FatturaElettronicaFactory
      * @return FatturaElettronica
      * @throws \Exception
      */
-    public function create
-    (
+    public function create(
         DatiGenerali $datiGenerali,
         DatiPagamento $datiPagamento,
         DettaglioLinee $linee,
         $progessivoInvio = false,
         FatturaElettronicaBody\DatiBeniServizi\DatiRiepilogo $datiRiepilogo = null
-    )
-    {
+    ) {
         if (!$this->cessionarioCommittente) {
             throw new \Exception('Dati cessionario non presenti!');
         }
@@ -142,7 +142,7 @@ class FatturaElettronicaFactory
             $this->cedentePrestatore,
             $this->cessionarioCommittente
         );
-        $datiBeniServizi = new FatturaElettronicaBody\DatiBeniServizi($linee,$datiRiepilogo);
+        $datiBeniServizi = new FatturaElettronicaBody\DatiBeniServizi($linee, $datiRiepilogo);
         $fatturaElettronicaBody = new FatturaElettronicaBody(
             $datiGenerali,
             $datiBeniServizi,
