@@ -1,0 +1,22 @@
+language: php
+sudo: required
+dist: xenial
+php:
+  - '5.5'
+  - '5.6'
+  - '7.0'
+  - '7.1'
+  - '7.2'
+
+matrix:
+  fast_finish: true
+
+cache:
+  directories:
+  - $HOME/.composer/cache
+
+install:
+  - composer install
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
