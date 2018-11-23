@@ -19,8 +19,9 @@ cache:
   directories:
   - $HOME/.composer/cache
 
-install:
-  - composer install
+before_script:
+  - travis_retry composer self-update
+  - travis_retry composer install --no-interaction --prefer-dist
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
