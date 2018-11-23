@@ -18,7 +18,7 @@ class IdTrasmittente implements XmlSerializableInterface
 {
     /** @var string */
     public $idPaese;
-    /** @var int */
+    /** @var string */
     public $idCodice;
 
     /**

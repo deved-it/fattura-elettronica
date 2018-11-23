@@ -15,8 +15,16 @@
             "Deved\\FatturaElettronica\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Deved\\FatturaElettronica\\Tests\\": "tests/"
+        }
+    },
     "require": {
         "php": ">=5.5",
         "ext-xmlwriter": "^7.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7"
     }
 }
