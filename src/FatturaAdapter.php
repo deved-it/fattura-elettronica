@@ -16,10 +16,22 @@ class FatturaAdapter
 {
     /** @var FatturaInterface */
     protected $fattura;
+    /** @var XmlFactory */
+    protected $xmlFactory;
 
     public function __construct(FatturaInterface $fattura)
     {
+        $this->xmlFactory = new XmlFactory();
+        $this->setFattura($this->fattura);
+    }
+
+    /**
+     * @param FatturaInterface $fattura
+     */
+    public function setFattura(FatturaInterface $fattura)
+    {
         $this->fattura = $fattura;
+
     }
 
     public function toXml()

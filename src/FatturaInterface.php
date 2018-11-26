@@ -13,5 +13,38 @@ namespace Deved\FatturaElettronica;
 
 interface FatturaInterface
 {
+    /**
+     * Ritorna array associativo anagrafica cedente
+     * @return array
+     */
+    public function getAnagraficaCedente();
+
+    /**
+     * Ritorna telefono cedente per contatto
+     * @return string
+     */
+    public function getTelefonoCedente();
+
+    /**
+     * Ritorna email cedente per contatto
+     */
+    public function getEmailCedente();
+
+    /**
+     * Ritorna array associativo sede cedente
+     * @return array
+     */
+    public function getSedeCedente();
+
+    /**
+     * Ritorna array associativo anagrafica cedente
+     * @return array
+     */
+    public function getAnagraficaCessionario();
+
+    /**
+     * Ritorna array associativo cessionario
+     */
+    public function getSedeCessionario();
 
 }
