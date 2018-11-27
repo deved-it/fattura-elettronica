@@ -11,11 +11,19 @@
 
 namespace Deved\FatturaElettronica;
 
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi;
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali;
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiPagamento;
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\Common\DatiAnagrafici;
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\Common\Sede;
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\DatiTrasmissione;
+
 interface FatturaInterface
 {
+
     /**
-     * Ritorna array associativo anagrafica cedente
-     * @return array
+     * Ritorna anagrafica cedente
+     * @return DatiAnagrafici
      */
     public function getAnagraficaCedente();
 
@@ -31,20 +39,44 @@ interface FatturaInterface
     public function getEmailCedente();
 
     /**
-     * Ritorna array associativo sede cedente
-     * @return array
+     * Ritorna sede cedente
+     * @return Sede
      */
     public function getSedeCedente();
 
     /**
-     * Ritorna array associativo anagrafica cedente
-     * @return array
+     * Ritorna anagrafica cessionario
+     * @return DatiAnagrafici
      */
     public function getAnagraficaCessionario();
 
     /**
-     * Ritorna array associativo cessionario
+     * Ritorna array sede cessionario
+     * @return Sede
      */
     public function getSedeCessionario();
 
+    /**
+     * Ritorna i dati trasmissione
+     * @return DatiTrasmissione
+     */
+    public function getDatiTrasmissione();
+
+    /**
+     * Riotrna array dati generali
+     * @return DatiGenerali
+     */
+    public function getDatiGenerali();
+
+    /**
+     * Ritorna array dati pagamento
+     * @return DatiPagamento
+     */
+    public function getDatiPagamento();
+
+    /**
+     * Ritorna dati beni servizi
+     * @return DatiBeniServizi
+     */
+    public function getDatiBeniServizi();
 }

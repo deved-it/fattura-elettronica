@@ -12,10 +12,19 @@
 namespace Deved\FatturaElettronica;
 
 
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody;
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader;
+
 class FatturaAdapter
 {
     /** @var FatturaInterface */
     protected $fattura;
+    /** @var FatturaElettronicaHeader\CedentePrestatore */
+    protected $cedentePrestatore;
+    /** @var FatturaElettronicaHeader\CessionarioCommittente */
+    protected $cessionarioCommittente;
+    /** @var FatturaElettronica */
+    public $fatturaElettronica;
     /** @var XmlFactory */
     protected $xmlFactory;
 
@@ -33,10 +42,46 @@ class FatturaAdapter
             $this->xmlFactory = new XmlFactory();
         }
         $this->fattura = $fattura;
+        $this->setCedentePrestatore();
+        $this->setCessionarioCommittente();
+    }
+
+    protected function createFatturaElettronica()
+    {
+        $fatturaElettronicaHeader = new FatturaElettronicaHeader(
+            $this->fattura->getDatiTrasmissione(),
+            $this->cedentePrestatore,
+            $this->cessionarioCommittente
+        );
+        $fatturaElettronicaBody = new FatturaElettronicaBody(
+            $this->fattura->getDatiGenerali(),
+            $this->fattura->getDatiBeniServizi(),
+            $this->fattura->getDatiPagamento()
+        );
+        $this->fatturaElettronica = new FatturaElettronica(
+            $fatturaElettronicaHeader,
+            $fatturaElettronicaBody,
+            $this->xmlFactory
+        );
+    }
+
+    protected function setCedentePrestatore()
+    {
+        $this->cedentePrestatore = new FatturaElettronicaHeader\CedentePrestatore(
+            $this->fattura->getAnagraficaCedente(),
+            $this->fattura->getSedeCedente()
+        );
+    }
+    protected function setCessionarioCommittente()
+    {
+        $this->cessionarioCommittente = new FatturaElettronicaHeader\CessionarioCommittente(
+            $this->fattura->getAnagraficaCessionario(),
+            $this->fattura->getSedeCessionario()
+        );
     }
 
     public function toXml()
     {
-        //todo: implementare
+        return $this->fatturaElettronica->toXml();
     }
 }

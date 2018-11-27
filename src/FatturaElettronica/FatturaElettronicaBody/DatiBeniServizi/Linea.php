@@ -30,11 +30,12 @@ class Linea implements XmlSerializableInterface
     /** @var float */
     protected $aliquotaIva;
 
+
     /**
      * Linea constructor.
-     * @param $codiceArticolo
      * @param $descrizione
      * @param $prezzoUnitario
+     * @param null $codiceArticolo
      * @param float $quantita
      * @param string $unitaMisura
      * @param float $aliquotaIva
