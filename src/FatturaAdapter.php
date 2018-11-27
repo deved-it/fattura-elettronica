@@ -27,12 +27,12 @@ class FatturaAdapter
      */
     public function __construct(FatturaInterface $fattura, XmlFactory $xmlFactory = null)
     {
-        $this->fattura = $fattura;
         if ($xmlFactory) {
             $this->xmlFactory = $xmlFactory;
         } else {
-            $this->xmlFactory = new $xmlFactory;
+            $this->xmlFactory = new XmlFactory();
         }
+        $this->fattura = $fattura;
     }
 
     public function toXml()
