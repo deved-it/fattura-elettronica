@@ -85,4 +85,16 @@ interface FatturaInterface
      * @return string
      */
     public function getTipoDocumento();
+
+    /**
+     * Ritorna la modalità pagamento
+     * @return string
+     */
+    public function getModalitaPagamento();
+
+    /**
+     * Ritorna l'importo del pagamento
+     * @return float
+     */
+    public function getImportoPagamento();
 }

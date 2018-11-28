@@ -44,6 +44,7 @@ class FatturaAdapter implements FatturaElettronicaInterface
         $this->fattura = $fattura;
         $this->setCedentePrestatore();
         $this->setCessionarioCommittente();
+        $this->createFatturaElettronica();
     }
 
     protected function createFatturaElettronica()
