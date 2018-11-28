@@ -93,7 +93,7 @@ interface FatturaInterface
     public function getModalitaPagamento();
 
     /**
-     * Ritorna l'importo del pagamento
+     * Ritorna importo del pagamento
      * @return float
      */
     public function getImportoPagamento();
