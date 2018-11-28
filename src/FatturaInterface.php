@@ -79,4 +79,10 @@ interface FatturaInterface
      * @return DatiBeniServizi
      */
     public function getDatiBeniServizi();
+
+    /**
+     * Ritorna il tipo documento
+     * @return string
+     */
+    public function getTipoDocumento();
 }

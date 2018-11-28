@@ -15,7 +15,7 @@ namespace Deved\FatturaElettronica;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader;
 
-class FatturaAdapter
+class FatturaAdapter implements FatturaElettronicaInterface
 {
     /** @var FatturaInterface */
     protected $fattura;
@@ -80,8 +80,22 @@ class FatturaAdapter
         );
     }
 
+    /**
+     * Restituisce l'XML della fattura elettronica
+     * @return string
+     * @throws \Exception
+     */
     public function toXml()
     {
         return $this->fatturaElettronica->toXml();
+    }
+
+    /**
+     * Restituisce il nome della fattura conforme all'SDI
+     * @return string
+     */
+    public function getFileName()
+    {
+        return $this->fatturaElettronica->getFileName();
     }
 }
