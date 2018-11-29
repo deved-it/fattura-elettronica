@@ -34,9 +34,9 @@ class DatiBeniServizi implements XmlSerializableInterface
         $this->dettaglioLinee = $dettaglioLinee;
         if ($datiRiepilogo) {
             $this->datiRiepilogo = $datiRiepilogo;
-        } else {
-            $this->datiRiepilogo = $this->calcolaDatiRiepilogo();
+            return;
         }
+        $this->datiRiepilogo = $this->calcolaDatiRiepilogo();
     }
 
     /**
