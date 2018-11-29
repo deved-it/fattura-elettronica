@@ -50,6 +50,10 @@ class FatturaElettronica implements XmlSerializableInterface
         return $writer;
     }
 
+    /**
+     * Restituisce il nome della fattura conforme all'SDI
+     * @return string
+     */
     public function getFileName()
     {
         $idPaese = $this->fatturaElettronicaHeader->datiTrasmissione->idTrasmittente->idPaese;
