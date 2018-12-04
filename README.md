@@ -13,8 +13,8 @@ Potete segnalare qualsiasi necessità o problema
 ## installazione
 
     composer require deved/fattura-elettronica
-
-## Esempio
+    
+## Esempio completo
 
 ```php
 $anagraficaCedente = new DatiAnagrafici(
@@ -73,4 +73,27 @@ echo $xml;
 
 //scrivi file
 file_put_contents($file, $xml);
+```
+
+## Esempio con interfaccia
+
+Puoi usare la libreria con la tua classe Fattura implementando l'interfaccia 'FatturaInterface'
+
+```php
+
+...
+
+class ExampleInvoice implements FatturaInterface
+{
+
+...
+
+```
+
+```php
+
+$fatturaElettronica = new FatturaElettronicaAdapter($exampleInvoicde);
+$nome = $fatturaElettronica->getFileName();
+$xml = $fatturaElettronica->toXml();
+
 ```
