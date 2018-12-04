@@ -83,7 +83,7 @@ Puoi usare la libreria con la tua classe Fattura implementando l'interfaccia 'Fa
 
 ...
 
-class ExampleInvoice implements FatturaInterface
+class EsempioFattura implements FatturaInterface
 {
 
 ...
@@ -92,7 +92,7 @@ class ExampleInvoice implements FatturaInterface
 
 ```php
 
-$fatturaElettronica = new FatturaElettronicaAdapter($exampleInvoicde);
+$fatturaElettronica = new FatturaElettronicaAdapter($esempioFattura);
 $nome = $fatturaElettronica->getFileName();
 $xml = $fatturaElettronica->toXml();
 
