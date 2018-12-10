@@ -1,6 +1,7 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/deved/fattura-elettronica.svg?style=flat-square)](https://packagist.org/packages/deved/fattura-elettronica)
 [![Build Status](https://img.shields.io/travis/deved-it/fattura-elettronica.svg?style=flat-square)](https://travis-ci.org/deved-it/fattura-elettronica)
 [![Total Downloads](https://img.shields.io/packagist/dt/deved/fattura-elettronica.svg?style=flat-square)](https://packagist.org/packages/deved/fattura-elettronica)
+[![License](https://poser.pugx.org/deved/fattura-elettronica/license)](https://packagist.org/packages/deved/fattura-elettronica)
 
 # Fattura Elettronica verso privati e PA
 
@@ -83,7 +84,7 @@ Puoi usare la libreria con la tua classe Fattura implementando l'interfaccia 'Fa
 
 ...
 
-class ExampleInvoice implements FatturaInterface
+class EsempioFattura implements FatturaInterface
 {
 
 ...
@@ -92,7 +93,7 @@ class ExampleInvoice implements FatturaInterface
 
 ```php
 
-$fatturaElettronica = new FatturaElettronicaAdapter($exampleInvoicde);
+$fatturaElettronica = new FatturaElettronicaAdapter($esempioFattura);
 $nome = $fatturaElettronica->getFileName();
 $xml = $fatturaElettronica->toXml();
 
