@@ -73,7 +73,7 @@ class FatturaElettronicaFactory
     {
         $this->cedentePrestatore = new CedentePrestatore($datiAnagrafici, $sede);
         if ($idTrasmittente) {
-            $this->idTrasmittente = new IdTrasmittente($datiAnagrafici->idPaese, $datiAnagrafici->idCodice);
+            $this->idTrasmittente = new IdTrasmittente($datiAnagrafici->idPaese, $datiAnagrafici->codiceFiscale);
         }
     }
 
