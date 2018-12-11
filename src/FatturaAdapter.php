@@ -51,7 +51,7 @@ class FatturaAdapter implements FatturaElettronicaInterface
     {
         $terzoIntermediario = null;
         $soggettoEmittente = 'TZ';
-        if (array_key_exists('IntermediarioInterface', class_implements($this->fattura))) {
+        if (array_key_exists('Deved\FatturaElettronica\FatturaInterface', class_implements($this->fattura))) {
             $terzoIntermediario = $this->fattura->getAnagraficaIntermediario();
             $soggettoEmittente = $this->fattura->getSoggettoEmittente();
         }
