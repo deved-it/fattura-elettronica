@@ -65,7 +65,8 @@ class FatturaSempliceTest extends TestCase
             $datiAnagrafici,
             $sede,
             '+39123456789',
-            'info@deved.it'
+            'info@deved.it',
+            $datiAnagrafici
         );
         $this->assertInstanceOf(FatturaElettronicaFactory::class, $feFactory);
         return $feFactory;

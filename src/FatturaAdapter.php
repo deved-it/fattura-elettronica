@@ -17,7 +17,7 @@ use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader;
 
 class FatturaAdapter implements FatturaElettronicaInterface
 {
-    /** @var FatturaInterface */
+    /** @var FatturaInterface | IntermediarioInterface */
     protected $fattura;
     /** @var FatturaElettronicaHeader\CedentePrestatore */
     protected $cedentePrestatore;
@@ -49,10 +49,18 @@ class FatturaAdapter implements FatturaElettronicaInterface
 
     protected function createFatturaElettronica()
     {
+        $terzoIntermediario = null;
+        $soggettoEmittente = 'TZ';
+        if (array_key_exists('IntermediarioInterface', class_implements($this->fattura))) {
+            $terzoIntermediario = $this->fattura->getAnagraficaIntermediario();
+            $soggettoEmittente = $this->fattura->getSoggettoEmittente();
+        }
         $fatturaElettronicaHeader = new FatturaElettronicaHeader(
             $this->fattura->getDatiTrasmissione(),
             $this->cedentePrestatore,
-            $this->cessionarioCommittente
+            $this->cessionarioCommittente,
+            $terzoIntermediario,
+            $soggettoEmittente
         );
         $fatturaElettronicaBody = new FatturaElettronicaBody(
             $this->fattura->getDatiGenerali(),
