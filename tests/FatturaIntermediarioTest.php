@@ -24,7 +24,7 @@ use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\Common\
 use Deved\FatturaElettronica\FatturaElettronicaFactory;
 use PHPUnit\Framework\TestCase;
 
-class FatturaSempliceTest extends TestCase
+class FatturaIntermediarioTest extends TestCase
 {
     /**
      * @return DatiAnagrafici
