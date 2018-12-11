@@ -13,8 +13,10 @@ namespace Deved\FatturaElettronica\FatturaElettronica;
 
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\CedentePrestatore;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\CessionarioCommittente;
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\Common\DatiAnagrafici;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\DatiTrasmissione;
 use Deved\FatturaElettronica\XmlSerializableInterface;
+use phpDocumentor\Reflection\Types\Nullable;
 
 class FatturaElettronicaHeader implements XmlSerializableInterface
 {
@@ -24,21 +26,31 @@ class FatturaElettronicaHeader implements XmlSerializableInterface
     protected $cedentePrestatore;
     /** @var CessionarioCommittente */
     protected $cessionarioCommittente;
+    /** @var DatiAnagrafici|null */
+    protected $terzoIntermediario;
+    /** @var string */
+    protected $soggettoEmittente;
 
     /**
      * FatturaElettronicaHeader constructor.
      * @param DatiTrasmissione $datiTrasmissione
      * @param CedentePrestatore $cedentePrestatore
      * @param CessionarioCommittente $cessionarioCommittente
+     * @param DatiAnagrafici|null $terzoIntermediario
+     * @param string $soggettoEmittente
      */
     public function __construct(
         DatiTrasmissione $datiTrasmissione,
         CedentePrestatore $cedentePrestatore,
-        CessionarioCommittente $cessionarioCommittente
+        CessionarioCommittente $cessionarioCommittente,
+        DatiAnagrafici $terzoIntermediario = null,
+        $soggettoEmittente = 'TZ'
     ) {
         $this->datiTrasmissione = $datiTrasmissione;
         $this->cedentePrestatore = $cedentePrestatore;
         $this->cessionarioCommittente = $cessionarioCommittente;
+        $this->terzoIntermediario = $terzoIntermediario;
+        $this->soggettoEmittente = $soggettoEmittente;
     }
 
     /**
@@ -51,6 +63,12 @@ class FatturaElettronicaHeader implements XmlSerializableInterface
             $this->datiTrasmissione->toXmlBlock($writer);
             $this->cedentePrestatore->toXmlBlock($writer);
             $this->cessionarioCommittente->toXmlBlock($writer);
+            if ($this->terzoIntermediario) {
+                $writer->startElement('TerzoIntermediarioOSoggettoEmittente');
+                    $this->terzoIntermediario->toXmlBlock($writer);
+                $writer->endElement();
+                $writer->writeElement('SoggettoEmittente', $this->soggettoEmittente);
+            }
         $writer->endElement();
         return $writer;
     }
