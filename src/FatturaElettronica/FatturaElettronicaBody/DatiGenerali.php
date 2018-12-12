@@ -62,7 +62,7 @@ class DatiGenerali implements XmlSerializableInterface
                 $writer->writeElement('Numero', $this->numero);
                 $writer->writeElement(
                     'ImportoTotaleDocumento',
-                    number_format($this->importoTotaleDocumento, 2)
+                    fe_number_format($this->importoTotaleDocumento, 2)
                 );
             $writer->endElement();
         $writer->endElement();

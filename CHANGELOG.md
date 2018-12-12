@@ -4,7 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.5] - 2018-12-10
+## [Unreleased]
+### Added
+- Possibilità di aggiungere nell'header i blocchi 'TerzoIntermediarioOSoggettoEmittente' e 'SoggettoEmittente' 
+- IntermediarioInterface.php - interfaccia da implementare per l'aggiunta del terzo intermediario
 
+## [1.0.5] - 2018-12-10
 ### Fixed
 - fix Codice Fiscale nel campo idTrasmittente->idCodice utilizzando FatturaElettronicaFactory

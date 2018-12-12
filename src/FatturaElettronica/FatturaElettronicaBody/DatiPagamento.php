@@ -58,7 +58,7 @@ class DatiPagamento implements XmlSerializableInterface
         $writer->startElement('DettaglioPagamento');
         $writer->writeElement('ModalitaPagamento', $this->modalitaPagamento);
         $writer->writeElement('DataScadenzaPagamento', $this->dataScadenzaPagamento);
-        $writer->writeElement('ImportoPagamento', number_format($this->importoPagamento, 2));
+        $writer->writeElement('ImportoPagamento', fe_number_format($this->importoPagamento, 2));
         if ($this->istitutoFinanziario) {
             $writer->writeElement('IstitutoFinanziario', $this->istitutoFinanziario);
         }
