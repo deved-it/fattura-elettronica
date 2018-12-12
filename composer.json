@@ -25,7 +25,9 @@
     },
     "require": {
         "php": ">=5.5",
-        "ext-xmlwriter": "^7.1"
+        "ext-xmlwriter": "^7.1",
+        "ext-libxml": "*",
+        "ext-dom": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^7"

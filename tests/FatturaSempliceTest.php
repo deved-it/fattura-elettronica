@@ -22,6 +22,7 @@ use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiPagam
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\Common\DatiAnagrafici;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\Common\Sede;
 use Deved\FatturaElettronica\FatturaElettronicaFactory;
+use Deved\FatturaElettronica\XmlValidator;
 use PHPUnit\Framework\TestCase;
 
 class FatturaSempliceTest extends TestCase
@@ -32,7 +33,7 @@ class FatturaSempliceTest extends TestCase
     public function testCreateAnagraficaCedente()
     {
         $anagraficaCedente = new DatiAnagrafici(
-            '123456789',
+            '12345678901',
             'Acme SpA',
             'IT',
             '12345678901',
@@ -194,5 +195,23 @@ class FatturaSempliceTest extends TestCase
     {
         $name = $fattura->getFileName();
         $this->assertTrue(strlen($name) > 5);
+    }
+
+
+    /**
+     * @depends testCreateFattura
+     * @param FatturaElettronica $fattura
+     * @throws \Exception
+     */
+    public function testXmlSchemaFattura(FatturaElettronica $fattura)
+    {
+        $xmlValidator = new XmlValidator();
+        $isValid = $xmlValidator->validate($fattura->toXml(),'../xsd/fattura_pa_1.2.1.xsd');
+        if (!$isValid) {
+            foreach ($xmlValidator->errors as $error) {
+                var_dump($error);
+            }
+        }
+        $this->assertTrue($isValid);
     }
 }
