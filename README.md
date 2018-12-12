@@ -91,6 +91,18 @@ class EsempioFattura implements FatturaInterface
 
 ```
 
+### se con intermediario
+```php
+
+...
+
+class EsempioFattura implements FatturaInterface, IntermediarioInterface
+{
+
+...
+
+```
+
 ```php
 
 $fatturaElettronica = new FatturaElettronicaAdapter($esempioFattura);
@@ -98,3 +110,5 @@ $nome = $fatturaElettronica->getFileName();
 $xml = $fatturaElettronica->toXml();
 
 ```
+
+
