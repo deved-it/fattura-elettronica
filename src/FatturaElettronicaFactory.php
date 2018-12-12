@@ -69,7 +69,9 @@ class FatturaElettronicaFactory
     ) {
         $this->setCedentePrestatore($datiAnagraficiCedente, $sedeCedente);
         $this->setInformazioniContatto($telefonoCedente, $emailCedente);
-        $this->setIntermediario($terzoIntermediario, $soggettoEmittente);
+        if ($terzoIntermediario) {
+            $this->setIntermediario($terzoIntermediario, $soggettoEmittente);
+        }
         $this->xmlFactory = new XmlFactory();
     }
 
