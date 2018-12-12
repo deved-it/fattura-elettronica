@@ -18,6 +18,7 @@
     <filter>
         <whitelist>
             <directory>./src/</directory>
+            <directory>./xsd/</directory>
         </whitelist>
     </filter>
 </phpunit>
