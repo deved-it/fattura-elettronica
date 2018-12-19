@@ -46,7 +46,7 @@ class Linea implements XmlSerializableInterface
         $descrizione,
         $prezzoUnitario,
         $codiceArticolo = null,
-        $quantita = 1.00,
+        $quantita = null,
         $unitaMisura = 'pz',
         $aliquotaIva = 22.00
     ) {
@@ -75,14 +75,15 @@ class Linea implements XmlSerializableInterface
             $writer->endElement();
         }
         $writer->writeElement('Descrizione', $this->descrizione);
-        $writer->writeElement('Quantita', fe_number_format($this->quantita, 2));
-        $writer->writeElement('UnitaMisura', $this->unitaMisura);
+        if ($this->quantita) {
+            $writer->writeElement('Quantita', fe_number_format($this->quantita, 2));
+            $writer->writeElement('UnitaMisura', $this->unitaMisura);
+        }
         $writer->writeElement('PrezzoUnitario', fe_number_format($this->prezzoUnitario, 2));
         $writer->writeElement('PrezzoTotale', $this->prezzoTotale());
         $writer->writeElement('AliquotaIVA', fe_number_format($this->aliquotaIva, 2));
         $this->writeXmlFields($writer);
         $writer->endElement();
-
         return $writer;
     }
 
@@ -95,7 +96,8 @@ class Linea implements XmlSerializableInterface
     public function prezzoTotale($format = true)
     {
         if ($format) {
-            return fe_number_format($this->prezzoUnitario * $this->quantita, 2);
+            $quantita = $this->quantita ? $this->quantita : 1;
+            return fe_number_format($this->prezzoUnitario * $quantita, 2);
         }
         return $this->prezzoUnitario * $this->quantita;
     }
