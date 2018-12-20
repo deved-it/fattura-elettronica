@@ -11,10 +11,12 @@
 
 namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\Common;
 
+use Deved\FatturaElettronica\Traits\MagicFieldsTrait;
 use Deved\FatturaElettronica\XmlSerializableInterface;
 
 class DatiAnagrafici implements XmlSerializableInterface
 {
+    use MagicFieldsTrait;
     /** @var string */
     public $codiceFiscale;
     /** @var string */
@@ -60,6 +62,7 @@ class DatiAnagrafici implements XmlSerializableInterface
         if ($this->regimeFiscale) {
             $writer->writeElement('RegimeFiscale', $this->regimeFiscale);
         }
+        $this->writeXmlFields($writer);
         $writer->endElement();
         return $writer;
     }

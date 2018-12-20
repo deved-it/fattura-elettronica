@@ -148,7 +148,7 @@ class FatturaAliquoteMultipleTest extends TestCase
         $linee[] = new Linea('Articolo1', 50, 'ABC',1,'pz',22);
         $linee[]= new Linea('Articolo2', 50, 'CDE', 1,'pz',10);
         //linea con aliquota 0 e natura
-        $lineaEsente = new Linea('Articolo non imponibile', 0, 'XYZ', 1, 'pz', '0');
+        $lineaEsente = new Linea('Articolo non imponibile', 10, 'XYZ', 1, 'pz', '0');
         $lineaEsente->natura = Natura::Esenti;
         $linee[] = $lineaEsente;
         $this->assertCount(3, $linee);
@@ -175,8 +175,8 @@ class FatturaAliquoteMultipleTest extends TestCase
         $datiRiepilogo = new DatiRiepilogo(50,22,'I',11);
         $datiRiepilogo2 = new DatiRiepilogo(50,10,'I',6);
         $datiRiepilogo3 = new DatiRiepilogo(10,0,'I',0);
-        $datiRiepilogo3->natura = Natura::Esenti;
-        $datiRiepilogo3->riferimentoNormativo = "Art. x Decreto y";
+        $datiRiepilogo3->Natura = Natura::Esenti;
+        $datiRiepilogo3->RiferimentoNormativo = "Art. x Decreto y";
         $datiRiepilogo->addDatiRiepilogo($datiRiepilogo2);
         $datiRiepilogo->addDatiRiepilogo($datiRiepilogo3);
         $this->assertInstanceOf(DatiRiepilogo::class, $datiRiepilogo);
@@ -227,7 +227,7 @@ class FatturaAliquoteMultipleTest extends TestCase
      */
     public function testXmlSchemaFattura(FatturaElettronica $fattura)
     {
-        echo $fattura->toXml();
+        // echo $fattura->toXml(); // uncomment for debug purpose
         $xmlValidator = new XmlValidator();
         $isValid = $xmlValidator->validate(
             $fattura->toXml(),

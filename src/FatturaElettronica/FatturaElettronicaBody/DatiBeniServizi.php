@@ -14,10 +14,12 @@ namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi\DatiRiepilogo;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi\DettaglioLinee;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi\Linea;
+use Deved\FatturaElettronica\Traits\MagicFieldsTrait;
 use Deved\FatturaElettronica\XmlSerializableInterface;
 
 class DatiBeniServizi implements XmlSerializableInterface
 {
+    use MagicFieldsTrait;
 
     /** @var DettaglioLinee */
     protected $dettaglioLinee;
@@ -48,6 +50,7 @@ class DatiBeniServizi implements XmlSerializableInterface
         $writer->startElement('DatiBeniServizi');
             $this->dettaglioLinee->toXmlBlock($writer);
             $this->datiRiepilogo->toXmlBlock($writer);
+            $this->writeXmlFields($writer);
         $writer->endElement();
         return $writer;
     }
