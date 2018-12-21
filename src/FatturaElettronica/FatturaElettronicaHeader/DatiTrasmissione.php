@@ -12,10 +12,13 @@
 namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader;
 
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\DatiTrasmissione\IdTrasmittente;
+use Deved\FatturaElettronica\Traits\MagicFieldsTrait;
 use Deved\FatturaElettronica\XmlSerializableInterface;
 
 class DatiTrasmissione implements XmlSerializableInterface
 {
+    use MagicFieldsTrait;
+
     const FORMATO_PA = 'FPA12';
     const FORMATO_PRIVATO = 'FPR12';
 
@@ -89,6 +92,7 @@ class DatiTrasmissione implements XmlSerializableInterface
         if ($this->pecDestinatario) {
             $writer->writeElement('PECDestinatario', $this->pecDestinatario);
         }
+        $this->writeXmlFields($writer);
         $writer->endElement();
         return $writer;
     }

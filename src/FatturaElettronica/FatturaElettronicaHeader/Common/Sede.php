@@ -11,11 +11,12 @@
 
 namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\Common;
 
+use Deved\FatturaElettronica\Traits\MagicFieldsTrait;
 use Deved\FatturaElettronica\XmlSerializableInterface;
 
 class Sede implements XmlSerializableInterface
 {
-
+    use MagicFieldsTrait;
     /** @var string */
     protected $nazione;
     /** @var string */
@@ -63,6 +64,7 @@ class Sede implements XmlSerializableInterface
             $writer->writeElement('Provincia', $this->provincia);
         }
         $writer->writeElement('Nazione', $this->nazione);
+        $this->writeXmlFields($writer);
         $writer->endElement();
         return $writer;
     }
