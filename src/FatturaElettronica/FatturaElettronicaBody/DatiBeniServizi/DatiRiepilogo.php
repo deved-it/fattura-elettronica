@@ -56,12 +56,15 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
      */
     public function toXmlBlock(\XMLWriter $writer)
     {
+        /** @var DatiRiepilogo $block */
         foreach ($this as $block) {
+            $natura = $block->natura;
             $writer->startElement('DatiRiepilogo');
             $writer->writeElement('AliquotaIVA', fe_number_format($block->aliquotaIVA, 2));
+            $block->writeXmlField('Natura', $writer);
             $writer->writeElement('ImponibileImporto', fe_number_format($block->imponibileImporto, 2));
             $writer->writeElement('Imposta', fe_number_format($block->imposta, 2));
-            if (!$block->natura) {
+            if (!$natura) {
                 $writer->writeElement('EsigibilitaIVA', $block->esigibilitaIVA);
             }
             $block->writeXmlFields($writer);

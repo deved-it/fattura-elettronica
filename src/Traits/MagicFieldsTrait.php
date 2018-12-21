@@ -27,6 +27,30 @@ trait MagicFieldsTrait
     }
 
     /**
+     * @param $field
+     * @param \XMLWriter $writer
+     */
+    protected function writeXmlField($field, \XMLWriter $writer)
+    {
+        if ($this->{$field}) {
+            $writer->writeElement(ucfirst($field), $this->{$field});
+            $this->deleteXmlField($field);
+        }
+    }
+
+    /**
+     * Delete xmlField
+     *
+     * @param $field
+     */
+    protected function deleteXmlField($field)
+    {
+        if ($this->{$field}) {
+            unset($this->xmlFields[$field]);
+        }
+    }
+
+    /**
      * @param \XMLWriter $writer
      */
     protected function writeXmlFields(\XMLWriter $writer)
