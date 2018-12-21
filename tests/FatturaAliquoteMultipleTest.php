@@ -1,17 +1,15 @@
 <?php
 /**
- * This file is part of deved/fattura-elettronica
- *
- * Copyright (c) Salvatore Guarino <sg@deved.it>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
+ * Created by PhpStorm.
+ * User: salgua
+ * Date: 17/12/2018
+ * Time: 16:23
  */
 
 namespace Deved\FatturaElettronica\Tests;
 
 use Deved\FatturaElettronica\Codifiche\ModalitaPagamento;
+use Deved\FatturaElettronica\Codifiche\Natura;
 use Deved\FatturaElettronica\Codifiche\RegimeFiscale;
 use Deved\FatturaElettronica\Codifiche\TipoDocumento;
 use Deved\FatturaElettronica\FatturaElettronica;
@@ -23,9 +21,10 @@ use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\Common\
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\Common\Sede;
 use Deved\FatturaElettronica\FatturaElettronicaFactory;
 use Deved\FatturaElettronica\XmlValidator;
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi\DatiRiepilogo;
 use PHPUnit\Framework\TestCase;
 
-class FatturaSempliceTest extends TestCase
+class FatturaAliquoteMultipleTest extends TestCase
 {
     /**
      * @return DatiAnagrafici
@@ -120,7 +119,7 @@ class FatturaSempliceTest extends TestCase
             TipoDocumento::Fattura,
             '2018-11-22',
             '2018221111',
-            122
+            116
         );
         $this->assertInstanceOf(DatiGenerali::class, $datiGenerali);
         return $datiGenerali;
@@ -134,7 +133,7 @@ class FatturaSempliceTest extends TestCase
         $datiPagamento = new DatiPagamento(
             ModalitaPagamento::SEPA_CORE,
             '2018-11-30',
-            122
+            116
         );
         $this->assertInstanceOf(DatiPagamento::class, $datiPagamento);
         return $datiPagamento;
@@ -146,9 +145,13 @@ class FatturaSempliceTest extends TestCase
     public function testCreateLinee()
     {
         $linee = [];
-        $linee[] = new Linea('Articolo1', 50, 'ABC');
-        $linee[]= new Linea('Articolo2', 25, 'CDE', 2);
-        $this->assertCount(2, $linee);
+        $linee[] = new Linea('Articolo1', 50, 'ABC',1,'pz',22);
+        $linee[]= new Linea('Articolo2', 50, 'CDE', 1,'pz',10);
+        //linea con aliquota 0 e natura
+        $lineaEsente = new Linea('Articolo non imponibile', 0, 'XYZ', 1, 'pz', '0');
+        $lineaEsente->natura = Natura::Esenti;
+        $linee[] = $lineaEsente;
+        $this->assertCount(3, $linee);
         return $linee;
     }
 
@@ -165,14 +168,32 @@ class FatturaSempliceTest extends TestCase
     }
 
     /**
+     * @return DatiRiepilogo
+     */
+    public function testDatiRiepilogo()
+    {
+        $datiRiepilogo = new DatiRiepilogo(50,22,'I',11);
+        $datiRiepilogo2 = new DatiRiepilogo(50,10,'I',6);
+        $datiRiepilogo3 = new DatiRiepilogo(10,0,'I',0);
+        $datiRiepilogo3->natura = Natura::Esenti;
+        $datiRiepilogo3->riferimentoNormativo = "Art. x Decreto y";
+        $datiRiepilogo->addDatiRiepilogo($datiRiepilogo2);
+        $datiRiepilogo->addDatiRiepilogo($datiRiepilogo3);
+        $this->assertInstanceOf(DatiRiepilogo::class, $datiRiepilogo);
+        return $datiRiepilogo;
+    }
+
+    /**
      * @depends testSetCessionarioCommittente
      * @depends testCreateDatiGenerali
      * @depends testCreateDatiPagamento
      * @depends testCreateDettaglioLinee
+     * @depends testDatiRiepilogo
      * @param FatturaElettronicaFactory $factory
      * @param DatiGenerali $datiGenerali
      * @param DatiPagamento $datiPagamento
      * @param DettaglioLinee $dettaglioLinee
+     * @param DatiRiepilogo $datiRiepilogo
      * @return \Deved\FatturaElettronica\FatturaElettronica
      * @throws \Exception
      */
@@ -180,9 +201,10 @@ class FatturaSempliceTest extends TestCase
         FatturaElettronicaFactory $factory,
         DatiGenerali $datiGenerali,
         DatiPagamento $datiPagamento,
-        DettaglioLinee $dettaglioLinee
+        DettaglioLinee $dettaglioLinee,
+        DatiRiepilogo $datiRiepilogo
     ) {
-        $fattura = $factory->create($datiGenerali, $datiPagamento, $dettaglioLinee, '12345');
+        $fattura = $factory->create($datiGenerali, $datiPagamento, $dettaglioLinee, '12345', $datiRiepilogo);
         $this->assertInstanceOf(FatturaElettronica::class, $fattura);
         return $fattura;
     }
@@ -205,6 +227,7 @@ class FatturaSempliceTest extends TestCase
      */
     public function testXmlSchemaFattura(FatturaElettronica $fattura)
     {
+        echo $fattura->toXml();
         $xmlValidator = new XmlValidator();
         $isValid = $xmlValidator->validate(
             $fattura->toXml(),

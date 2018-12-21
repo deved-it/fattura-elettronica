@@ -11,16 +11,19 @@
 
 namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody;
 
+use Deved\FatturaElettronica\Traits\MagicFieldsTrait;
 use Deved\FatturaElettronica\XmlSerializableInterface;
 
 class DatiPagamento implements XmlSerializableInterface
 {
-    protected $modalitaPagamento;
-    protected $dataScadenzaPagamento;
-    protected $importoPagamento;
-    protected $iban;
-    protected $istitutoFinanziario;
-    protected $condizioniPagamento;
+    use MagicFieldsTrait;
+
+    public $modalitaPagamento;
+    public $dataScadenzaPagamento;
+    public $importoPagamento;
+    public $iban;
+    public $istitutoFinanziario;
+    public $condizioniPagamento;
 
     /**
      * DatiPagamento constructor.
@@ -65,6 +68,7 @@ class DatiPagamento implements XmlSerializableInterface
         if ($this->iban) {
             $writer->writeElement('IBAN', $this->iban);
         }
+        $this->writeXmlFields($writer);
         $writer->endElement();
         $writer->endElement();
 
