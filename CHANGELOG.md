@@ -4,10 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [unreleased]
+## [1.1.0]
 ### Added
+- Righe fattura con aliquota diversa
+- Possibilità di aggiungere la Natura nelle righe con importi non imponibili
+- Possibilità di aggiungere la Natura nel blocco DatiRiepilogo
 - DatiRiepilogo multipli
-- Trait MagicFieldsTrait per aggiunta di campi dinamici
+- Trait MagicFieldsTrait per aggiunta di campi dinamici in blocco o singolarmente dove la sequenza è determinante
 
 ## [1.0.7]
 ### Fixed
