@@ -227,17 +227,6 @@ class FatturaAliquoteMultipleTest extends TestCase
      */
     public function testXmlSchemaFattura(FatturaElettronica $fattura)
     {
-        // echo $fattura->toXml(); // uncomment for debug purpose
-        $xmlValidator = new XmlValidator();
-        $isValid = $xmlValidator->validate(
-            $fattura->toXml(),
-            dirname(__FILE__) . '/../xsd/fattura_pa_1.2.1.xsd'
-        );
-        if (!$isValid) {
-            foreach ($xmlValidator->errors as $error) {
-                var_dump($error);
-            }
-        }
-        $this->assertTrue($isValid);
+        $this->assertTrue($fattura->verifica());
     }
 }

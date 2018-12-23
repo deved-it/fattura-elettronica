@@ -205,16 +205,6 @@ class FatturaIntermediarioTest extends TestCase
      */
     public function testXmlSchemaFattura(FatturaElettronica $fattura)
     {
-        $xmlValidator = new XmlValidator();
-        $isValid = $xmlValidator->validate(
-            $fattura->toXml(),
-            dirname(__FILE__) . '/../xsd/fattura_pa_1.2.1.xsd'
-        );
-        if (!$isValid) {
-            foreach ($xmlValidator->errors as $error) {
-                var_dump($error);
-            }
-        }
-        $this->assertTrue($isValid);
+        $this->assertTrue($fattura->verifica());
     }
 }
