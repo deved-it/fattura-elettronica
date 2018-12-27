@@ -95,11 +95,11 @@ class Linea implements XmlSerializableInterface
      */
     public function prezzoTotale($format = true)
     {
+        $quantita = $this->quantita ? $this->quantita : 1;
         if ($format) {
-            $quantita = $this->quantita ? $this->quantita : 1;
             return fe_number_format($this->prezzoUnitario * $quantita, 2);
         }
-        return $this->prezzoUnitario * $this->quantita;
+        return $this->prezzoUnitario * $quantita;
     }
 
     /**
