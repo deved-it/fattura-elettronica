@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Aggiunto metodo per verifica fattura con schema xsd dell'sdi
 
+### Fixed
+- Riga fattura senza quantità
+
 ## [1.1.0]
 ### Added
 - Righe fattura con aliquota diversa
