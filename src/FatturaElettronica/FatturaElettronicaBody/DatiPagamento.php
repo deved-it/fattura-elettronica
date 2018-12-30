@@ -37,7 +37,7 @@ class DatiPagamento implements XmlSerializableInterface
     public function __construct(
         $modalitaPagamento,
         $dataScadenzaPagamento,
-        $importoPagamento,
+        $importoPagamento = null,
         $iban = null,
         $istitutoFinanziario = null,
         $condizioniPagamento = 'TP02'
@@ -48,6 +48,20 @@ class DatiPagamento implements XmlSerializableInterface
         $this->iban = $iban;
         $this->istitutoFinanziario = $istitutoFinanziario;
         $this->condizioniPagamento = $condizioniPagamento;
+    }
+
+    /**
+     * @return float importoPagamento
+     */
+    public function getImportoPagamento(){
+        return $this->importoPagamento;
+    }
+
+    /**
+     * @param float $importoPagamento
+     */
+    public function setImportoPagamento($importoPagamento = 0.0){
+        $this->importoPagamento = $importoPagamento;
     }
 
     /**

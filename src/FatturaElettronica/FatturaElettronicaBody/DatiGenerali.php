@@ -40,7 +40,7 @@ class DatiGenerali implements XmlSerializableInterface
         $tipoDocumento,
         $data,
         $numero,
-        $importoTotaleDocumento,
+        $importoTotaleDocumento = null,
         $divisa = 'EUR'
     ) {
         $this->tipoDocumento = $tipoDocumento;
@@ -48,6 +48,22 @@ class DatiGenerali implements XmlSerializableInterface
         $this->numero = $numero;
         $this->importoTotaleDocumento = $importoTotaleDocumento;
         $this->divisa = $divisa;
+    }
+
+    /**
+     * @return float $importoTotaleDocumento
+     */
+    public function getImportoTotaleDocumento()
+    {
+        return $this->importoTotaleDocumento;
+    }
+
+    /**
+     * @param float $importoTotaleDocumento
+     */
+    public function setImportoTotaleDocumento($importoTotaleDocumento = 0.0)
+    {
+        $this->importoTotaleDocumento = $importoTotaleDocumento;
     }
 
     /**

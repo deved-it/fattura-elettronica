@@ -147,4 +147,11 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
     {
         return count($this->datiRiepilogoAggiuntivi);
     }
+
+    /**
+     * @return float importoTotale
+     */
+    public function getImportoTotale(){
+        return $this->imposta + $this->imponibileImporto;
+    }
 }

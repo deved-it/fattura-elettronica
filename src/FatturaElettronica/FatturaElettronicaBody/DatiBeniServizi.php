@@ -69,4 +69,12 @@ class DatiBeniServizi implements XmlSerializableInterface
         }
         return new DatiRiepilogo($imponibile, $aliquota);
     }
+
+    /**
+     * @return DatiRiepilogo
+     */
+    public function getDatiRiepilogo()
+    {
+        return $this->datiRiepilogo;
+    }
 }

@@ -162,6 +162,12 @@ class FatturaElettronicaFactory
             $this->soggettoEmittente
         );
         $datiBeniServizi = new FatturaElettronicaBody\DatiBeniServizi($linee, $datiRiepilogo);
+        $datiRiepilogo = $datiBeniServizi->getDatiRiepilogo();
+        $importoTotale = $datiRiepilogo->getImportoTotale();
+        if (!$datiGenerali->getImportoTotaleDocumento())
+            $datiGenerali->setImportoTotaleDocumento($importoTotale);
+        if (!$datiPagamento->getImportoPagamento())
+            $datiPagamento->setImportoPagamento($importoTotale);
         $fatturaElettronicaBody = new FatturaElettronicaBody(
             $datiGenerali,
             $datiBeniServizi,
