@@ -22,6 +22,10 @@ class DatiAnagrafici implements XmlSerializableInterface
     /** @var string */
     public $denominazione;
     /** @var string */
+    public $nome;
+    /** @var string */
+    public $cognome;
+    /** @var string */
     public $idPaese;
     /** @var string */
     public $idCodice;
@@ -33,10 +37,14 @@ class DatiAnagrafici implements XmlSerializableInterface
         $denominazione,
         $idPaese = '',
         $idCodice = '',
-        $regimeFiscale = ''
+        $regimeFiscale = '',
+        $nome = '',
+        $cognome = ''
     ) {
         $this->codiceFiscale = $codiceFiscale;
         $this->denominazione = $denominazione;
+        $this->nome = $nome;
+        $this->cognome = $cognome;
         $this->idPaese = $idPaese;
         $this->idCodice = $idCodice;
         $this->regimeFiscale = $regimeFiscale;
@@ -57,7 +65,12 @@ class DatiAnagrafici implements XmlSerializableInterface
         }
             $writer->writeElement('CodiceFiscale', $this->codiceFiscale);
             $writer->startElement('Anagrafica');
-                $writer->writeElement('Denominazione', $this->denominazione);
+                if ($this->denominazione) {
+                    $writer->writeElement('Denominazione', $this->denominazione);
+                } else {
+                    $writer->writeElement('Nome', $this->nome);
+                    $writer->writeElement('Cognome', $this->cognome);
+                }
             $writer->endElement();
         if ($this->regimeFiscale) {
             $writer->writeElement('RegimeFiscale', $this->regimeFiscale);
