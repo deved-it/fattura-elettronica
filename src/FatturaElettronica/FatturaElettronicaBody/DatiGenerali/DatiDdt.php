@@ -45,7 +45,7 @@ class DatiDdt implements XmlSerializableInterface, \Countable, \Iterator
 
     public function addDatiDdt(DatiDdt $datiDdt)
     {
-        $this->dataDdt[] = $datiDdt;
+        $this->datiDdt[] = $datiDdt;
     }
 
     /**

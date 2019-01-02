@@ -74,11 +74,11 @@ class DatiGenerali implements XmlSerializableInterface
                     'ImportoTotaleDocumento',
                     fe_number_format($this->importoTotaleDocumento, 2)
                 );
-                if ($this->datiDdt) {
-                    $this->datiDdt->toXmlBlock($writer);
-                }
                 $this->writeXmlFields($writer);
             $writer->endElement();
+            if ($this->datiDdt) {
+                $this->datiDdt->toXmlBlock($writer);
+            }
         $writer->endElement();
         //todo: implementare DatiOrdineAcquisto, DatiContratto etc. (facoltativi)
         return $writer;
