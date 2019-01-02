@@ -28,7 +28,7 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
     /** @var DatiRiepilogo[] */
     protected $datiRiepilogoAggiuntivi = [];
     /** @var int  */
-    private $currentIndex = 0;
+    protected $currentIndex = 0;
 
     /**
      * DatiRiepilogo constructor.

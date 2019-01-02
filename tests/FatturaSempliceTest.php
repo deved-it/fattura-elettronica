@@ -111,6 +111,12 @@ class FatturaSempliceTest extends TestCase
         return $factory;
     }
 
+    public function testDatiDdt()
+    {
+        $datiDdt = new DatiGenerali\DatiDdt('A1', '2018-11-10', ['1', '2']);
+        $datiDdt->addDatiDdt(new DatiGenerali\DatiDdt('A2', '2018-12-9', ['3', '4']));
+    }
+
     /**
      * @return DatiGenerali
      */
