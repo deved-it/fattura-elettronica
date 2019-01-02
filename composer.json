@@ -8,12 +8,6 @@
             "name": "Salvatore Guarino",
             "email": "sg@deved.it",
             "homepage": "http://www.deved.it"
-        },
-        {
-          "name": "Francesco Lovecchio",
-          "email": "francescolovecchio97@gmail.com",
-          "homepage": "https://www.linkedin.com/in/francescolovecchio/",
-          "role": "Developer"
         }
     ],
     "autoload": {
