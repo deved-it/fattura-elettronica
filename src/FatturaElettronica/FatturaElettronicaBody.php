@@ -18,6 +18,7 @@ use Deved\FatturaElettronica\XmlSerializableInterface;
 
 class FatturaElettronicaBody implements XmlSerializableInterface
 {
+    const FE_CODE = 2.0;
     /** @var DatiGenerali  */
     public $datGenerali;
     /** @var DatiBeniServizi  */
