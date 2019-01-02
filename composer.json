@@ -31,7 +31,7 @@
     },
     "require": {
         "php": ">=5.5",
-        "ext-xmlwriter": "^7.1",
+        "ext-xmlwriter": "*",
         "ext-libxml": "*",
         "ext-dom": "*",
         "ext-json": "*"

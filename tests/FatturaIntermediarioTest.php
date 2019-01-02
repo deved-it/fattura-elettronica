@@ -53,6 +53,16 @@ class FatturaIntermediarioTest extends TestCase
         return $sedeCedente;
     }
 
+    public function testCreateIscrizioneRea()
+    {
+        $iscrizioneRea = new FatturaElettronica\FatturaElettronicaHeader\CedentePrestatore\IscrizioneRea(
+            'UD',
+            '286546'
+        );
+        $this->assertInstanceOf(FatturaElettronica\FatturaElettronicaHeader\CedentePrestatore\IscrizioneRea::class, $iscrizioneRea);
+        return $iscrizioneRea;
+    }
+
     /**
      * @depends testCreateAnagraficaCedente
      * @depends testCreateSedeCedente
