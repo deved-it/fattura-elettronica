@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [unreleased]
 ### Added
 - Aggiunto metodo per verifica fattura con schema xsd dell'sdi
+- Possibilità di aggiungere i campi DataInizioPeriodo e DataFinePeriodo
+- Possibilità di aggiungere il blocco DatiGenerali => DatiDDT
+- Possibilità di testare la validità del file XML
 
 ### Fixed
 - Riga fattura senza quantità
