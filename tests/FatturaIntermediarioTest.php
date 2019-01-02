@@ -149,6 +149,8 @@ class FatturaIntermediarioTest extends TestCase
         $linee = [];
         $linee[] = new Linea('Articolo1', 50, 'ABC');
         $linee[]= new Linea('Articolo2', 50, 'CDE');
+        $linee[0]->DataInizioPeriodo = '2018-10-01';
+        $linee[0]->DataFinePeriodo = '2018-10-31';
         $this->assertCount(2, $linee);
         return $linee;
     }

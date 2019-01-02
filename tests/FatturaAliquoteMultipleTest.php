@@ -150,6 +150,8 @@ class FatturaAliquoteMultipleTest extends TestCase
         //linea con aliquota 0 e natura
         $lineaEsente = new Linea('Articolo non imponibile', 10, 'XYZ', 1, 'pz', '0');
         $lineaEsente->natura = Natura::Esenti;
+        $lineaEsente->DataInizioPeriodo = '2018-05-01';
+        $lineaEsente->DataFinePeriodo = '2018-05-31';
         $linee[] = $lineaEsente;
         $this->assertCount(3, $linee);
         return $linee;
