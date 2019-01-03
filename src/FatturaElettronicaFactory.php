@@ -30,7 +30,7 @@ class FatturaElettronicaFactory
     /** @var CedentePrestatore */
     protected $cedentePrestatore;
     /** @var IscrizioneRea */
-    protected $IscrizioneRea;
+    protected $iscrizioneRea;
     /** @var CessionarioCommittente */
     protected $cessionarioCommittente;
     /** @var string */
