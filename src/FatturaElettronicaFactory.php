@@ -17,6 +17,7 @@ use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGener
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiPagamento;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\CedentePrestatore;
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\CedentePrestatore\IscrizioneRea;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\CessionarioCommittente;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\Common\DatiAnagrafici;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\Common\Sede;
@@ -28,6 +29,8 @@ class FatturaElettronicaFactory
     protected $idTrasmittente;
     /** @var CedentePrestatore */
     protected $cedentePrestatore;
+    /** @var IscrizioneRea */
+    protected $IscrizioneRea;
     /** @var CessionarioCommittente */
     protected $cessionarioCommittente;
     /** @var string */
@@ -86,6 +89,11 @@ class FatturaElettronicaFactory
         if ($idTrasmittente) {
             $this->idTrasmittente = new IdTrasmittente($datiAnagrafici->idPaese, $datiAnagrafici->codiceFiscale);
         }
+    }
+
+    public function setIscrizioneRea(IscrizioneRea $iscrizioneRea)
+    {
+      $this->cedentePrestatore->setIscrizioneRea($iscrizioneRea);
     }
 
     public function setIntermediario(DatiAnagrafici $terzoIntermediario, $soggettoEmittente = 'TZ')
@@ -159,7 +167,8 @@ class FatturaElettronicaFactory
             $this->cedentePrestatore,
             $this->cessionarioCommittente,
             $this->terzoIntermediario,
-            $this->soggettoEmittente
+            $this->soggettoEmittente,
+            $this->iscrizioneRea
         );
         $datiBeniServizi = new FatturaElettronicaBody\DatiBeniServizi($linee, $datiRiepilogo);
         $fatturaElettronicaBody = new FatturaElettronicaBody(

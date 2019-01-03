@@ -44,6 +44,11 @@ class CedentePrestatore implements XmlSerializableInterface
         $this->iscrizioneRea = $iscrizioneRea;
     }
 
+    public function setIscrizioneRea(IscrizioneRea $iscrizioneRea)
+    {
+        $this->iscrizioneRea = $iscrizioneRea;
+    }
+
     /**
      * @param \XMLWriter $writer
      * @return \XMLWriter
