@@ -53,6 +53,9 @@ class FatturaIntermediarioTest extends TestCase
         return $sedeCedente;
     }
 
+    /**
+     * @return FatturaElettronica\FatturaElettronicaHeader\CedentePrestatore\IscrizioneRea
+     */
     public function testCreateIscrizioneRea()
     {
         $iscrizioneRea = new FatturaElettronica\FatturaElettronicaHeader\CedentePrestatore\IscrizioneRea(
@@ -123,6 +126,23 @@ class FatturaIntermediarioTest extends TestCase
     }
 
     /**
+     * @depends testSetCessionarioCommittente
+     * @depends testCreateIscrizioneRea
+     * @param FatturaElettronicaFactory $factory
+     * @param FatturaElettronica\FatturaElettronicaHeader\CedentePrestatore\IscrizioneRea $iscrizioneRea
+     * @return FatturaElettronicaFactory
+     */
+    public function testSetIscrizioneRea(
+        FatturaElettronicaFactory $factory,
+        FatturaElettronica\FatturaElettronicaHeader\CedentePrestatore\IscrizioneRea $iscrizioneRea
+    )
+    {
+        $factory->setIscrizioneRea($iscrizioneRea);
+        $this->assertInstanceOf(FatturaElettronicaFactory::class, $factory);
+        return $factory;
+    }
+
+    /**
      * @return DatiGenerali
      */
     public function testCreateDatiGenerali()
@@ -178,7 +198,7 @@ class FatturaIntermediarioTest extends TestCase
     }
 
     /**
-     * @depends testSetCessionarioCommittente
+     * @depends testSetIscrizioneRea
      * @depends testCreateDatiGenerali
      * @depends testCreateDatiPagamento
      * @depends testCreateDettaglioLinee

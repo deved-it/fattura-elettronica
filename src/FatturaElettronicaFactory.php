@@ -88,6 +88,18 @@ class FatturaElettronicaFactory
         }
     }
 
+    /**
+     * @param CedentePrestatore\IscrizioneRea $iscrizioneRea
+     */
+    public function setIscrizioneRea(CedentePrestatore\IscrizioneRea $iscrizioneRea)
+    {
+        $this->cedentePrestatore->setIscrizioneRea($iscrizioneRea);
+    }
+
+    /**
+     * @param DatiAnagrafici $terzoIntermediario
+     * @param string $soggettoEmittente
+     */
     public function setIntermediario(DatiAnagrafici $terzoIntermediario, $soggettoEmittente = 'TZ')
     {
         $this->terzoIntermediario = $terzoIntermediario;
@@ -104,6 +116,13 @@ class FatturaElettronicaFactory
         $this->email = $email;
     }
 
+    /**
+     * @param DatiAnagrafici $datiAnagrafici
+     * @param Sede $sede
+     * @param string $codiceDestinatario
+     * @param string $pec
+     * @param bool $pa
+     */
     public function setCessionarioCommittente(
         DatiAnagrafici $datiAnagrafici,
         Sede $sede,
