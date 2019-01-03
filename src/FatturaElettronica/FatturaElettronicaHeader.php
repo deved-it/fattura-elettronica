@@ -24,7 +24,7 @@ class FatturaElettronicaHeader implements XmlSerializableInterface
     /** @var DatiTrasmissione */
     public $datiTrasmissione;
     /** @var CedentePrestatore */
-    protected $cedentePrestatore;
+    public $cedentePrestatore;
     /** @var CessionarioCommittente */
     protected $cessionarioCommittente;
     /** @var DatiAnagrafici|null */

@@ -13,6 +13,8 @@
 namespace Deved\FatturaElettronica;
 
 
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\CedentePrestatore\IscrizioneRea;
+
 interface FatturaElettronicaInterface
 {
     /**
@@ -27,4 +29,10 @@ interface FatturaElettronicaInterface
      * @throws \Exception
      */
     public function toXml();
+
+    /**
+     * @param IscrizioneRea $iscrizioneRea
+     * @return mixed
+     */
+    public function setIscrizioneRea(IscrizioneRea $iscrizioneRea);
 }

@@ -14,6 +14,7 @@ namespace Deved\FatturaElettronica;
 
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader;
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\CedentePrestatore\IscrizioneRea;
 use Deved\FatturaElettronica\IntermediarioInterface;
 
 class FatturaAdapter implements FatturaElettronicaInterface
@@ -28,6 +29,10 @@ class FatturaAdapter implements FatturaElettronicaInterface
     public $fatturaElettronica;
     /** @var XmlFactory */
     protected $xmlFactory;
+    /** @var FatturaElettronicaHeader */
+    protected $fatturaElettronicaHeader;
+    /** @var FatturaElettronicaBody */
+    protected $fatturaElettronicaBody;
 
 
     /**
@@ -56,21 +61,21 @@ class FatturaAdapter implements FatturaElettronicaInterface
             $terzoIntermediario = $this->fattura->getAnagraficaIntermediario();
             $soggettoEmittente = $this->fattura->getSoggettoEmittente();
         }
-        $fatturaElettronicaHeader = new FatturaElettronicaHeader(
+        $this->fatturaElettronicaHeader = new FatturaElettronicaHeader(
             $this->fattura->getDatiTrasmissione(),
             $this->cedentePrestatore,
             $this->cessionarioCommittente,
             $terzoIntermediario,
             $soggettoEmittente
         );
-        $fatturaElettronicaBody = new FatturaElettronicaBody(
+        $this->fatturaElettronicaBody = new FatturaElettronicaBody(
             $this->fattura->getDatiGenerali(),
             $this->fattura->getDatiBeniServizi(),
             $this->fattura->getDatiPagamento()
         );
         $this->fatturaElettronica = new FatturaElettronica(
-            $fatturaElettronicaHeader,
-            $fatturaElettronicaBody,
+            $this->fatturaElettronicaHeader,
+            $this->fatturaElettronicaBody,
             $this->xmlFactory
         );
     }
@@ -107,5 +112,14 @@ class FatturaAdapter implements FatturaElettronicaInterface
     public function getFileName()
     {
         return $this->fatturaElettronica->getFileName();
+    }
+
+    /**
+     * @param IscrizioneRea $iscrizioneRea
+     * @return mixed
+     */
+    public function setIscrizioneRea(IscrizioneRea $iscrizioneRea)
+    {
+        $this->fatturaElettronicaHeader->cedentePrestatore->setIscrizioneRea($iscrizioneRea);
     }
 }
