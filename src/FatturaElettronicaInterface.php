@@ -35,4 +35,11 @@ interface FatturaElettronicaInterface
      * @return mixed
      */
     public function setIscrizioneRea(IscrizioneRea $iscrizioneRea);
+
+    /**
+     * Verifica l'xml della fattura
+     * @return bool
+     * @throws \Exception
+     */
+    public function verifica();
 }

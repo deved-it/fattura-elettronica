@@ -122,4 +122,14 @@ class FatturaAdapter implements FatturaElettronicaInterface
     {
         $this->fatturaElettronicaHeader->cedentePrestatore->setIscrizioneRea($iscrizioneRea);
     }
+
+    /**
+     * Verifica l'xml della fattura
+     * @return bool
+     * @throws \Exception
+     */
+    public function verifica()
+    {
+        return $this->fatturaElettronica->verifica();
+    }
 }
