@@ -15,6 +15,11 @@ use Deved\FatturaElettronica\XmlSerializableInterface;
 
 class IscrizioneRea implements XmlSerializableInterface
 {
+    const SOCIO_UNICO = 'SU';
+    const SOCIETA_PLURIPERSONALE = 'SM';
+    const NON_IN_LIQUIDAZIONE = 'LN';
+    const IN_LIQUIDAZIONE = 'LS';
+
     /** @var string  */
     protected $ufficio;
     /** @var string  */

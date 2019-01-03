@@ -35,7 +35,7 @@ class FatturaElettronicaBody implements XmlSerializableInterface
     public function __construct(
         DatiGenerali $datiGenerali,
         DatiBeniServizi $datiBeniServizi,
-        DatiPagamento $datiPagamento
+        DatiPagamento $datiPagamento = null
     ) {
         $this->datGenerali = $datiGenerali;
         $this->datiBeniServizi = $datiBeniServizi;
@@ -51,7 +51,9 @@ class FatturaElettronicaBody implements XmlSerializableInterface
         $writer->startElement('FatturaElettronicaBody');
             $this->datGenerali->toXmlBlock($writer);
             $this->datiBeniServizi->toXmlBlock($writer);
-            $this->datiPagamento->toXmlBlock($writer);
+            if ($this->datiPagamento) {
+                $this->datiPagamento->toXmlBlock($writer);
+            }
         $writer->endElement();
         return $writer;
     }
