@@ -35,7 +35,7 @@ trait MagicFieldsTrait
      */
     protected function writeXmlField($field, \XMLWriter $writer)
     {
-        if ($this->{$field}) {
+        if ($this->{$field} !== false) {
             $writer->writeElement(ucfirst($field), $this->{$field});
             $this->deleteXmlField($field);
         }
@@ -48,7 +48,7 @@ trait MagicFieldsTrait
      */
     protected function deleteXmlField($field)
     {
-        if ($this->{$field}) {
+        if ($this->{$field} !== false) {
             unset($this->xmlFields[$field]);
         }
     }
