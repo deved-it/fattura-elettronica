@@ -30,12 +30,15 @@ class DatiGenerali implements XmlSerializableInterface
     protected $divisa;
     /** @var DatiDdt */
     protected $datiDdt;
+    /** @var string */
+    protected $causale;    
 
     /**
      * DatiGenerali constructor.
      * @param string $tipoDocumento
      * @param string $data
      * @param string $numero
+     * @param string $causale
      * @param float $importoTotaleDocumento
      * @param string $divisa
      */
@@ -43,12 +46,14 @@ class DatiGenerali implements XmlSerializableInterface
         $tipoDocumento,
         $data,
         $numero,
+        $causale,
         $importoTotaleDocumento,
         $divisa = 'EUR'
     ) {
         $this->tipoDocumento = $tipoDocumento;
         $this->data = $data;
         $this->numero = $numero;
+        $this->causale = $causale;
         $this->importoTotaleDocumento = $importoTotaleDocumento;
         $this->divisa = $divisa;
     }
@@ -70,6 +75,7 @@ class DatiGenerali implements XmlSerializableInterface
                 $writer->writeElement('Divisa', $this->divisa);
                 $writer->writeElement('Data', $this->data);
                 $writer->writeElement('Numero', $this->numero);
+                $writer->writeElement('Causale', $this->causale);
                 $writer->writeElement(
                     'ImportoTotaleDocumento',
                     fe_number_format($this->importoTotaleDocumento, 2)
