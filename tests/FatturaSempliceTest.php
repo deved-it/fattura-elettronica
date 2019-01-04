@@ -136,6 +136,7 @@ class FatturaSempliceTest extends TestCase
             122
         );
         $datiGenerali->setDatiDdt($datiDdt);
+        $datiGenerali->Causale = "Fattura di prova";
         $this->assertInstanceOf(DatiGenerali::class, $datiGenerali);
         return $datiGenerali;
     }
