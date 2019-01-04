@@ -70,21 +70,21 @@ class DatiGenerali implements XmlSerializableInterface
     public function toXmlBlock(\XMLWriter $writer)
     {
         $writer->startElement('DatiGenerali');
-            $writer->startElement('DatiGeneraliDocumento');
-                $writer->writeElement('TipoDocumento', $this->tipoDocumento);
-                $writer->writeElement('Divisa', $this->divisa);
-                $writer->writeElement('Data', $this->data);
-                $writer->writeElement('Numero', $this->numero);
-                $writer->writeElement('Causale', $this->causale);
-                $writer->writeElement(
-                    'ImportoTotaleDocumento',
-                    fe_number_format($this->importoTotaleDocumento, 2)
-                );
-                $this->writeXmlFields($writer);
-            $writer->endElement();
-            if ($this->datiDdt) {
-                $this->datiDdt->toXmlBlock($writer);
-            }
+        $writer->startElement('DatiGeneraliDocumento');
+        $writer->writeElement('TipoDocumento', $this->tipoDocumento);
+        $writer->writeElement('Divisa', $this->divisa);
+        $writer->writeElement('Data', $this->data);
+        $writer->writeElement('Numero', $this->numero);
+        $writer->writeElement('Causale', $this->causale);
+        $writer->writeElement(
+            'ImportoTotaleDocumento',
+            fe_number_format($this->importoTotaleDocumento, 2)
+        );
+        $this->writeXmlFields($writer);
+        $writer->endElement();
+        if ($this->datiDdt) {
+            $this->datiDdt->toXmlBlock($writer);
+        }
         $writer->endElement();
         //todo: implementare DatiOrdineAcquisto, DatiContratto etc. (facoltativi)
         return $writer;

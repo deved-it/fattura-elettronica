@@ -118,6 +118,7 @@ class FatturaElettronicaAbiCab extends TestCase
             TipoDocumento::Fattura,
             '2018-11-22',
             '2018221111',
+            'Causale',
             122
         );
         $this->assertInstanceOf(DatiGenerali::class, $datiGenerali);
