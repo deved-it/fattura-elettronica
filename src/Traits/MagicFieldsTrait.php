@@ -15,6 +15,7 @@ namespace Deved\FatturaElettronica\Traits;
 trait MagicFieldsTrait
 {
     protected $xmlFields = [];
+    protected $hiddenXmlFields = [];
 
     public function __set($name, $value)
     {
@@ -37,19 +38,19 @@ trait MagicFieldsTrait
     {
         if ($this->{$field} !== false) {
             $writer->writeElement(ucfirst($field), $this->{$field});
-            $this->deleteXmlField($field);
+            $this->hideXmlField($field);
         }
     }
 
     /**
-     * Delete xmlField
+     * Tag xmlField
      *
      * @param $field
      */
-    protected function deleteXmlField($field)
+    protected function hideXmlField($field)
     {
-        if ($this->{$field} !== false) {
-            unset($this->xmlFields[$field]);
+        if (!in_array($field, $this->hiddenXmlFields)) {
+            $this->hiddenXmlFields[] = $field;
         }
     }
 
@@ -59,7 +60,9 @@ trait MagicFieldsTrait
     protected function writeXmlFields(\XMLWriter $writer)
     {
         foreach ($this->xmlFields as $key => $value) {
-            $writer->writeElement(ucfirst($key), $value);
+            if (!in_array($key, $this->hiddenXmlFields)) {
+                $writer->writeElement(ucfirst($key), $value);
+            }
         }
     }
 }
