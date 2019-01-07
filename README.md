@@ -11,7 +11,7 @@ I casi particolari non sono stati ancora trattati.
 Potete segnalare qualsiasi necessità o problema 
 [qui](https://github.com/deved-it/fattura-elettronica/issues/new).
 
-## installazione
+## Installazione
 
     composer require deved/fattura-elettronica
     
