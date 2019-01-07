@@ -14,58 +14,30 @@ namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\Dat
 use Deved\FatturaElettronica\Traits\MagicFieldsTrait;
 use Deved\FatturaElettronica\XmlSerializableInterface;
 
-class DatiDdt implements XmlSerializableInterface, \Countable, \Iterator
+class DatiContratto implements XmlSerializableInterface, \Countable, \Iterator
 {
+    const FE_CODE = '2.1.2';
     use MagicFieldsTrait;
-
-    /** @var DatiDdt[]  */
-    protected $datiDdt = [];
-    /** @var string */
-    protected $numeroDdt;
-    /** @var string */
-    protected $dataDdt;
-    /** @var int[] */
-    protected $riferimentoNumeroLinee = [];
-    /** @var int  */
+    protected $datiContratto = [];
     protected $currentIndex = 0;
+    protected $riferimentoNumeroLinee = [];
+    protected $idDocumento;
 
     /**
-     * DatiDdt constructor.
-     * @param string $numeroDdt
-     * @param string $dataDdt
-     * @param array $riferimentoNumeroLinee
+     * DatiContratto constructor.
+     * @param string $idDocumento
+     * @param int[] $riferimentoNumeroLinee
      */
-    public function __construct($numeroDdt, $dataDdt, $riferimentoNumeroLinee = [])
+    public function __construct($idDocumento, $riferimentoNumeroLinee = [])
     {
-        $this->numeroDdt = $numeroDdt;
-        $this->dataDdt = $dataDdt;
+        $this->idDocumento = $idDocumento;
         $this->riferimentoNumeroLinee = $riferimentoNumeroLinee;
-        $this->datiDdt[] = $this;
+        $this->datiContratto[] = $this;
     }
 
-
-    public function addDatiDdt(DatiDdt $datiDdt)
+    public function addDatiContratto(DatiContratto $datiContratto)
     {
-        $this->datiDdt[] = $datiDdt;
-    }
-
-    /**
-     * @param \XMLWriter $writer
-     * @return \XMLWriter
-     */
-    public function toXmlBlock(\XMLWriter $writer)
-    {
-        /** @var DatiDdt $block */
-        foreach ($this as $block) {
-            $writer->startElement('DatiDDT');
-                $writer->writeElement('NumeroDDT', $block->numeroDdt);
-                $writer->writeElement('DataDDT', $block->dataDdt);
-                foreach ($block->riferimentoNumeroLinee as $numeroLinea) {
-                    $writer->writeElement('RiferimentoNumeroLinea', $numeroLinea);
-                }
-            $writer->endElement();
-        }
-        return $writer;
+        $this->datiContratto[] = $datiContratto;
     }
 
     /**
@@ -76,7 +48,7 @@ class DatiDdt implements XmlSerializableInterface, \Countable, \Iterator
      */
     public function current()
     {
-        return $this->datiDdt[$this->currentIndex];
+        return $this->datiContratto[$this->currentIndex];
     }
 
     /**
@@ -110,7 +82,7 @@ class DatiDdt implements XmlSerializableInterface, \Countable, \Iterator
      */
     public function valid()
     {
-        return isset($this->datiDdt[$this->currentIndex]);
+        return isset($this->datiContratto[$this->currentIndex]);
     }
 
     /**
@@ -135,6 +107,27 @@ class DatiDdt implements XmlSerializableInterface, \Countable, \Iterator
      */
     public function count()
     {
-        return count($this->datiDdt);
+        return count($this->datiContratto);
+    }
+
+    /**
+     * @param \XMLWriter $writer
+     * @return \XMLWriter
+     */
+    public function toXmlBlock(\XMLWriter $writer)
+    {
+        /** @var DatiContratto $block */
+        foreach ($this as $block) {
+            $writer->startElement('DatiContratto');
+                if (count($block->riferimentoNumeroLinee) > 0) {
+                    /** @var int $linea */
+                    foreach ($block->riferimentoNumeroLinee as $linea) {
+                        $writer->writeElement('RiferimentoNumeroLinea', $linea);
+                    }
+                }
+                $writer->writeElement('IdDocumento', $block->idDocumento);
+                $block->writeXmlFields($writer);
+            $writer->endElement();
+        }
     }
 }

@@ -54,6 +54,20 @@ class FatturaIntermediarioTest extends TestCase
     }
 
     /**
+     * @return DatiGenerali\DatiContratto
+     */
+    public function testCreateDatiContratto()
+    {
+        $datiContratto = new DatiGenerali\DatiContratto('123', [1, 2]);
+        $datiContratto->Data = '2018-12-01';
+        $datiContratto->CodiceCIG = 'ABCDEF';
+        $datiContratto->addDatiContratto(new DatiGenerali\DatiContratto('234', [3,4]));
+        $datiContratto->addDatiContratto(new DatiGenerali\DatiContratto('567'));
+        $this->assertInstanceOf(DatiGenerali\DatiContratto::class, $datiContratto);
+        return $datiContratto;
+    }
+
+    /**
      * @return FatturaElettronica\FatturaElettronicaHeader\CedentePrestatore\IscrizioneRea
      */
     public function testCreateIscrizioneRea()
@@ -143,9 +157,10 @@ class FatturaIntermediarioTest extends TestCase
     }
 
     /**
+     * @depends testCreateDatiContratto
      * @return DatiGenerali
      */
-    public function testCreateDatiGenerali()
+    public function testCreateDatiGenerali(DatiGenerali\DatiContratto $datiContratto)
     {
         $datiGenerali = new DatiGenerali(
             TipoDocumento::Fattura,
@@ -153,6 +168,7 @@ class FatturaIntermediarioTest extends TestCase
             '2018221111',
             122
         );
+        $datiGenerali->setDatiContratto($datiContratto);
         $this->assertInstanceOf(DatiGenerali::class, $datiGenerali);
         return $datiGenerali;
     }
@@ -237,6 +253,7 @@ class FatturaIntermediarioTest extends TestCase
      */
     public function testXmlSchemaFattura(FatturaElettronica $fattura)
     {
+        //echo $fattura->toXml();
         $this->assertTrue($fattura->verifica());
     }
 }
