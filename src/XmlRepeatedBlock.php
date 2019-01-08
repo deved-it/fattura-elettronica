@@ -9,35 +9,21 @@
  *
  */
 
-namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali;
+namespace Deved\FatturaElettronica;
 
-use Deved\FatturaElettronica\Traits\MagicFieldsTrait;
-use Deved\FatturaElettronica\XmlSerializableInterface;
-
-class DatiContratto implements XmlSerializableInterface, \Countable, \Iterator
+abstract class XmlRepeatedBlock extends XmlBlock implements \Countable, \Iterator
 {
-    const FE_CODE = '2.1.2';
-    use MagicFieldsTrait;
-    protected $datiContratto = [];
+    protected $blocks = [];
     protected $currentIndex = 0;
-    protected $riferimentoNumeroLinee = [];
-    protected $idDocumento;
 
-    /**
-     * DatiContratto constructor.
-     * @param string $idDocumento
-     * @param int[] $riferimentoNumeroLinee
-     */
-    public function __construct($idDocumento, $riferimentoNumeroLinee = [])
+    public function __construct()
     {
-        $this->idDocumento = $idDocumento;
-        $this->riferimentoNumeroLinee = $riferimentoNumeroLinee;
-        $this->datiContratto[] = $this;
+        $this->blocks[] = $this;
     }
 
-    public function addDatiContratto(DatiContratto $datiContratto)
+    public function addBlock(self $block)
     {
-        $this->datiContratto[] = $datiContratto;
+        $this->blocks[] = $block;
     }
 
     /**
@@ -48,7 +34,7 @@ class DatiContratto implements XmlSerializableInterface, \Countable, \Iterator
      */
     public function current()
     {
-        return $this->datiContratto[$this->currentIndex];
+        return $this->blocks[$this->currentIndex];
     }
 
     /**
@@ -82,7 +68,7 @@ class DatiContratto implements XmlSerializableInterface, \Countable, \Iterator
      */
     public function valid()
     {
-        return isset($this->datiContratto[$this->currentIndex]);
+        return isset($this->blocks[$this->currentIndex]);
     }
 
     /**
@@ -107,28 +93,6 @@ class DatiContratto implements XmlSerializableInterface, \Countable, \Iterator
      */
     public function count()
     {
-        return count($this->datiContratto);
-    }
-
-    /**
-     * @param \XMLWriter $writer
-     * @return \XMLWriter
-     */
-    public function toXmlBlock(\XMLWriter $writer)
-    {
-        /** @var DatiContratto $block */
-        foreach ($this as $block) {
-            $writer->startElement('DatiContratto');
-                if (count($block->riferimentoNumeroLinee) > 0) {
-                    /** @var int $linea */
-                    foreach ($block->riferimentoNumeroLinee as $linea) {
-                        $writer->writeElement('RiferimentoNumeroLinea', $linea);
-                    }
-                }
-                $writer->writeElement('IdDocumento', $block->idDocumento);
-                $block->writeXmlFields($writer);
-            $writer->endElement();
-        }
-        return $writer;
+        return count($this->blocks);
     }
 }
