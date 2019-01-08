@@ -38,7 +38,7 @@ class DatiAnagrafici implements XmlSerializableInterface
      */
     public function __construct(
         $codiceFiscale,
-        $denominazione,
+        $denominazione = '',
         $idPaese = '',
         $idCodice = '',
         $regimeFiscale = ''
@@ -67,7 +67,11 @@ class DatiAnagrafici implements XmlSerializableInterface
             $writer->writeElement('CodiceFiscale', $this->codiceFiscale);
         }
             $writer->startElement('Anagrafica');
-                $writer->writeElement('Denominazione', $this->denominazione);
+                if ($this->denominazione) {
+                    $writer->writeElement('Denominazione', $this->denominazione);
+                }
+                $this->writeXmlField('Nome', $writer);
+                $this->writeXmlField('Cognome', $writer);
             $writer->endElement();
         if ($this->regimeFiscale) {
             $writer->writeElement('RegimeFiscale', $this->regimeFiscale);

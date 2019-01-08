@@ -105,7 +105,9 @@ class FatturaIntermediarioTest extends TestCase
      */
     public function testCreateAnagraficaCessionario()
     {
-        $anaCessionario = new DatiAnagrafici('XYZYZX77M04H888K', 'Pinco Palla');
+        $anaCessionario = new DatiAnagrafici('XYZYZX77M04H888K');
+        $anaCessionario->Nome = 'Pinco';
+        $anaCessionario->Cognome = 'Pallino';
         $this->assertInstanceOf(DatiAnagrafici::class, $anaCessionario);
         return $anaCessionario;
     }
