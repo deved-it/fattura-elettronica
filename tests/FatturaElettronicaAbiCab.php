@@ -216,7 +216,7 @@ class FatturaElettronicaAbiCab extends TestCase
      */
     public function testXmlSchemaFattura(FatturaElettronica $fattura)
     {
-        echo $fattura->toXml();
+        //echo $fattura->toXml();
         $this->assertTrue($fattura->verifica());
     }
 }
