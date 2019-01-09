@@ -21,7 +21,7 @@ abstract class XmlRepeatedBlock extends XmlBlock implements \Countable, \Iterato
         $this->blocks[] = $this;
     }
 
-    public function addBlock(self $block)
+    public function addBlock(XmlBlock $block)
     {
         $this->blocks[] = $block;
     }

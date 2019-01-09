@@ -130,12 +130,24 @@ class FatturaElettronicaAbiCab extends TestCase
     public function testCreateDatiPagamento()
     {
         $datiPagamento = new DatiPagamento(
-            ModalitaPagamento::SEPA_CORE,
+            ModalitaPagamento::Contanti,
             '2018-11-30',
-            122
+            60,
+            null,
+            null,
+            'TP01'
         );
         $datiPagamento->ABI = '12345';
         $datiPagamento->CAB = '56789';
+        $datiPagamento->addBlock(new DatiPagamento(
+            ModalitaPagamento::Contanti,
+            '2018-12-31',
+                62,
+                null,
+                null,
+                'TP01'
+            )
+        );
         $this->assertInstanceOf(DatiPagamento::class, $datiPagamento);
         return $datiPagamento;
     }
@@ -204,6 +216,7 @@ class FatturaElettronicaAbiCab extends TestCase
      */
     public function testXmlSchemaFattura(FatturaElettronica $fattura)
     {
+        echo $fattura->toXml();
         $this->assertTrue($fattura->verifica());
     }
 }

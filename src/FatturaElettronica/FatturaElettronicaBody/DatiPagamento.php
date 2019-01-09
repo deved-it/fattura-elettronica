@@ -12,9 +12,9 @@
 namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody;
 
 use Deved\FatturaElettronica\Traits\MagicFieldsTrait;
-use Deved\FatturaElettronica\XmlSerializableInterface;
+use Deved\FatturaElettronica\XmlRepeatedBlock;
 
-class DatiPagamento implements XmlSerializableInterface
+class DatiPagamento extends XmlRepeatedBlock
 {
     use MagicFieldsTrait;
 
@@ -48,6 +48,7 @@ class DatiPagamento implements XmlSerializableInterface
         $this->iban = $iban;
         $this->istitutoFinanziario = $istitutoFinanziario;
         $this->condizioniPagamento = $condizioniPagamento;
+        parent::__construct();
     }
 
     /**
@@ -56,22 +57,24 @@ class DatiPagamento implements XmlSerializableInterface
      */
     public function toXmlBlock(\XMLWriter $writer)
     {
-        $writer->startElement('DatiPagamento');
-        $writer->writeElement('CondizioniPagamento', $this->condizioniPagamento);
-        $writer->startElement('DettaglioPagamento');
-        $writer->writeElement('ModalitaPagamento', $this->modalitaPagamento);
-        $writer->writeElement('DataScadenzaPagamento', $this->dataScadenzaPagamento);
-        $writer->writeElement('ImportoPagamento', fe_number_format($this->importoPagamento, 2));
-        if ($this->istitutoFinanziario) {
-            $writer->writeElement('IstitutoFinanziario', $this->istitutoFinanziario);
+        /** @var DatiPagamento $block */
+        foreach ($this->blocks as $block) {
+            $writer->startElement('DatiPagamento');
+            $writer->writeElement('CondizioniPagamento', $block->condizioniPagamento);
+            $writer->startElement('DettaglioPagamento');
+            $writer->writeElement('ModalitaPagamento', $block->modalitaPagamento);
+            $writer->writeElement('DataScadenzaPagamento', $block->dataScadenzaPagamento);
+            $writer->writeElement('ImportoPagamento', fe_number_format($block->importoPagamento, 2));
+            if ($block->istitutoFinanziario) {
+                $writer->writeElement('IstitutoFinanziario', $block->istitutoFinanziario);
+            }
+            if ($block->iban) {
+                $writer->writeElement('IBAN', $block->iban);
+            }
+            $block->writeXmlFields($writer);
+            $writer->endElement();
+            $writer->endElement();
         }
-        if ($this->iban) {
-            $writer->writeElement('IBAN', $this->iban);
-        }
-        $this->writeXmlFields($writer);
-        $writer->endElement();
-        $writer->endElement();
-
         return $writer;
     }
 }
