@@ -97,6 +97,14 @@ class FatturaElettronicaFactory
     }
 
     /**
+     * @param DatiTrasmissione\IdTrasmittente $idTrasmittente
+     */
+    public function setIdTrasmittente(IdTrasmittente $idTrasmittente)
+    {
+        $this->idTrasmittente = $idTrasmittente;
+    }
+    
+    /**
      * @param DatiAnagrafici $terzoIntermediario
      * @param string $soggettoEmittente
      */
