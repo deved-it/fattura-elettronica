@@ -14,7 +14,7 @@ namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\Dat
 use Deved\FatturaElettronica\Traits\MagicFieldsTrait;
 use Deved\FatturaElettronica\XmlSerializableInterface;
 
-class DatiRitenuta implements XmlSerializableInterface, \Countable, \Iterator
+class DatiRitenuta implements XmlSerializableInterface
 {
     use MagicFieldsTrait;
 
