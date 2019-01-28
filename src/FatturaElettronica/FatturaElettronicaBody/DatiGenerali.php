@@ -13,6 +13,8 @@ namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody;
 
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali\DatiContratto;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali\DatiDdt;
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali\DatiRitenuta;
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali\DatiCassaPrevidenziale;
 use Deved\FatturaElettronica\Traits\MagicFieldsTrait;
 use Deved\FatturaElettronica\XmlSerializableInterface;
 
@@ -33,6 +35,11 @@ class DatiGenerali implements XmlSerializableInterface
     protected $datiDdt;
     /** @var DatiContratto */
     protected $datiContratto;
+    /** @var DatiRitenuta */
+    protected $datiRitenuta;
+    /** @var DatiCassaPrevidenziale */
+    protected $datiCassaPrevidenziale;
+
 
     /**
      * DatiGenerali constructor.
@@ -66,6 +73,16 @@ class DatiGenerali implements XmlSerializableInterface
         $this->datiContratto = $datiContratto;
     }
 
+    public function setDatiRitenuta(DatiRitenuta $datiRitenuta)
+    {
+        $this->datiRitenuta = $datiRitenuta;
+    }
+
+    public function setDatiCassaPrevidenziale(DatiCassaPrevidenziale $datiCassaPrevidenziale)
+    {
+        $this->datiCassaPrevidenziale = $datiCassaPrevidenziale;
+    }
+
     /**
      * @param \XMLWriter $writer
      * @return \XMLWriter
@@ -78,10 +95,13 @@ class DatiGenerali implements XmlSerializableInterface
                 $writer->writeElement('Divisa', $this->divisa);
                 $writer->writeElement('Data', $this->data);
                 $writer->writeElement('Numero', $this->numero);
-                $writer->writeElement(
-                    'ImportoTotaleDocumento',
-                    fe_number_format($this->importoTotaleDocumento, 2)
-                );
+                $writer->writeElement('ImportoTotaleDocumento',fe_number_format($this->importoTotaleDocumento, 2));
+		if ($this->datiRitenuta) {
+                        $this->datiRitenuta->toXmlBlock($writer);
+                }
+		if ($this->datiCassaPrevidenziale) {
+                        $this->datiCassaPrevidenziale->toXmlBlock($writer);
+                }
                 $this->writeXmlFields($writer);
             $writer->endElement();
             if ($this->datiContratto) {
