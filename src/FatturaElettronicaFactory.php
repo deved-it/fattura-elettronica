@@ -12,6 +12,8 @@
 namespace Deved\FatturaElettronica;
 
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody;
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\Allegato;
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi\DatiRiepilogo;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi\DettaglioLinee;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiPagamento;
@@ -153,7 +155,8 @@ class FatturaElettronicaFactory
      * @param DatiPagamento $datiPagamento
      * @param DettaglioLinee $linee
      * @param bool $progessivoInvio
-     * @param FatturaElettronicaBody\DatiBeniServizi\DatiRiepilogo|null $datiRiepilogo
+     * @param DatiRiepilogo|null $datiRiepilogo
+     * @param Allegato|null $allegato
      * @return FatturaElettronica
      * @throws \Exception
      */
@@ -162,7 +165,8 @@ class FatturaElettronicaFactory
         DatiPagamento $datiPagamento = null,
         DettaglioLinee $linee,
         $progessivoInvio = false,
-        FatturaElettronicaBody\DatiBeniServizi\DatiRiepilogo $datiRiepilogo = null
+        DatiRiepilogo $datiRiepilogo = null,
+        Allegato $allegato = null
     ) {
         if (!$this->cessionarioCommittente) {
             throw new \Exception('Dati cessionario non presenti!');
@@ -192,7 +196,8 @@ class FatturaElettronicaFactory
         $fatturaElettronicaBody = new FatturaElettronicaBody(
             $datiGenerali,
             $datiBeniServizi,
-            $datiPagamento
+            $datiPagamento,
+            $allegato
         );
         return new FatturaElettronica($fatturaElettronicaHeader, $fatturaElettronicaBody, $this->xmlFactory);
     }
