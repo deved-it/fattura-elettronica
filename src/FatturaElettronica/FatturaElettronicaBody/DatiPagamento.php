@@ -16,8 +16,6 @@ use Deved\FatturaElettronica\XmlRepeatedBlock;
 
 class DatiPagamento extends XmlRepeatedBlock
 {
-    use MagicFieldsTrait;
-
     public $modalitaPagamento;
     public $dataScadenzaPagamento;
     public $importoPagamento;
