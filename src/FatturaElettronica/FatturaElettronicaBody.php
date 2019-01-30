@@ -11,6 +11,7 @@
 
 namespace Deved\FatturaElettronica\FatturaElettronica;
 
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\Allegato;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiPagamento;
@@ -25,6 +26,8 @@ class FatturaElettronicaBody implements XmlSerializableInterface
     protected $datiBeniServizi;
     /** @var DatiPagamento  */
     protected $datiPagamento;
+    /** @var Allegato  */
+    protected $allegato;
 
     /**
      * FatturaElettronicaBody constructor.
@@ -35,11 +38,13 @@ class FatturaElettronicaBody implements XmlSerializableInterface
     public function __construct(
         DatiGenerali $datiGenerali,
         DatiBeniServizi $datiBeniServizi,
-        DatiPagamento $datiPagamento = null
+        DatiPagamento $datiPagamento = null,
+        Allegato $allegato = null
     ) {
         $this->datGenerali = $datiGenerali;
         $this->datiBeniServizi = $datiBeniServizi;
         $this->datiPagamento = $datiPagamento;
+        $this->allegato = $allegato;
     }
 
     /**
@@ -53,6 +58,9 @@ class FatturaElettronicaBody implements XmlSerializableInterface
             $this->datiBeniServizi->toXmlBlock($writer);
             if ($this->datiPagamento) {
                 $this->datiPagamento->toXmlBlock($writer);
+            }
+            if ($this->allegato) {
+                $this->allegato->toXmlBlock($writer);
             }
         $writer->endElement();
         return $writer;
