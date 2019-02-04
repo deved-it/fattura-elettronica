@@ -11,7 +11,6 @@
 
 namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody;
 
-use Deved\FatturaElettronica\Traits\MagicFieldsTrait;
 use Deved\FatturaElettronica\XmlRepeatedBlock;
 
 class Allegato extends XmlRepeatedBlock
@@ -51,7 +50,7 @@ class Allegato extends XmlRepeatedBlock
      */
     public function toXmlBlock(\XMLWriter $writer)
     {
-        /** @var Allegati $block */
+        /** @var Allegato $block */
         foreach ($this->blocks as $block) {
             $writer->startElement('Allegati');
             $writer->writeElement('NomeAttachment', $block->nomeAttachment);
