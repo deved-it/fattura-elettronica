@@ -123,11 +123,22 @@ class FatturaSempliceTest extends TestCase
     }
 
     /**
+     * @return DatiGenerali\DatiSal
+     */
+    public function testDatiSal()
+    {
+        $datiDdt = new DatiGenerali\DatiSal(1);
+        $this->assertInstanceOf(DatiGenerali\DatiSal::class, $datiDdt);
+        return $datiDdt;
+    }
+
+    /**
      * @depends testDatiDdt
+     * @depends testDatiSal
      * @param DatiGenerali\DatiDdt $datiDdt
      * @return DatiGenerali
      */
-    public function testCreateDatiGenerali(DatiGenerali\DatiDdt $datiDdt)
+    public function testCreateDatiGenerali(DatiGenerali\DatiDdt $datiDdt, DatiGenerali\DatiSal $datiSal)
     {
         $datiGenerali = new DatiGenerali(
             TipoDocumento::Fattura,
@@ -136,6 +147,7 @@ class FatturaSempliceTest extends TestCase
             122
         );
         $datiGenerali->setDatiDdt($datiDdt);
+        $datiGenerali->setDatiSal($datiSal);
         $datiGenerali->Causale = "Fattura di prova";
         $this->assertInstanceOf(DatiGenerali::class, $datiGenerali);
         return $datiGenerali;
