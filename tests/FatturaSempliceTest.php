@@ -19,6 +19,7 @@ use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniS
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi\Linea;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiPagamento;
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiVeicoli;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\Common\DatiAnagrafici;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\Common\Sede;
 use Deved\FatturaElettronica\FatturaElettronicaFactory;
@@ -192,14 +193,26 @@ class FatturaSempliceTest extends TestCase
     }
 
     /**
+     * @return DatiVeicoli
+     */
+    public function testCreateDatiVeicoli()
+    {
+        $datiVeicoli = new DatiVeicoli(date('Y-m-d'), '100 KM');
+        $this->assertInstanceOf(DatiVeicoli::class, $datiVeicoli);
+        return $datiVeicoli;
+    }
+
+    /**
      * @depends testSetCessionarioCommittente
      * @depends testCreateDatiGenerali
      * @depends testCreateDatiPagamento
      * @depends testCreateDettaglioLinee
+     * @depends testCreateDatiVeicoli
      * @param FatturaElettronicaFactory $factory
      * @param DatiGenerali $datiGenerali
      * @param DatiPagamento $datiPagamento
      * @param DettaglioLinee $dettaglioLinee
+     * @param DatiVeicoli $datiVeicoli
      * @return \Deved\FatturaElettronica\FatturaElettronica
      * @throws \Exception
      */
@@ -207,9 +220,18 @@ class FatturaSempliceTest extends TestCase
         FatturaElettronicaFactory $factory,
         DatiGenerali $datiGenerali,
         DatiPagamento $datiPagamento,
-        DettaglioLinee $dettaglioLinee
+        DettaglioLinee $dettaglioLinee,
+        DatiVeicoli $datiVeicoli
     ) {
-        $fattura = $factory->create($datiGenerali, $datiPagamento, $dettaglioLinee, '12345');
+        $fattura = $factory->create(
+            $datiGenerali,
+            $datiPagamento,
+            $dettaglioLinee,
+            '12345',
+            null,
+            null,
+            $datiVeicoli
+        );
         $this->assertInstanceOf(FatturaElettronica::class, $fattura);
         return $fattura;
     }
@@ -223,7 +245,6 @@ class FatturaSempliceTest extends TestCase
         $name = $fattura->getFileName();
         $this->assertTrue(strlen($name) > 5);
     }
-
 
     /**
      * @depends testCreateFattura
