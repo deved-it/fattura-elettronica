@@ -15,6 +15,7 @@ use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGener
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali\DatiDdt;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali\DatiRitenuta;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali\DatiCassaPrevidenziale;
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali\DatiSal;
 use Deved\FatturaElettronica\Traits\MagicFieldsTrait;
 use Deved\FatturaElettronica\XmlSerializableInterface;
 
@@ -39,6 +40,8 @@ class DatiGenerali implements XmlSerializableInterface
     protected $datiRitenuta;
     /** @var DatiCassaPrevidenziale */
     protected $datiCassaPrevidenziale;
+    /** @var DatiSal */
+    protected $datiSal;
 
 
     /**
@@ -83,6 +86,11 @@ class DatiGenerali implements XmlSerializableInterface
         $this->datiCassaPrevidenziale = $datiCassaPrevidenziale;
     }
 
+    public function setDatiSal(DatiSal $datiSal)
+    {
+        $this->datiSal = $datiSal;
+    }
+
     /**
      * @param \XMLWriter $writer
      * @return \XMLWriter
@@ -96,16 +104,19 @@ class DatiGenerali implements XmlSerializableInterface
                 $writer->writeElement('Data', $this->data);
                 $writer->writeElement('Numero', $this->numero);
                 $writer->writeElement('ImportoTotaleDocumento',fe_number_format($this->importoTotaleDocumento, 2));
-		if ($this->datiRitenuta) {
-                        $this->datiRitenuta->toXmlBlock($writer);
+                if ($this->datiRitenuta) {
+                    $this->datiRitenuta->toXmlBlock($writer);
                 }
-		if ($this->datiCassaPrevidenziale) {
-                        $this->datiCassaPrevidenziale->toXmlBlock($writer);
+                if ($this->datiCassaPrevidenziale) {
+                    $this->datiCassaPrevidenziale->toXmlBlock($writer);
                 }
                 $this->writeXmlFields($writer);
             $writer->endElement();
             if ($this->datiContratto) {
                 $this->datiContratto->toXmlBlock($writer);
+            }
+            if ($this->datiSal) {
+                $this->datiSal->toXmlBlock($writer);
             }
             if ($this->datiDdt) {
                 $this->datiDdt->toXmlBlock($writer);

@@ -17,6 +17,7 @@ use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniS
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi\DettaglioLinee;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiPagamento;
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiVeicoli;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\CedentePrestatore;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\CessionarioCommittente;
@@ -99,7 +100,7 @@ class FatturaElettronicaFactory
     }
 
     /**
-     * @param DatiTrasmissione\IdTrasmittente $idTrasmittente
+     * @param IdTrasmittente $idTrasmittente
      */
     public function setIdTrasmittente(IdTrasmittente $idTrasmittente)
     {
@@ -157,6 +158,7 @@ class FatturaElettronicaFactory
      * @param bool $progessivoInvio
      * @param DatiRiepilogo|null $datiRiepilogo
      * @param Allegato|null $allegato
+     * @param DatiVeicoli|null $datiVeicoli
      * @return FatturaElettronica
      * @throws \Exception
      */
@@ -166,7 +168,8 @@ class FatturaElettronicaFactory
         DettaglioLinee $linee,
         $progessivoInvio = false,
         DatiRiepilogo $datiRiepilogo = null,
-        Allegato $allegato = null
+        Allegato $allegato = null,
+        DatiVeicoli $datiVeicoli = null
     ) {
         if (!$this->cessionarioCommittente) {
             throw new \Exception('Dati cessionario non presenti!');
@@ -197,7 +200,8 @@ class FatturaElettronicaFactory
             $datiGenerali,
             $datiBeniServizi,
             $datiPagamento,
-            $allegato
+            $allegato,
+            $datiVeicoli
         );
         return new FatturaElettronica($fatturaElettronicaHeader, $fatturaElettronicaBody, $this->xmlFactory);
     }
