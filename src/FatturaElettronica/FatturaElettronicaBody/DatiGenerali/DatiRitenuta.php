@@ -31,9 +31,10 @@ class DatiRitenuta implements XmlSerializableInterface
 
     /**
      * DatiRitenuta constructor.
-     * @param string $numeroDdt
-     * @param string $dataDdt
-     * @param array $riferimentoNumeroLinee
+     * @param string $tipo
+     * @param float $importo
+     * @param float $aliquota
+     * @param string $causale
      */
     public function __construct($tipo, $importo, $aliquota, $causale)
     {
@@ -55,7 +56,7 @@ class DatiRitenuta implements XmlSerializableInterface
                 $writer->writeElement('AliquotaRitenuta', fe_number_format($this->aliquota,2));
                 $writer->writeElement('CausalePagamento', $this->causale);
         $writer->endElement();
+
         return $writer;
     }
-
 }

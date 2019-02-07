@@ -42,7 +42,8 @@ class XmlFactory
     {
         $this->writer->openMemory();
         $this->writer->startDocument('1.0', 'UTF-8');
-        $this->writer->setIndent(4);
+        $this->writer->setIndent(true);
+        $this->writer->setIndentString('  ');
         $this->processXmlBlock($document);
         return $this->writer->outputMemory(true);
     }

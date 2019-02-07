@@ -35,7 +35,7 @@ class DatiSal implements XmlSerializableInterface, \Countable, \Iterator
         $this->datiSal[] = $this;
     }
 
-    public function addatiSal(DatiSal $datiSal)
+    public function addDatiSal(DatiSal $datiSal)
     {
         $this->datiSal[] = $datiSal;
     }

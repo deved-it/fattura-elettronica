@@ -14,7 +14,7 @@ namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\Dat
 use Deved\FatturaElettronica\Traits\MagicFieldsTrait;
 use Deved\FatturaElettronica\XmlSerializableInterface;
 
-class DatiCassaPrevidenziale implements XmlSerializableInterface, \Countable, \Iterator
+class DatiCassaPrevidenziale implements XmlSerializableInterface
 {
     use MagicFieldsTrait;
 
@@ -43,21 +43,34 @@ class DatiCassaPrevidenziale implements XmlSerializableInterface, \Countable, \I
     protected $imponibile;
     /** @var float */
     protected $aliquotaIVA;
-    /** @var ritenuta */
+    /** @var string */
     protected $ritenuta;
-    /** @var natura */
+    /** @var string */
     protected $natura;
     /** @var string */
     protected $riferimentoAmministrazione;
-/*
-*/
+
     /**
      * DatiCassaPrevidenziale constructor.
-     * @param string $numeroDdt
-     * @param string $dataDdt
-     * @param array $riferimentoNumeroLinee
+     * @param $tipo
+     * @param $alCassa
+     * @param $importo
+     * @param $imponibile
+     * @param $aliquotaIVA
+     * @param $ritenuta
+     * @param $natura
+     * @param $riferimento
      */
-    public function __construct($tipo, $alCassa, $importo, $imponibile, $aliquotaIVA, $ritenuta, $natura, $riferimento)
+    public function __construct(
+        $tipo,
+        $alCassa,
+        $importo,
+        $imponibile,
+        $aliquotaIVA,
+        $ritenuta,
+        $natura,
+        $riferimento
+    )
     {
         $this->tipo = $tipo;
         $this->alCassa = $alCassa;
@@ -69,7 +82,6 @@ class DatiCassaPrevidenziale implements XmlSerializableInterface, \Countable, \I
         $this->riferimentoAmministrazione = $riferimento;
     }
 
-
     /**
      * @param \XMLWriter $writer
      * @return \XMLWriter
@@ -77,20 +89,19 @@ class DatiCassaPrevidenziale implements XmlSerializableInterface, \Countable, \I
     public function toXmlBlock(\XMLWriter $writer)
     {
         $writer->startElement('DatiCassaPrevidenziale');
-                $writer->writeElement('TipoCassa', $this->tipo);
-                $writer->writeElement('AlCassa', $this->alCassa);
-                $writer->writeElement('ImportoContributoCassa', $this->importoContributo);
-                $writer->writeElement('ImponibileCassa', $this->imponibile);
-                $writer->writeElement('AliquotaIVA', $this->causale);
-		if ($this->ritenuta) {
-			$this->ritenuta->toXmlBlock($writer);
-		}
-		if ($this->natura) {
-			$this->natura->toXmlBlock($writer);
-		}
-                $writer->writeElement('RiferimentoAmministrazione', $this->riferimentoAmministrazione);
+            $writer->writeElement('TipoCassa', $this->tipo);
+            $writer->writeElement('AlCassa', $this->alCassa);
+            $writer->writeElement('ImportoContributoCassa', $this->importoContributo);
+            $writer->writeElement('ImponibileCassa', $this->imponibile);
+            $writer->writeElement('AliquotaIVA', $this->causale);
+            if ($this->ritenuta) {
+                $writer->writeElement('Ritenuta', $this->ritenuta);
+            }
+            if ($this->natura) {
+                $writer->writeElement('Natura', $this->natura);
+            }
+            $writer->writeElement('RiferimentoAmministrazione', $this->riferimentoAmministrazione);
         $writer->endElement();
         return $writer;
     }
-
 }

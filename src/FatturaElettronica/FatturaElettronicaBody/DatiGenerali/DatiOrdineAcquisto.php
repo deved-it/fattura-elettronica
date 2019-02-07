@@ -14,11 +14,11 @@ namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\Dat
 use Deved\FatturaElettronica\Traits\MagicFieldsTrait;
 use Deved\FatturaElettronica\XmlSerializableInterface;
 
-class DatiContratto implements XmlSerializableInterface, \Countable, \Iterator
+class DatiOrdineAcquisto implements XmlSerializableInterface, \Countable, \Iterator
 {
     use MagicFieldsTrait;
 
-    protected $datiContratto = [];
+    protected $datiOrdineAcquisto = [];
     protected $currentIndex = 0;
     protected $riferimentoNumeroLinee = [];
     protected $idDocumento;
@@ -29,9 +29,14 @@ class DatiContratto implements XmlSerializableInterface, \Countable, \Iterator
     protected $codiceCig;
 
     /**
-     * DatiContratto constructor.
+     * DatiOrdineAcquisto constructor.
      * @param string $idDocumento
      * @param int[] $riferimentoNumeroLinee
+     * @param null $data
+     * @param null $numItem
+     * @param null $codiceCommessaConvenzione
+     * @param null $codiceCup
+     * @param null $codiceCig
      */
     public function __construct(
         $idDocumento,
@@ -50,12 +55,12 @@ class DatiContratto implements XmlSerializableInterface, \Countable, \Iterator
         $this->codiceCommessaConvenzione = $codiceCommessaConvenzione;
         $this->codiceCup = $codiceCup;
         $this->codiceCig = $codiceCig;
-        $this->datiContratto[] = $this;
+        $this->datiOrdineAcquisto[] = $this;
     }
 
-    public function addDatiContratto(DatiContratto $datiContratto)
+    public function addDatiOrdineAcquisto(DatiOrdineAcquisto $datiOrdineAcquisto)
     {
-        $this->datiContratto[] = $datiContratto;
+        $this->datiOrdineAcquisto[] = $datiOrdineAcquisto;
     }
 
     /**
@@ -66,7 +71,7 @@ class DatiContratto implements XmlSerializableInterface, \Countable, \Iterator
      */
     public function current()
     {
-        return $this->datiContratto[$this->currentIndex];
+        return $this->datiOrdineAcquisto[$this->currentIndex];
     }
 
     /**
@@ -100,7 +105,7 @@ class DatiContratto implements XmlSerializableInterface, \Countable, \Iterator
      */
     public function valid()
     {
-        return isset($this->datiContratto[$this->currentIndex]);
+        return isset($this->datiOrdineAcquisto[$this->currentIndex]);
     }
 
     /**
@@ -125,7 +130,7 @@ class DatiContratto implements XmlSerializableInterface, \Countable, \Iterator
      */
     public function count()
     {
-        return count($this->datiContratto);
+        return count($this->datiOrdineAcquisto);
     }
 
     /**
@@ -134,9 +139,9 @@ class DatiContratto implements XmlSerializableInterface, \Countable, \Iterator
      */
     public function toXmlBlock(\XMLWriter $writer)
     {
-        /** @var DatiContratto $block */
+        /** @var DatiOrdineAcquisto $block */
         foreach ($this as $block) {
-            $writer->startElement('DatiContratto');
+            $writer->startElement('DatiOrdineAcquisto');
                 if (count($block->riferimentoNumeroLinee) > 0) {
                     /** @var int $linea */
                     foreach ($block->riferimentoNumeroLinee as $linea) {
