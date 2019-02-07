@@ -103,13 +103,13 @@ class DatiGenerali implements XmlSerializableInterface
                 $writer->writeElement('Divisa', $this->divisa);
                 $writer->writeElement('Data', $this->data);
                 $writer->writeElement('Numero', $this->numero);
-                $writer->writeElement('ImportoTotaleDocumento',fe_number_format($this->importoTotaleDocumento, 2));
                 if ($this->datiRitenuta) {
                     $this->datiRitenuta->toXmlBlock($writer);
                 }
                 if ($this->datiCassaPrevidenziale) {
                     $this->datiCassaPrevidenziale->toXmlBlock($writer);
                 }
+                $writer->writeElement('ImportoTotaleDocumento',fe_number_format($this->importoTotaleDocumento, 2));
                 $this->writeXmlFields($writer);
             $writer->endElement();
             if ($this->datiContratto) {
