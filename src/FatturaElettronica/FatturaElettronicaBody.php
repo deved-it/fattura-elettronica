@@ -11,9 +11,11 @@
 
 namespace Deved\FatturaElettronica\FatturaElettronica;
 
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\Allegato;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiPagamento;
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiVeicoli;
 use Deved\FatturaElettronica\XmlSerializableInterface;
 
 class FatturaElettronicaBody implements XmlSerializableInterface
@@ -25,6 +27,10 @@ class FatturaElettronicaBody implements XmlSerializableInterface
     protected $datiBeniServizi;
     /** @var DatiPagamento  */
     protected $datiPagamento;
+    /** @var Allegato  */
+    protected $allegato;
+    /** @var DatiVeicoli  */
+    protected $datiVeicoli;
 
     /**
      * FatturaElettronicaBody constructor.
@@ -35,11 +41,15 @@ class FatturaElettronicaBody implements XmlSerializableInterface
     public function __construct(
         DatiGenerali $datiGenerali,
         DatiBeniServizi $datiBeniServizi,
-        DatiPagamento $datiPagamento = null
+        DatiPagamento $datiPagamento = null,
+        Allegato $allegato = null,
+        DatiVeicoli $datiVeicoli = null
     ) {
         $this->datGenerali = $datiGenerali;
         $this->datiBeniServizi = $datiBeniServizi;
         $this->datiPagamento = $datiPagamento;
+        $this->allegato = $allegato;
+        $this->datiVeicoli = $datiVeicoli;
     }
 
     /**
@@ -51,8 +61,14 @@ class FatturaElettronicaBody implements XmlSerializableInterface
         $writer->startElement('FatturaElettronicaBody');
             $this->datGenerali->toXmlBlock($writer);
             $this->datiBeniServizi->toXmlBlock($writer);
+            if ($this->datiVeicoli) {
+                $this->datiVeicoli->toXmlBlock($writer);
+            }
             if ($this->datiPagamento) {
                 $this->datiPagamento->toXmlBlock($writer);
+            }
+            if ($this->allegato) {
+                $this->allegato->toXmlBlock($writer);
             }
         $writer->endElement();
         return $writer;

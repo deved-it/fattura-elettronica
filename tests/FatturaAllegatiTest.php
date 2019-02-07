@@ -15,18 +15,18 @@ use Deved\FatturaElettronica\Codifiche\ModalitaPagamento;
 use Deved\FatturaElettronica\Codifiche\RegimeFiscale;
 use Deved\FatturaElettronica\Codifiche\TipoDocumento;
 use Deved\FatturaElettronica\FatturaElettronica;
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\Allegato;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi\DettaglioLinee;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi\Linea;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiPagamento;
-use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiVeicoli;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\Common\DatiAnagrafici;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\Common\Sede;
 use Deved\FatturaElettronica\FatturaElettronicaFactory;
 use Deved\FatturaElettronica\XmlValidator;
 use PHPUnit\Framework\TestCase;
 
-class FatturaSempliceTest extends TestCase
+class FatturaAllegatiTest extends TestCase
 {
     /**
      * @return DatiAnagrafici
@@ -124,22 +124,11 @@ class FatturaSempliceTest extends TestCase
     }
 
     /**
-     * @return DatiGenerali\DatiSal
-     */
-    public function testDatiSal()
-    {
-        $datiDdt = new DatiGenerali\DatiSal(1);
-        $this->assertInstanceOf(DatiGenerali\DatiSal::class, $datiDdt);
-        return $datiDdt;
-    }
-
-    /**
      * @depends testDatiDdt
-     * @depends testDatiSal
      * @param DatiGenerali\DatiDdt $datiDdt
      * @return DatiGenerali
      */
-    public function testCreateDatiGenerali(DatiGenerali\DatiDdt $datiDdt, DatiGenerali\DatiSal $datiSal)
+    public function testCreateDatiGenerali(DatiGenerali\DatiDdt $datiDdt)
     {
         $datiGenerali = new DatiGenerali(
             TipoDocumento::Fattura,
@@ -148,7 +137,6 @@ class FatturaSempliceTest extends TestCase
             122
         );
         $datiGenerali->setDatiDdt($datiDdt);
-        $datiGenerali->setDatiSal($datiSal);
         $datiGenerali->Causale = "Fattura di prova";
         $this->assertInstanceOf(DatiGenerali::class, $datiGenerali);
         return $datiGenerali;
@@ -193,13 +181,17 @@ class FatturaSempliceTest extends TestCase
     }
 
     /**
-     * @return DatiVeicoli
+     * @return Allegato
      */
-    public function testCreateDatiVeicoli()
+    public function testCreateAllegato()
     {
-        $datiVeicoli = new DatiVeicoli(date('Y-m-d'), '100 KM');
-        $this->assertInstanceOf(DatiVeicoli::class, $datiVeicoli);
-        return $datiVeicoli;
+        $allegato = new Allegato(
+            'fattura.pdf',
+            'fattura.pdf',
+            'pdf'
+        );
+        $this->assertInstanceOf(Allegato::class, $allegato);
+        return $allegato;
     }
 
     /**
@@ -207,12 +199,11 @@ class FatturaSempliceTest extends TestCase
      * @depends testCreateDatiGenerali
      * @depends testCreateDatiPagamento
      * @depends testCreateDettaglioLinee
-     * @depends testCreateDatiVeicoli
+     * @depends testCreateAllegato
      * @param FatturaElettronicaFactory $factory
      * @param DatiGenerali $datiGenerali
      * @param DatiPagamento $datiPagamento
      * @param DettaglioLinee $dettaglioLinee
-     * @param DatiVeicoli $datiVeicoli
      * @return \Deved\FatturaElettronica\FatturaElettronica
      * @throws \Exception
      */
@@ -221,17 +212,9 @@ class FatturaSempliceTest extends TestCase
         DatiGenerali $datiGenerali,
         DatiPagamento $datiPagamento,
         DettaglioLinee $dettaglioLinee,
-        DatiVeicoli $datiVeicoli
+        Allegato $allegato
     ) {
-        $fattura = $factory->create(
-            $datiGenerali,
-            $datiPagamento,
-            $dettaglioLinee,
-            '12345',
-            null,
-            null,
-            $datiVeicoli
-        );
+        $fattura = $factory->create($datiGenerali, $datiPagamento, $dettaglioLinee, '12345', null, $allegato);
         $this->assertInstanceOf(FatturaElettronica::class, $fattura);
         return $fattura;
     }
@@ -245,6 +228,7 @@ class FatturaSempliceTest extends TestCase
         $name = $fattura->getFileName();
         $this->assertTrue(strlen($name) > 5);
     }
+
 
     /**
      * @depends testCreateFattura

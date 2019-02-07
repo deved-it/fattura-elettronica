@@ -16,8 +16,6 @@ use Deved\FatturaElettronica\XmlRepeatedBlock;
 
 class DatiPagamento extends XmlRepeatedBlock
 {
-    use MagicFieldsTrait;
-
     public $modalitaPagamento;
     public $dataScadenzaPagamento;
     public $importoPagamento;
@@ -63,7 +61,9 @@ class DatiPagamento extends XmlRepeatedBlock
             $writer->writeElement('CondizioniPagamento', $block->condizioniPagamento);
             $writer->startElement('DettaglioPagamento');
             $writer->writeElement('ModalitaPagamento', $block->modalitaPagamento);
-            $writer->writeElement('DataScadenzaPagamento', $block->dataScadenzaPagamento);
+            if ($block->dataScadenzaPagamento) {
+                $writer->writeElement('DataScadenzaPagamento', $block->dataScadenzaPagamento);
+            }
             $writer->writeElement('ImportoPagamento', fe_number_format($block->importoPagamento, 2));
             if ($block->istitutoFinanziario) {
                 $writer->writeElement('IstitutoFinanziario', $block->istitutoFinanziario);

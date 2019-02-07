@@ -78,17 +78,19 @@ class DatiCassaPrevidenziale implements XmlSerializableInterface
     {
         $writer->startElement('DatiCassaPrevidenziale');
                 $writer->writeElement('TipoCassa', $this->tipo);
-                $writer->writeElement('AlCassa', $this->alCassa);
-                $writer->writeElement('ImportoContributoCassa', $this->importoContributo);
-                $writer->writeElement('ImponibileCassa', $this->imponibile);
-                $writer->writeElement('AliquotaIVA', $this->causale);
+                $writer->writeElement('AlCassa', fe_number_format($this->alCassa,2));
+                $writer->writeElement('ImportoContributoCassa', fe_number_format($this->importoContributo,2));
+                $writer->writeElement('ImponibileCassa', fe_number_format($this->imponibile,2));
+                $writer->writeElement('AliquotaIVA', fe_number_format($this->aliquotaIVA,2));
 		if ($this->ritenuta) {
 			$this->ritenuta->toXmlBlock($writer);
 		}
 		if ($this->natura) {
 			$this->natura->toXmlBlock($writer);
 		}
-                $writer->writeElement('RiferimentoAmministrazione', $this->riferimentoAmministrazione);
+		if ($this->riferimentoAmministrazione) {
+			$writer->writeElement('RiferimentoAmministrazione', $this->riferimentoAmministrazione);
+		}
         $writer->endElement();
         return $writer;
     }
