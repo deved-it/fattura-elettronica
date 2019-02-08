@@ -43,9 +43,9 @@ class DatiCassaPrevidenziale implements XmlSerializableInterface
     protected $imponibile;
     /** @var float */
     protected $aliquotaIVA;
-    /** @var ritenuta */
+    /** @var string */
     protected $ritenuta;
-    /** @var natura */
+    /** @var string */
     protected $natura;
     /** @var string */
     protected $riferimentoAmministrazione;
@@ -83,10 +83,10 @@ class DatiCassaPrevidenziale implements XmlSerializableInterface
                 $writer->writeElement('ImponibileCassa', fe_number_format($this->imponibile,2));
                 $writer->writeElement('AliquotaIVA', fe_number_format($this->aliquotaIVA,2));
 		if ($this->ritenuta) {
-			$this->ritenuta->toXmlBlock($writer);
+			$writer->writeElement('Ritenuta', $this->ritenuta);
 		}
 		if ($this->natura) {
-			$this->natura->toXmlBlock($writer);
+			$writer->writeElement('Natura', $this->natura);
 		}
 		if ($this->riferimentoAmministrazione) {
 			$writer->writeElement('RiferimentoAmministrazione', $this->riferimentoAmministrazione);
