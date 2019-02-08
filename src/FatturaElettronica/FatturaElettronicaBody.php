@@ -22,7 +22,7 @@ class FatturaElettronicaBody implements XmlSerializableInterface
 {
     const FE_CODE = '2.0';
     /** @var DatiGenerali  */
-    public $datGenerali;
+    public $datiGenerali;
     /** @var DatiBeniServizi  */
     protected $datiBeniServizi;
     /** @var DatiPagamento  */
@@ -45,7 +45,7 @@ class FatturaElettronicaBody implements XmlSerializableInterface
         Allegato $allegato = null,
         DatiVeicoli $datiVeicoli = null
     ) {
-        $this->datGenerali = $datiGenerali;
+        $this->datiGenerali = $datiGenerali;
         $this->datiBeniServizi = $datiBeniServizi;
         $this->datiPagamento = $datiPagamento;
         $this->allegato = $allegato;
@@ -59,7 +59,7 @@ class FatturaElettronicaBody implements XmlSerializableInterface
     public function toXmlBlock(\XMLWriter $writer)
     {
         $writer->startElement('FatturaElettronicaBody');
-            $this->datGenerali->toXmlBlock($writer);
+            $this->datiGenerali->toXmlBlock($writer);
             $this->datiBeniServizi->toXmlBlock($writer);
             if ($this->datiVeicoli) {
                 $this->datiVeicoli->toXmlBlock($writer);
