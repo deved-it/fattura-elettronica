@@ -42,6 +42,8 @@ class DatiGenerali implements XmlSerializableInterface
     protected $datiCassaPrevidenziale;
     /** @var DatiSal */
     protected $datiSal;
+    /** @var string */
+    protected $causale;
 
 
     /**
@@ -51,19 +53,22 @@ class DatiGenerali implements XmlSerializableInterface
      * @param string $numero
      * @param float $importoTotaleDocumento
      * @param string $divisa
+     * @param string $causale
      */
     public function __construct(
         $tipoDocumento,
         $data,
         $numero,
         $importoTotaleDocumento,
-        $divisa = 'EUR'
+        $divisa = 'EUR',
+        $causale
     ) {
         $this->tipoDocumento = $tipoDocumento;
         $this->data = $data;
         $this->numero = $numero;
         $this->importoTotaleDocumento = $importoTotaleDocumento;
         $this->divisa = $divisa;
+        $this->causale = $causale;
     }
 
     public function setDatiDdt(DatiDdt $datiDdt)
@@ -110,6 +115,9 @@ class DatiGenerali implements XmlSerializableInterface
                     $this->datiCassaPrevidenziale->toXmlBlock($writer);
                 }
                 $writer->writeElement('ImportoTotaleDocumento',fe_number_format($this->importoTotaleDocumento, 2));
+                if ($this->causale) {
+                    $writer->writeElement('Causale', $this->causale);
+                }
                 $this->writeXmlFields($writer);
             $writer->endElement();
             if ($this->datiContratto) {
