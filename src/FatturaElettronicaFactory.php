@@ -144,6 +144,8 @@ class FatturaElettronicaFactory
         $this->cessionarioCommittente = new CessionarioCommittente($datiAnagrafici, $sede);
         if ($codiceDestinatario) {
             $this->codiceDestinatario = $codiceDestinatario;
+        } else if ($datiAnagrafici->idPaese != 'IT') {
+        	$this->codiceDestinatario = 'XXXXXXX';
         }
         if ($pec) {
             $this->pec = $pec;
