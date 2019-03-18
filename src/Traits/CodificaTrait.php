@@ -30,4 +30,13 @@ trait CodificaTrait
         }
         return $descrizione;
     }
+    /**
+     * Lista della codifica
+     *
+     * @return array
+     */
+    public static function lista()
+    {
+         return self::$codifiche;
+    }
 }
