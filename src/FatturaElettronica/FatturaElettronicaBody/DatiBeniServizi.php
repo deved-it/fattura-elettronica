@@ -25,6 +25,8 @@ class DatiBeniServizi implements XmlSerializableInterface
     protected $dettaglioLinee;
     /** @var DatiRiepilogo */
     protected $datiRiepilogo;
+    /** @var $listaAliquote */
+	protected $listaAliquote;
 
     /**
      * DatiBeniServizi constructor.
@@ -38,7 +40,8 @@ class DatiBeniServizi implements XmlSerializableInterface
             $this->datiRiepilogo = $datiRiepilogo;
             return;
         }
-        $this->datiRiepilogo = $this->calcolaDatiRiepilogo();
+        $this->listaAliquote = $this->listaAliquote();
+        //$this->datiRiepilogo = $this->calcolaDatiRiepilogo();
     }
 
     /**
@@ -49,12 +52,32 @@ class DatiBeniServizi implements XmlSerializableInterface
     {
         $writer->startElement('DatiBeniServizi');
             $this->dettaglioLinee->toXmlBlock($writer);
-            $this->datiRiepilogo->toXmlBlock($writer);
+            foreach ($this->listaAliquote as $aliquota){
+            	$this->calcolaDatiRiepilogoPerAliquota($aliquota)->toXmlBlock($writer);
+    		}
+            //$this->datiRiepilogo->toXmlBlock($writer);
             $this->writeXmlFields($writer);
         $writer->endElement();
         return $writer;
     }
-
+    
+    /**
+     * @return array
+     */
+    protected function listaAliquote()
+    {
+        $listaAliquote = array();
+        /** @var Linea $linea */
+        foreach ($this->dettaglioLinee as $linea) {
+        	if(!in_array($linea->getAliquotaIva(),$listaAliquote)){
+        		$listaAliquote[]=$linea->getAliquotaIva();
+        	}
+        }
+        sort($listaAliquote);
+        
+        return $listaAliquote;
+    }
+    
     /**
      * @return DatiRiepilogo
      */
