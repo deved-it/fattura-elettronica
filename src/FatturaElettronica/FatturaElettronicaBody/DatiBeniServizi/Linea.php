@@ -30,7 +30,7 @@ class Linea implements XmlSerializableInterface
     /** @var float */
     protected $prezzoUnitario;
     /** @var float */
-    protected $aliquotaIva;
+    protected $codiceTipo;
 
 
     /**
@@ -48,7 +48,8 @@ class Linea implements XmlSerializableInterface
         $codiceArticolo = null,
         $quantita = null,
         $unitaMisura = 'pz',
-        $aliquotaIva = 22.00
+        $aliquotaIva = 22.00, 
+        $codiceTipo = "FOR"
     ) {
         $this->codiceArticolo = $codiceArticolo;
         $this->descrizione = $descrizione;
@@ -56,6 +57,7 @@ class Linea implements XmlSerializableInterface
         $this->quantita = $quantita;
         $this->unitaMisura = $unitaMisura;
         $this->aliquotaIva = $aliquotaIva;
+        $this->codiceTipo = $codiceTipo;
     }
 
 
@@ -69,8 +71,7 @@ class Linea implements XmlSerializableInterface
         $writer->writeElement('NumeroLinea', $this->numeroLinea);
         if ($this->codiceArticolo) {
             $writer->startElement('CodiceArticolo');
-                $writer->writeElement('CodiceTipo', 'FORN');
-                //todo: implementare altri tipi di codice
+                $writer->writeElement('CodiceTipo', $this->codiceTipo);
                 $writer->writeElement('CodiceValore', $this->codiceArticolo);
             $writer->endElement();
         }
