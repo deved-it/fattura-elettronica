@@ -30,6 +30,7 @@ class Linea implements XmlSerializableInterface
     /** @var float */
     protected $prezzoUnitario;
     /** @var float */
+    protected $aliquotaIva;
     protected $codiceTipo;
 
 
