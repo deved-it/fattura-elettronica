@@ -31,7 +31,10 @@ class Linea implements XmlSerializableInterface
     protected $prezzoUnitario;
     /** @var float */
     protected $aliquotaIva;
+    /** @var string */
     protected $codiceTipo;
+    /** @var float */
+    protected $Percentuale;
 
 
     /**
@@ -42,6 +45,8 @@ class Linea implements XmlSerializableInterface
      * @param float $quantita
      * @param string $unitaMisura
      * @param float $aliquotaIva
+     * @param string $codiceTipo
+     * @param float $sconto
      */
     public function __construct(
         $descrizione,
@@ -50,7 +55,8 @@ class Linea implements XmlSerializableInterface
         $quantita = null,
         $unitaMisura = 'pz',
         $aliquotaIva = 22.00, 
-        $codiceTipo = "FOR"
+        $codiceTipo = "FOR",
+        $Percentuale = 0
     ) {
         $this->codiceArticolo = $codiceArticolo;
         $this->descrizione = $descrizione;
@@ -59,6 +65,7 @@ class Linea implements XmlSerializableInterface
         $this->unitaMisura = $unitaMisura;
         $this->aliquotaIva = $aliquotaIva;
         $this->codiceTipo = $codiceTipo;
+        $this->Percentuale = $Percentuale;
     }
 
 
@@ -84,13 +91,33 @@ class Linea implements XmlSerializableInterface
         $this->writeXmlField('DataInizioPeriodo', $writer);
         $this->writeXmlField('DataFinePeriodo', $writer);
         $writer->writeElement('PrezzoUnitario', fe_number_format($this->prezzoUnitario, 2));
+        if( $this->Percentuale ){
+            $writer->startElement("ScontoMaggiorazione");
+                $writer->writeElement("Tipo","SC");
+                $writer->writeElement("Percentuale",fe_number_format($this->Percentuale,2));
+                $writer->writeElement("Importo",$this->prezzoSconto());
+            $writer->endElement();
+        }
         $writer->writeElement('PrezzoTotale', $this->prezzoTotale());
-        $writer->writeElement('AliquotaIVA', fe_number_format($this->aliquotaIva, 2));
+        $writer->writeElement('AliquotaIVA', fe_number_format($this->aliquotaIva, 2));        
         $this->writeXmlFields($writer);
         $writer->endElement();
         return $writer;
     }
-
+    
+    /**
+     * Calcola e restituisce lo sconto totale della riga
+     *
+     * @param bool $format
+     * @return string | float
+     */
+    public function prezzoSconto($format = true)
+    {
+        $quantita = $this->quantita ? $this->quantita : 1;
+        $totale_parziale = fe_number_format($this->prezzoUnitario * $quantita, 2);
+        $scontoCalcolato = fe_number_format($totale_parziale*($this->Percentuale/100),2);
+        return $scontoCalcolato;
+    }
     /**
      * Calcola e restituisce il prezzo totale della linea
      *
@@ -100,10 +127,14 @@ class Linea implements XmlSerializableInterface
     public function prezzoTotale($format = true)
     {
         $quantita = $this->quantita ? $this->quantita : 1;
-        if ($format) {
-            return fe_number_format($this->prezzoUnitario * $quantita, 2);
+        $costo = $this->prezzoUnitario * $quantita;
+        if( $this->Percentuale ){
+            $costo = $costo-$this->prezzoSconto();
         }
-        return $this->prezzoUnitario * $quantita;
+        if ($format) {
+            return fe_number_format($costo, 2);
+        }
+        return $costo;
     }
 
     /**
