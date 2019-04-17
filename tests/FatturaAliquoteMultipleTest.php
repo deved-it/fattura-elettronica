@@ -145,15 +145,16 @@ class FatturaAliquoteMultipleTest extends TestCase
     public function testCreateLinee()
     {
         $linee = [];
-        $linee[] = new Linea('Articolo1', 50, 'ABC',1,'pz',22);
-        $linee[]= new Linea('Articolo2', 50, 'CDE', 1,'pz',10);
-        //linea con aliquota 0 e natura
+        $linee[] = new Linea('Articolo1', 50, 'ABC', 1, 'pz', 22);
+        $linee[] = new Linea('Articolo2', 50, 'CDE', 1, 'pz', 10);
+        //linee con aliquota 0 e natura
+        $linee[] = new Linea('Articolo3', 50, 'FGH', 1, 'pz', 0, Natura::NonSoggette);
         $lineaEsente = new Linea('Articolo non imponibile', 10, 'XYZ', 1, 'pz', '0');
         $lineaEsente->natura = Natura::Esenti;
         $lineaEsente->DataInizioPeriodo = '2018-05-01';
         $lineaEsente->DataFinePeriodo = '2018-05-31';
         $linee[] = $lineaEsente;
-        $this->assertCount(3, $linee);
+        $this->assertCount(4, $linee);
         return $linee;
     }
 
