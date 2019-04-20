@@ -13,9 +13,8 @@ namespace Deved\FatturaElettronica;
 
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader;
-use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\CedentePrestatore\IscrizioneRea;
 
-class FatturaElettronica implements XmlSerializableInterface, FatturaElettronicaInterface
+class FatturaElettronica implements XmlSerializableInterface
 {
     /** @var FatturaElettronicaHeader */
     protected $fatturaElettronicaHeader;
@@ -42,10 +41,8 @@ class FatturaElettronica implements XmlSerializableInterface, FatturaElettronica
      */
     public function toXmlBlock(\XMLWriter $writer)
     {
-        //$formato = new FatturaElettronicaHeader\DatiTrasmissione;
-        //$formato = $formato->formatoTrasmissione;
         $writer->startElementNS('p', 'FatturaElettronica', null);
-        $writer->writeAttribute('versione', $this->fatturaElettronicaHeader->datiTrasmissione->tipoFattura());
+        $writer->writeAttribute('versione', 'FPR12');
         $writer->writeAttributeNS('xmlns', 'ds', null, 'http://www.w3.org/2000/09/xmldsig#');
         $writer->writeAttributeNS('xmlns', 'p', null, 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2');
         $writer->writeAttributeNS('xmlns', 'xsi', null, 'http://www.w3.org/2001/XMLSchema-instance');
@@ -98,14 +95,5 @@ class FatturaElettronica implements XmlSerializableInterface, FatturaElettronica
             throw new \Exception(json_encode($this->xmlValidator->errors));
         }
         return $isValid;
-    }
-
-    /**
-     * @param IscrizioneRea $iscrizioneRea
-     * @return mixed
-     */
-    public function setIscrizioneRea(IscrizioneRea $iscrizioneRea)
-    {
-        $this->fatturaElettronicaHeader->cedentePrestatore->setIscrizioneRea($iscrizioneRea);
     }
 }
