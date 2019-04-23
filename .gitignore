@@ -5,3 +5,4 @@
 /.phpcs-cache
 /phpstan.neon
 /.composer.lock
+/nbproject

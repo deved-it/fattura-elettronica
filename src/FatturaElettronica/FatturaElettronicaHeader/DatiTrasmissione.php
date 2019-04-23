@@ -68,6 +68,10 @@ class DatiTrasmissione implements XmlSerializableInterface
         $this->pecDestinatario = $pecDestinatario;
     }
     
+	/**
+     * func get tipoFattura
+     */
+	
     public function tipoFattura(){
         return $this->formatoTrasmissione;
     }
