@@ -13,6 +13,7 @@ namespace Deved\FatturaElettronica;
 
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader;
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\CedentePrestatore\IscrizioneRea;
 
 class FatturaElettronica implements XmlSerializableInterface
 {
