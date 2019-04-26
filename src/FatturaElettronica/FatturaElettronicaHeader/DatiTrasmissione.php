@@ -56,7 +56,7 @@ class DatiTrasmissione implements XmlSerializableInterface
         $pecDestinatario = ''
     ) {
         $this->idTrasmittente = $idTrasmittente;
-        $this->progressivoInvio = substr(uniqid($progressivoInvio."2".sha1(time())),0,5);
+        $this->progressivoInvio = $progressivoInvio;
         $this->codiceDestinatario = $codiceDestinatario;
         $this->formatoTrasmissione = $pa ? self::FORMATO_PA : self::FORMATO_PRIVATO;
         if ($telefono) {
