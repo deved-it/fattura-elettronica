@@ -249,7 +249,6 @@ class FatturaSempliceConvenzioneTest extends TestCase {
    * @throws \Exception
    */
   public function testXmlSchemaFattura(FatturaElettronica $fattura) {
-    file_put_contents('/tmp/'.$fattura->getFileName(), $fattura->toXml());
     $this->assertTrue($fattura->verifica());
   }
 }
