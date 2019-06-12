@@ -175,7 +175,7 @@ class FatturaSempliceTest extends TestCase
     {
         $linee = [];
         $linee[] = new Linea('Articolo1', 50, 'ABC');
-        $linee[]= new Linea('Articolo2', 25, 'CDE', 2);
+        $linee[]= new Linea('Articolo2', 25, '3286340685115', 2, 'pz', 22.00, 'EAN');
         $this->assertCount(2, $linee);
         return $linee;
     }
