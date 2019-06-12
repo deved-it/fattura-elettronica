@@ -120,11 +120,12 @@ class DatiGenerali implements XmlSerializableInterface
                 $writer->writeElement('ImportoTotaleDocumento',fe_number_format($this->importoTotaleDocumento, 2));
                 $this->writeXmlFields($writer);
             $writer->endElement();
-            if ($this->datiConvenzione) {
-              $this->datiConvenzione->toXmlBlock($writer);
-            }
+
             if ($this->datiContratto) {
                 $this->datiContratto->toXmlBlock($writer);
+            }
+            if ($this->datiConvenzione) {
+              $this->datiConvenzione->toXmlBlock($writer);
             }
             if ($this->datiSal) {
                 $this->datiSal->toXmlBlock($writer);
