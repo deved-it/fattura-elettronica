@@ -12,6 +12,7 @@
 namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody;
 
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali\DatiContratto;
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali\DatiConvenzione;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali\DatiDdt;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali\DatiRitenuta;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali\DatiCassaPrevidenziale;
@@ -42,6 +43,8 @@ class DatiGenerali implements XmlSerializableInterface
     protected $datiCassaPrevidenziale;
     /** @var DatiSal */
     protected $datiSal;
+  /** @var DatiConvenzione */
+  protected $datiConvenzione;
 
 
     /**
@@ -69,6 +72,11 @@ class DatiGenerali implements XmlSerializableInterface
     public function setDatiDdt(DatiDdt $datiDdt)
     {
         $this->datiDdt = $datiDdt;
+    }
+
+    public function setDatiConvenzione(DatiConvenzione $datiConvenzione)
+    {
+      $this->datiConvenzione = $datiConvenzione;
     }
 
     public function setDatiContratto(DatiContratto $datiContratto)
@@ -112,8 +120,12 @@ class DatiGenerali implements XmlSerializableInterface
                 $writer->writeElement('ImportoTotaleDocumento',fe_number_format($this->importoTotaleDocumento, 2));
                 $this->writeXmlFields($writer);
             $writer->endElement();
+
             if ($this->datiContratto) {
                 $this->datiContratto->toXmlBlock($writer);
+            }
+            if ($this->datiConvenzione) {
+              $this->datiConvenzione->toXmlBlock($writer);
             }
             if ($this->datiSal) {
                 $this->datiSal->toXmlBlock($writer);
