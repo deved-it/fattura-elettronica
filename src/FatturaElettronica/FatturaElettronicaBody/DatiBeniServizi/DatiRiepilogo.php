@@ -27,6 +27,8 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
     protected $esigibilitaIVA = "I";
     /** @var string */
     protected $natura;
+    /** @var string */
+    protected $riferimentoNormativo;
     /** @var DatiRiepilogo[] */
     protected $datiRiepilogoAggiuntivi = [];
     /** @var int  */
@@ -39,13 +41,15 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
      * @param string $esigibilitaIVA
      * @param bool $imposta
      * @param string $natura
+     * @param string $riferimentoNormativo
      */
     public function __construct(
         $imponibileImporto,
         $aliquotaIVA,
         $esigibilitaIVA = "I",
         $imposta = false,
-        $natura = null
+        $natura = null,
+        $riferimentoNormativo = null
     ) {
         if ($imposta === false) {
             $this->imposta = ($imponibileImporto / 100) * $aliquotaIVA;
@@ -56,6 +60,7 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
         $this->aliquotaIVA = $aliquotaIVA;
         $this->esigibilitaIVA = $esigibilitaIVA;
         $this->natura = $natura;
+        $this->riferimentoNormativo = $riferimentoNormativo;
         $this->datiRiepilogoAggiuntivi[] = $this;
     }
 
@@ -77,6 +82,7 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
             }
             if ($block->natura) {
                 $writer->writeElement('Natura', $block->natura);
+                $writer->writeElement('RiferimentoNormativo', $block->riferimentoNormativo);
             }
             $block->writeXmlFields($writer);
             $writer->endElement();
