@@ -28,7 +28,7 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
     /** @var string */
     protected $natura;
     /** @var string */
-    protected $riferimentoNormativo;
+    protected $RiferimentoNormativo;
     /** @var DatiRiepilogo[] */
     protected $datiRiepilogoAggiuntivi = [];
     /** @var int  */
@@ -41,7 +41,7 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
      * @param string $esigibilitaIVA
      * @param bool $imposta
      * @param string $natura
-     * @param string $riferimentoNormativo
+     * @param string $RiferimentoNormativo
      */
     public function __construct(
         $imponibileImporto,
@@ -49,7 +49,7 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
         $esigibilitaIVA = "I",
         $imposta = false,
         $natura = null,
-        $riferimentoNormativo = null
+        $RiferimentoNormativo = null
     ) {
         if ($imposta === false) {
             $this->imposta = ($imponibileImporto / 100) * $aliquotaIVA;
@@ -60,7 +60,7 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
         $this->aliquotaIVA = $aliquotaIVA;
         $this->esigibilitaIVA = $esigibilitaIVA;
         $this->natura = $natura;
-        $this->riferimentoNormativo = $riferimentoNormativo;
+        $this->RiferimentoNormativo = $RiferimentoNormativo;
         $this->datiRiepilogoAggiuntivi[] = $this;
     }
 
@@ -74,15 +74,21 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
         foreach ($this as $block) {
             $writer->startElement('DatiRiepilogo');
             $writer->writeElement('AliquotaIVA', fe_number_format($block->aliquotaIVA, 2));
+
+            // La posizione del campo natura deve essere dopo AliquotaIVA
+            if ($block->natura) {
+                $writer->writeElement('Natura', $block->natura);
+            }
+
             $block->writeXmlField('Natura', $writer);
             $writer->writeElement('ImponibileImporto', fe_number_format($block->imponibileImporto, 2));
             $writer->writeElement('Imposta', fe_number_format($block->imposta, 2));
             if ($block->esigibilitaIVA) {
                 $writer->writeElement('EsigibilitaIVA', $block->esigibilitaIVA);
             }
-            if ($block->natura) {
-                $writer->writeElement('Natura', $block->natura);
-                $writer->writeElement('RiferimentoNormativo', $block->riferimentoNormativo);
+
+            if ($block->natura && $block->RiferimentoNormativo) {
+                $writer->writeElement('RiferimentoNormativo', $block->RiferimentoNormativo);
             }
             $block->writeXmlFields($writer);
             $writer->endElement();
