@@ -11,6 +11,7 @@
 
 namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody;
 
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali\DatiBollo;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali\DatiContratto;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali\DatiConvenzione;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali\DatiDdt;
@@ -39,6 +40,8 @@ class DatiGenerali implements XmlSerializableInterface
     protected $datiContratto;
     /** @var DatiRitenuta */
     protected $datiRitenuta;
+    /** @var DatiBollo */
+    protected $datiBollo;
     /** @var DatiCassaPrevidenziale */
     protected $datiCassaPrevidenziale;
     /** @var DatiSal */
@@ -89,6 +92,11 @@ class DatiGenerali implements XmlSerializableInterface
         $this->datiRitenuta = $datiRitenuta;
     }
 
+    public function setDatiBollo(DatiBollo $datiBollo)
+    {
+        $this->datiBollo = $datiBollo;
+    }
+
     public function setDatiCassaPrevidenziale(DatiCassaPrevidenziale $datiCassaPrevidenziale)
     {
         $this->datiCassaPrevidenziale = $datiCassaPrevidenziale;
@@ -113,6 +121,9 @@ class DatiGenerali implements XmlSerializableInterface
                 $writer->writeElement('Numero', $this->numero);
                 if ($this->datiRitenuta) {
                     $this->datiRitenuta->toXmlBlock($writer);
+                }
+                if ($this->datiBollo) {
+                    $this->datiBollo->toXmlBlock($writer);
                 }
                 if ($this->datiCassaPrevidenziale) {
                     $this->datiCassaPrevidenziale->toXmlBlock($writer);
