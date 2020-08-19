@@ -45,6 +45,7 @@ class DatiBollo implements XmlSerializableInterface
         $writer->startElement('DatiBollo');
         $writer->writeElement('BolloVirtuale', $this->bolloVirtuale);
         $writer->writeElement('ImportoBollo', fe_number_format($this->importoBollo, 2));
+        $this->writeXmlFields($writer);
         $writer->endElement();
         return $writer;
     }
