@@ -56,6 +56,7 @@ class ScontoMaggiorazione implements XmlSerializableInterface
         if ($this->importo) {
             $writer->writeElement('Importo', fe_number_format($this->importo, 2), '.', '');
         }
+        $this->writeXmlFields($writer);
         $writer->endElement();
         return $writer;
     }
