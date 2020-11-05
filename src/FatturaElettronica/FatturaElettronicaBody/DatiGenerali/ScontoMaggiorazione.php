@@ -21,7 +21,7 @@ class ScontoMaggiorazione implements XmlSerializableInterface
     const SCONTO = 'SC';
     const MAGGIORAZIONE = 'MG';
 
-    /** @var DatiBollo */
+    /** @var ScontoMaggiorazione */
     protected $scontoMaggiorazione;
     /** @var string */
     protected $tipo;
@@ -31,8 +31,9 @@ class ScontoMaggiorazione implements XmlSerializableInterface
     protected $importo;
 
     /**
-     * DatiBollo constructor.
-     * @param $bolloVirtuale
+     * ScontoMaggiorazione constructor.
+     * @param $tipo
+     * @param $percentuale
      * @param $importo
      */
     public function __construct($tipo, $percentuale, $importo)
