@@ -21,7 +21,7 @@ class ScontoMaggiorazione implements XmlSerializableInterface
     const SCONTO = 'SC';
     const MAGGIORAZIONE = 'MG';
 
-    /** @var DatiBollo */
+    /** @var ScontoMaggiorazione */
     protected $scontoMaggiorazione;
     /** @var string */
     protected $tipo;
@@ -31,8 +31,9 @@ class ScontoMaggiorazione implements XmlSerializableInterface
     protected $importo;
 
     /**
-     * DatiBollo constructor.
-     * @param $bolloVirtuale
+     * ScontoMaggiorazione constructor.
+     * @param $tipo
+     * @param $percentuale
      * @param $importo
      */
     public function __construct($tipo, $percentuale, $importo)
@@ -51,10 +52,10 @@ class ScontoMaggiorazione implements XmlSerializableInterface
         $writer->startElement('ScontoMaggiorazione');
         $writer->writeElement('Tipo', $this->tipo);
         if ($this->percentuale) {
-            $writer->writeElement('Percentuale', fe_number_format($this->percentuale, 2), '.', '');
+            $writer->writeElement('Percentuale', fe_number_format($this->percentuale, 2));
         }
         if ($this->importo) {
-            $writer->writeElement('Importo', fe_number_format($this->importo, 2), '.', '');
+            $writer->writeElement('Importo', fe_number_format($this->importo, 2));
         }
         $this->writeXmlFields($writer);
         $writer->endElement();
