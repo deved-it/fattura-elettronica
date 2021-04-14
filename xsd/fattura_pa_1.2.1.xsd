@@ -1363,7 +1363,7 @@
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="EmailType">
-    <xs:restriction base="xs:token">
+    <xs:restriction base="xs:string">
       <xs:maxLength value="256" />
       <xs:pattern value=".+@.+[.]+.+" />
     </xs:restriction>

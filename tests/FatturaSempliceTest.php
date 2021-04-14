@@ -107,7 +107,7 @@ class FatturaSempliceTest extends TestCase
         DatiAnagrafici $datiAnagrafici,
         Sede $sede
     ) {
-        $factory->setCessionarioCommittente($datiAnagrafici, $sede);
+        $factory->setCessionarioCommittente($datiAnagrafici, $sede, null, 'pippo-pec@pluto.it');
         $this->assertInstanceOf(FatturaElettronicaFactory::class, $factory);
         return $factory;
     }
