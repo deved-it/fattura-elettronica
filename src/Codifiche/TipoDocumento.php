@@ -23,6 +23,7 @@ abstract class TipoDocumento
     const NotaDiCredito = 'TD04';
     const NotaDiDebito = 'TD05';
     const Parcella = 'TD06';
+    const FatturaDifferita = 'TD24';
 
     protected static $codifiche = array(
         'TD01' => 'Fattura',
@@ -30,6 +31,7 @@ abstract class TipoDocumento
         'TD03' => 'acconto/anticipo su parcella',
         'TD04' => 'nota di credito',
         'TD05' => 'nota di debito',
-        'TD06' => 'parcella'
+        'TD06' => 'parcella',
+        'TD24' => 'fattura differita'
     );
 }
