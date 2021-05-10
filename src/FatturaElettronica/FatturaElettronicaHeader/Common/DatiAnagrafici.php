@@ -27,6 +27,10 @@ class DatiAnagrafici implements XmlSerializableInterface
     public $idCodice;
     /** @var string */
     public $regimeFiscale;
+    /** @var string */
+    public $titolo;
+    /** @var string */
+    public $codEORI;
 
     /**
      * DatiAnagrafici constructor.
@@ -35,19 +39,25 @@ class DatiAnagrafici implements XmlSerializableInterface
      * @param string $idPaese
      * @param string $idCodice
      * @param string $regimeFiscale
+     * @param string $titolo
+     * @param string $codEORI
      */
     public function __construct(
         $codiceFiscale,
         $denominazione = '',
         $idPaese = '',
         $idCodice = '',
-        $regimeFiscale = ''
+        $regimeFiscale = '',
+        $titolo = '',
+        $codEORI = ''
     ) {
         $this->codiceFiscale = $codiceFiscale;
         $this->denominazione = $denominazione;
         $this->idPaese = $idPaese;
         $this->idCodice = $idCodice;
         $this->regimeFiscale = $regimeFiscale;
+        $this->titolo = $titolo;
+        $this->codEORI = $codEORI;
     }
 
     /**
@@ -72,6 +82,12 @@ class DatiAnagrafici implements XmlSerializableInterface
                 }
                 $this->writeXmlField('Nome', $writer);
                 $this->writeXmlField('Cognome', $writer);
+                if ($this->titolo) {
+                    $writer->writeElement('Titolo', $this->titolo);
+                }
+                if ($this->codEORI) {
+                    $writer->writeElement('CodEORI', $this->codEORI);
+                }
             $writer->endElement();
         if ($this->regimeFiscale) {
             $writer->writeElement('RegimeFiscale', $this->regimeFiscale);
