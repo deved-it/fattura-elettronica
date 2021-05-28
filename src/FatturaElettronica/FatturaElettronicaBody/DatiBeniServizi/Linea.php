@@ -33,6 +33,8 @@ class Linea implements XmlSerializableInterface
     protected $aliquotaIva;
     /** @var string */
     protected $codiceTipo;
+    /** @var ScontoMaggiorazione[]|null */
+    protected $scontoMaggiorazione = [];
 
 
     /**
@@ -86,6 +88,9 @@ class Linea implements XmlSerializableInterface
         $this->writeXmlField('DataInizioPeriodo', $writer);
         $this->writeXmlField('DataFinePeriodo', $writer);
         $writer->writeElement('PrezzoUnitario', fe_number_format($this->prezzoUnitario, 2));
+        foreach ($this->scontoMaggiorazione as $item) {
+            $item->toXmlBlock($writer);
+        }
         $writer->writeElement('PrezzoTotale', $this->prezzoTotale());
         $writer->writeElement('AliquotaIVA', fe_number_format($this->aliquotaIva, 2));
         $this->writeXmlFields($writer);
@@ -101,11 +106,15 @@ class Linea implements XmlSerializableInterface
      */
     public function prezzoTotale($format = true)
     {
-        $quantita = $this->quantita ? $this->quantita : 1;
-        if ($format) {
-            return fe_number_format($this->prezzoUnitario * $quantita, 2);
+        $quantita = $this->quantita ?: 1;
+        $totale = $this->prezzoUnitario * $quantita;
+        foreach ($this->scontoMaggiorazione as $item) {
+            $totale = $item->applicaScontoMaggiorazione($totale);
         }
-        return $this->prezzoUnitario * $quantita;
+        if ($format) {
+            return fe_number_format($totale, 2);
+        }
+        return $totale;
     }
 
     /**
@@ -126,5 +135,10 @@ class Linea implements XmlSerializableInterface
     public function getAliquotaIva()
     {
         return $this->aliquotaIva;
+    }
+
+    public function setScontoMaggiorazione(ScontoMaggiorazione $scontoMaggiorazione)
+    {
+        $this->scontoMaggiorazione[] = $scontoMaggiorazione;
     }
 }
