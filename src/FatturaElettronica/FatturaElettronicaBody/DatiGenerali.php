@@ -15,6 +15,7 @@ use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGener
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali\DatiContratto;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali\DatiConvenzione;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali\DatiDdt;
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali\DatiDocumentoCorrelato;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali\DatiRitenuta;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali\DatiCassaPrevidenziale;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali\DatiSal;
@@ -54,6 +55,8 @@ class DatiGenerali implements XmlSerializableInterface
     protected $datiSal;
     /** @var DatiConvenzione */
     protected $datiConvenzione;
+    /** @var DatiDocumentoCorrelato */
+    protected $datiDocumentoCorrelati;
 
 
     /**
@@ -92,6 +95,11 @@ class DatiGenerali implements XmlSerializableInterface
     public function setDatiContratto(DatiContratto $datiContratto)
     {
         $this->datiContratto = $datiContratto;
+    }
+
+    public function setDatiDocumentoCorrelato(DatiDocumentoCorrelato $datiDocumentoCorrelati)
+    {
+        $this->datiDocumentoCorrelati = $datiDocumentoCorrelati;
     }
 
     public function setDatiRitenuta(DatiRitenuta $datiRitenuta)
@@ -160,6 +168,9 @@ class DatiGenerali implements XmlSerializableInterface
         }
         if ($this->datiConvenzione) {
             $this->datiConvenzione->toXmlBlock($writer);
+        }
+        if ($this->datiDocumentoCorrelati) {
+            $this->datiDocumentoCorrelati->toXmlBlock($writer);
         }
         if ($this->datiSal) {
             $this->datiSal->toXmlBlock($writer);
