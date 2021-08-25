@@ -35,6 +35,8 @@ class Linea implements XmlSerializableInterface
     protected $codiceTipo;
     /** @var ScontoMaggiorazione[]|null */
     protected $scontoMaggiorazione = [];
+    /** @var int */
+    protected $decimaliLinea;
 
 
     /**
@@ -46,6 +48,7 @@ class Linea implements XmlSerializableInterface
      * @param string $unitaMisura
      * @param float $aliquotaIva
      * @param string $codiceTipo
+     * @param int $decimaliLinea
      */
     public function __construct(
         $descrizione,
@@ -54,7 +57,8 @@ class Linea implements XmlSerializableInterface
         $quantita = null,
         $unitaMisura = 'pz',
         $aliquotaIva = 22.00,
-        $codiceTipo = 'FORN'
+        $codiceTipo = 'FORN',
+        $decimaliLinea = 2
     ) {
         $this->codiceArticolo = $codiceArticolo;
         $this->descrizione = $descrizione;
@@ -63,6 +67,7 @@ class Linea implements XmlSerializableInterface
         $this->unitaMisura = $unitaMisura;
         $this->aliquotaIva = $aliquotaIva;
         $this->codiceTipo = $codiceTipo;
+        $this->decimaliLinea = $decimaliLinea;
     }
 
 
@@ -82,12 +87,12 @@ class Linea implements XmlSerializableInterface
         }
         $writer->writeElement('Descrizione', $this->descrizione);
         if ($this->quantita) {
-            $writer->writeElement('Quantita', fe_number_format($this->quantita, 2));
+            $writer->writeElement('Quantita', fe_number_format($this->quantita, $this->decimaliLinea));
             $writer->writeElement('UnitaMisura', $this->unitaMisura);
         }
         $this->writeXmlField('DataInizioPeriodo', $writer);
         $this->writeXmlField('DataFinePeriodo', $writer);
-        $writer->writeElement('PrezzoUnitario', fe_number_format($this->prezzoUnitario, 2));
+        $writer->writeElement('PrezzoUnitario', fe_number_format($this->prezzoUnitario, $this->decimaliLinea));
         foreach ($this->scontoMaggiorazione as $item) {
             $item->toXmlBlock($writer);
         }
@@ -112,7 +117,7 @@ class Linea implements XmlSerializableInterface
             $totale = $item->applicaScontoMaggiorazione($totale);
         }
         if ($format) {
-            return fe_number_format($totale, 2);
+            return fe_number_format($totale, $this->decimaliLinea);
         }
         return $totale;
     }
