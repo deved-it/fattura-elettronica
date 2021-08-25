@@ -48,6 +48,7 @@ class Linea implements XmlSerializableInterface
      * @param string $unitaMisura
      * @param float $aliquotaIva
      * @param string $codiceTipo
+     * @param int $decimaliLinea
      */
     public function __construct(
         $descrizione,
