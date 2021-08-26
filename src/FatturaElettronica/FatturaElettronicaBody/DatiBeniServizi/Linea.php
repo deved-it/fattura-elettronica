@@ -37,6 +37,8 @@ class Linea implements XmlSerializableInterface
     protected $scontoMaggiorazione = [];
     /** @var int */
     protected $decimaliLinea;
+    /** @var string */
+    protected $tipoCessionePrestazione;
 
 
     /**
@@ -58,7 +60,8 @@ class Linea implements XmlSerializableInterface
         $unitaMisura = 'pz',
         $aliquotaIva = 22.00,
         $codiceTipo = 'FORN',
-        $decimaliLinea = 2
+        $decimaliLinea = 2,
+        $tipoCessionePrestazione = null
     ) {
         $this->codiceArticolo = $codiceArticolo;
         $this->descrizione = $descrizione;
@@ -68,6 +71,7 @@ class Linea implements XmlSerializableInterface
         $this->aliquotaIva = $aliquotaIva;
         $this->codiceTipo = $codiceTipo;
         $this->decimaliLinea = $decimaliLinea;
+        $this->tipoCessionePrestazione = $tipoCessionePrestazione;
     }
 
 
@@ -79,6 +83,9 @@ class Linea implements XmlSerializableInterface
     {
         $writer->startElement('DettaglioLinee');
         $writer->writeElement('NumeroLinea', $this->numeroLinea);
+        if ($this->tipoCessionePrestazione) {
+            $writer->writeElement('TipoCessionePrestazione', $this->tipoCessionePrestazione);
+        }
         if ($this->codiceArticolo) {
             $writer->startElement('CodiceArticolo');
                 $writer->writeElement('CodiceTipo', $this->codiceTipo);
