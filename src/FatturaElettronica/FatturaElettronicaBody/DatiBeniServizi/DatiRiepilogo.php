@@ -31,6 +31,8 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
     protected $currentIndex = 0;
     /** @var float  */
     protected $arrotondamento;
+    /** @var float  */
+    protected $decimaliArrotondamento;
 
     /**
      * DatiRiepilogo constructor.
@@ -39,7 +41,7 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
      * @param string $esigibilitaIVA
      * @param bool $imposta
      */
-    public function __construct($imponibileImporto, $aliquotaIVA, $esigibilitaIVA = "I", $imposta = false, $arrotondamento = null)
+    public function __construct($imponibileImporto, $aliquotaIVA, $esigibilitaIVA = "I", $imposta = false, $arrotondamento = null, $decimaliArrotondamento = 2)
     {
         if ($imposta === false) {
             $this->imposta = ($imponibileImporto / 100) * $aliquotaIVA;
@@ -51,6 +53,7 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
         $this->esigibilitaIVA = $esigibilitaIVA;
         $this->datiRiepilogoAggiuntivi[] = $this;
         $this->arrotondamento = $arrotondamento;
+        $this->decimaliArrotondamento = $decimaliArrotondamento;
     }
 
     /**
@@ -65,8 +68,8 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
             $writer->startElement('DatiRiepilogo');
             $writer->writeElement('AliquotaIVA', fe_number_format($block->aliquotaIVA, 2));
             $block->writeXmlField('Natura', $writer);
-            if ($this->arrotondamento) {
-                $writer->writeElement('Arrotondamento', $this->arrotondamento);
+            if ($block->arrotondamento) {
+                $writer->writeElement('Arrotondamento', fe_number_format($block->arrotondamento, $block->decimaliArrotondamento));
             }
             $writer->writeElement('ImponibileImporto', fe_number_format($block->imponibileImporto, 2));
             $writer->writeElement('Imposta', fe_number_format($block->imposta, 2));
