@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.19] - 2021-10-05
+### Fixed
+- Fix sconto e maggiorazione su importo #92 by danielebuso
+
 ## [1.1.18] - 2021-08-26
 ### Added
 - Aggiunto Arrotondamento e TipoCessionePrestazione #90 by danielebuso
