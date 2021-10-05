@@ -88,8 +88,8 @@ class Linea implements XmlSerializableInterface
         }
         if ($this->codiceArticolo) {
             $writer->startElement('CodiceArticolo');
-                $writer->writeElement('CodiceTipo', $this->codiceTipo);
-                $writer->writeElement('CodiceValore', $this->codiceArticolo);
+            $writer->writeElement('CodiceTipo', $this->codiceTipo);
+            $writer->writeElement('CodiceValore', $this->codiceArticolo);
             $writer->endElement();
         }
         $writer->writeElement('Descrizione', $this->descrizione);
@@ -120,11 +120,11 @@ class Linea implements XmlSerializableInterface
     {
         $quantita = $this->quantita ?: 1;
         $totale = $this->prezzoUnitario * $quantita;
-        foreach ($this->scontoMaggiorazione as $item) {
-            $totale = $item->applicaScontoMaggiorazione($totale);
-        }
         if ($format) {
-            return fe_number_format($totale, $this->decimaliLinea);
+            $totale = fe_number_format($totale, $this->decimaliLinea);
+        }
+        foreach ($this->scontoMaggiorazione as $item) {
+            $totale = $item->applicaScontoMaggiorazione($totale, $quantita, $format ? $this->decimaliLinea : null);
         }
         return $totale;
     }

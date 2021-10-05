@@ -66,13 +66,18 @@ class ScontoMaggiorazione implements XmlSerializableInterface
      * @param float $totale
      * @return float
      */
-    public function applicaScontoMaggiorazione($totale)
+    public function applicaScontoMaggiorazione($totale, $quantita, $decimaliLinea)
     {
+        if ($this->importo && $decimaliLinea) {
+            $importo = fe_number_format($this->importo, $decimaliLinea);
+        } else {
+            $importo = $this->importo;
+        }
         if ($this->tipo ===  ScontoMaggiorazione::SCONTO) {
-            $totale -= $this->importo ?: ($totale * $this->percentuale);
+            $totale -= $this->importo ? ($importo * $quantita) : ($totale * $this->percentuale);
         }
         else if ($this->tipo ===  ScontoMaggiorazione::MAGGIORAZIONE) {
-            $totale += $this->importo ?: ($totale * $this->percentuale);
+            $totale += $this->importo ? ($importo * $quantita) : ($totale * $this->percentuale);
         }
         return $totale;
     }
