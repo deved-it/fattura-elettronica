@@ -156,10 +156,10 @@ class DatiGenerali implements XmlSerializableInterface
         if ($this->scontoMaggiorazione) {
             $this->scontoMaggiorazione->toXmlBlock($writer);
         }
+        $writer->writeElement('ImportoTotaleDocumento', fe_number_format($this->importoTotaleDocumento, 2));
         if ($this->causale) {
             $writer->writeElement('Causale', $this->causale);
         }
-        $writer->writeElement('ImportoTotaleDocumento', fe_number_format($this->importoTotaleDocumento, 2));
         $this->writeXmlFields($writer);
         $writer->endElement();
 
