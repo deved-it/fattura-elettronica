@@ -126,7 +126,7 @@ class Linea implements XmlSerializableInterface
         foreach ($this->scontoMaggiorazione as $item) {
             $totale = $item->applicaScontoMaggiorazione($totale, $quantita, $format ? $this->decimaliLinea : null);
         }
-        return $totale;
+        return fe_number_format($totale, $this->decimaliLinea);
     }
 
     /**
