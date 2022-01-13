@@ -14,6 +14,10 @@ namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\Dat
 use Deved\FatturaElettronica\Traits\MagicFieldsTrait;
 use Deved\FatturaElettronica\XmlSerializableInterface;
 
+/**
+ * @property string $Natura valori: \Codifiche\Natura
+ * @property string $RiferimentoNormativo
+ */
 class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
 {
     use MagicFieldsTrait;
@@ -64,7 +68,6 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
     {
         /** @var DatiRiepilogo $block */
         foreach ($this as $block) {
-            $natura = $block->natura;
             $writer->startElement('DatiRiepilogo');
             $writer->writeElement('AliquotaIVA', fe_number_format($block->aliquotaIVA, 2));
             $block->writeXmlField('Natura', $writer);
@@ -73,7 +76,7 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
             }
             $writer->writeElement('ImponibileImporto', fe_number_format($block->imponibileImporto, 2));
             $writer->writeElement('Imposta', fe_number_format($block->imposta, 2));
-            if (!$natura) {
+            if (!$block->Natura) {
                 $writer->writeElement('EsigibilitaIVA', $block->esigibilitaIVA);
             }
             $block->writeXmlFields($writer);
