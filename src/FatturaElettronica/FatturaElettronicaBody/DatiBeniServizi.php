@@ -11,6 +11,7 @@
 
 namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody;
 
+use Deved\FatturaElettronica\Codifiche\Natura;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi\DatiRiepilogo;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi\DettaglioLinee;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi\Linea;
@@ -60,13 +61,47 @@ class DatiBeniServizi implements XmlSerializableInterface
      */
     protected function calcolaDatiRiepilogo()
     {
-        $imponibile = 0;
-        $aliquota = 22;
+        $collezione = [];
+
         /** @var Linea $linea */
         foreach ($this->dettaglioLinee as $linea) {
-            $imponibile += $linea->prezzoTotale(false);
-            $aliquota = $linea->getAliquotaIva();
+            $riferimento = sprintf('%.2d-%s', $linea->getAliquotaIva(), $linea->Natura);
+
+            if (!isset($collezione[$riferimento])) {
+                $collezione[$riferimento] = [
+                    'totale'   => 0,
+                    'aliquota' => $linea->getAliquotaIva(),
+                    'natura'   => $linea->Natura
+                ];
+            }
+
+            $collezione[$riferimento]['totale'] += $linea->prezzoTotale(false);
         }
-        return new DatiRiepilogo($imponibile, $aliquota);
+
+        /** @var DatiRiepilogo $riepilogoRitorno */
+        $riepilogoRitorno = null;
+
+        foreach ($collezione as $dati) {
+            /** @var DatiRiepilogo $riepilogo */
+            $riepilogo = new DatiRiepilogo($dati['totale'], $dati['aliquota']);
+
+            if ($dati['natura']) {
+                $riepilogo->Natura = $dati['natura'];
+                $riepilogo->RiferimentoNormativo = Natura::descrizione($dati['natura']);
+            }
+
+            if (!$riepilogoRitorno) {
+                $riepilogoRitorno = $riepilogo;
+                continue;
+            }
+
+            $riepilogoRitorno->addDatiRiepilogo($riepilogo);
+        }
+
+        if (!$riepilogoRitorno) {
+            $riepilogoRitorno = new DatiRiepilogo(0, 22);
+        }
+
+        return $riepilogoRitorno;
     }
 }

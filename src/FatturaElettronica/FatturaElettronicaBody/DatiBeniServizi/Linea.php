@@ -14,6 +14,9 @@ namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\Dat
 use Deved\FatturaElettronica\Traits\MagicFieldsTrait;
 use Deved\FatturaElettronica\XmlSerializableInterface;
 
+/**
+ * @property string $Natura valori: \Codifiche\Natura
+ */
 class Linea implements XmlSerializableInterface
 {
     use MagicFieldsTrait;
