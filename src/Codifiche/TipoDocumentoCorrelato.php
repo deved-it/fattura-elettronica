@@ -15,7 +15,7 @@ namespace Deved\FatturaElettronica\Codifiche;
 abstract class TipoDocumentoCorrelato
 {
     const OrdineAcquisto = 'DatiOrdineAcquisto';
-    const Contratto = 'DatiDocumentoCorrelato';
+    const Contratto = 'DatiContratto';
     const Convenzione = 'DatiConvenzione';
     const Ricezione = 'DatiRicezione';
     const FattureCollegate = 'DatiFattureCollegate';
