@@ -43,7 +43,7 @@ class FatturaElettronica implements XmlSerializableInterface, FatturaElettronica
     public function toXmlBlock(\XMLWriter $writer)
     {
         $writer->startElementNS('p', 'FatturaElettronica', null);
-        $writer->writeAttribute('versione', 'FPR12');
+        $writer->writeAttribute('versione', $this->fatturaElettronicaHeader->datiTrasmissione->formatoTrasmissione);
         $writer->writeAttributeNS('xmlns', 'ds', null, 'http://www.w3.org/2000/09/xmldsig#');
         $writer->writeAttributeNS('xmlns', 'p', null, 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2');
         $writer->writeAttributeNS('xmlns', 'xsi', null, 'http://www.w3.org/2001/XMLSchema-instance');
