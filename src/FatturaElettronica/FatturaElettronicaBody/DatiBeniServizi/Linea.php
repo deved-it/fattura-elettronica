@@ -11,13 +11,14 @@
 
 namespace Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi;
 
+use Deved\FatturaElettronica\Enum\NaturaIvaType;
 use Deved\FatturaElettronica\Traits\MagicFieldsTrait;
 use Deved\FatturaElettronica\XmlSerializableInterface;
 
 class Linea implements XmlSerializableInterface
 {
     use MagicFieldsTrait;
-    /** @var integer */
+    /** @var int */
     protected $numeroLinea;
     /** @var string */
     protected $codiceArticolo;
@@ -39,6 +40,8 @@ class Linea implements XmlSerializableInterface
     protected $decimaliLinea;
     /** @var string */
     protected $tipoCessionePrestazione;
+    /** @var NaturaIvaType|null */
+    protected $naturaIva;
 
 
     /**
@@ -61,7 +64,8 @@ class Linea implements XmlSerializableInterface
         $aliquotaIva = 22.00,
         $codiceTipo = 'FORN',
         $decimaliLinea = 2,
-        $tipoCessionePrestazione = null
+        $tipoCessionePrestazione = null,
+        $naturaIva = null 
     ) {
         $this->codiceArticolo = $codiceArticolo;
         $this->descrizione = $descrizione;
@@ -72,6 +76,7 @@ class Linea implements XmlSerializableInterface
         $this->codiceTipo = $codiceTipo;
         $this->decimaliLinea = $decimaliLinea;
         $this->tipoCessionePrestazione = $tipoCessionePrestazione;
+        $this->naturaIva = $naturaIva;
     }
 
 
@@ -105,6 +110,9 @@ class Linea implements XmlSerializableInterface
         }
         $writer->writeElement('PrezzoTotale', $this->prezzoTotale());
         $writer->writeElement('AliquotaIVA', fe_number_format($this->aliquotaIva, 2));
+        if($this->naturaIva !== null) {
+            $writer->writeElement('Natura', $this->naturaIva);
+        }    
         $this->writeXmlFields($writer);
         $writer->endElement();
         return $writer;
