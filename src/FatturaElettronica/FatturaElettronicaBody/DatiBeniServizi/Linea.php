@@ -99,7 +99,7 @@ class Linea implements XmlSerializableInterface
         }
         $writer->writeElement('Descrizione', $this->descrizione);
         if ($this->quantita) {
-            $writer->writeElement('Quantita', fe_number_format($this->quantita, $this->decimaliLinea));
+            $writer->writeElement('Quantita', fe_number_format($this->quantita, $this->decimaliQuantita()));
             $writer->writeElement('UnitaMisura', $this->unitaMisura);
         }
         $this->writeXmlField('DataInizioPeriodo', $writer);
@@ -135,6 +135,16 @@ class Linea implements XmlSerializableInterface
             $totale = $item->applicaScontoMaggiorazione($totale, $quantita, $format ? $this->decimaliLinea : null);
         }
         return fe_number_format($totale, $this->decimaliLinea);
+    }
+
+    /**
+     * Restituisce il numero di decimali della quantita
+     *
+     * @return int
+     */
+    public function decimaliQuantita()
+    {
+        return max(min(strlen(substr(strrchr($this->quantita, "."), 1)), 8), 2);
     }
 
     /**
