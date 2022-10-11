@@ -74,10 +74,10 @@ class ScontoMaggiorazione implements XmlSerializableInterface
             $importo = $this->importo;
         }
         if ($this->tipo ===  ScontoMaggiorazione::SCONTO) {
-            $totale -= $this->importo ? ($importo * $quantita) : ($totale * $this->percentuale);
+            $totale -= $this->importo ? ($importo * $quantita) : ($totale * abs($this->percentuale/100));
         }
         else if ($this->tipo ===  ScontoMaggiorazione::MAGGIORAZIONE) {
-            $totale += $this->importo ? ($importo * $quantita) : ($totale * $this->percentuale);
+            $totale += $this->importo ? ($importo * $quantita) : ($totale * abs($this->percentuale/100));
         }
         return $totale;
     }
