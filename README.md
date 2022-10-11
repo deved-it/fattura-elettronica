@@ -13,7 +13,7 @@ Potete segnalare qualsiasi necessità o problema
 
 ## Installazione
 
-    composer require deved/fattura-elettronica
+    composer require assistenzagcvit/fattura-elettronica
     
 ## Documentazione
 
