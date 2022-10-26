@@ -69,7 +69,7 @@ class Linea implements XmlSerializableInterface
         $codiceTipo = 'FORN',
         $decimaliLinea = 2,
         $tipoCessionePrestazione = null,
-        $naturaIva = null 
+        $naturaIva = null,
         $natura = null
     ) {
         $this->codiceArticolo = $codiceArticolo;
