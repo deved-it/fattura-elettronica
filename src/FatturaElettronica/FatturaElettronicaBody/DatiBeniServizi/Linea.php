@@ -33,6 +33,7 @@ class Linea implements XmlSerializableInterface
     /** @var float */
     protected $aliquotaIva;
     /** @var string */
+
     protected $codiceTipo;
     /** @var ScontoMaggiorazione[]|null */
     protected $scontoMaggiorazione = [];
@@ -42,6 +43,7 @@ class Linea implements XmlSerializableInterface
     protected $tipoCessionePrestazione;
     /** @var NaturaIvaType|null */
     protected $naturaIva;
+    protected $natura;
 
 
     /**
@@ -54,6 +56,7 @@ class Linea implements XmlSerializableInterface
      * @param float $aliquotaIva
      * @param string $codiceTipo
      * @param int $decimaliLinea
+     * @param string $natura
      */
     public function __construct(
         $descrizione,
@@ -62,10 +65,12 @@ class Linea implements XmlSerializableInterface
         $quantita = null,
         $unitaMisura = 'pz',
         $aliquotaIva = 22.00,
+
         $codiceTipo = 'FORN',
         $decimaliLinea = 2,
         $tipoCessionePrestazione = null,
         $naturaIva = null 
+        $natura = null
     ) {
         $this->codiceArticolo = $codiceArticolo;
         $this->descrizione = $descrizione;
@@ -77,6 +82,7 @@ class Linea implements XmlSerializableInterface
         $this->decimaliLinea = $decimaliLinea;
         $this->tipoCessionePrestazione = $tipoCessionePrestazione;
         $this->naturaIva = $naturaIva;
+        $this->natura = $natura;
     }
 
 
@@ -93,7 +99,12 @@ class Linea implements XmlSerializableInterface
         }
         if ($this->codiceArticolo) {
             $writer->startElement('CodiceArticolo');
+
             $writer->writeElement('CodiceTipo', $this->codiceTipo);
+
+            $writer->writeElement('CodiceTipo', 'FORN');
+            //todo: implementare altri tipi di codice
+
             $writer->writeElement('CodiceValore', $this->codiceArticolo);
             $writer->endElement();
         }
@@ -110,9 +121,14 @@ class Linea implements XmlSerializableInterface
         }
         $writer->writeElement('PrezzoTotale', $this->prezzoTotale());
         $writer->writeElement('AliquotaIVA', fe_number_format($this->aliquotaIva, 2));
+
         if($this->naturaIva !== null) {
             $writer->writeElement('Natura', $this->naturaIva);
         }    
+
+        if ($this->natura) {
+            $writer->writeElement('Natura', $this->natura);
+        }
         $this->writeXmlFields($writer);
         $writer->endElement();
         return $writer;
