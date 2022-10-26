@@ -1,17 +1,15 @@
 <?php
 /**
- * This file is part of deved/fattura-elettronica
- *
- * Copyright (c) Salvatore Guarino <sg@deved.it>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
+ * Created by PhpStorm.
+ * User: salgua
+ * Date: 17/12/2018
+ * Time: 16:23
  */
 
 namespace Deved\FatturaElettronica\Tests;
 
 use Deved\FatturaElettronica\Codifiche\ModalitaPagamento;
+use Deved\FatturaElettronica\Codifiche\Natura;
 use Deved\FatturaElettronica\Codifiche\RegimeFiscale;
 use Deved\FatturaElettronica\Codifiche\TipoDocumento;
 use Deved\FatturaElettronica\FatturaElettronica;
@@ -19,14 +17,15 @@ use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniS
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi\Linea;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiPagamento;
-use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiVeicoli;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\Common\DatiAnagrafici;
 use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaHeader\Common\Sede;
 use Deved\FatturaElettronica\FatturaElettronicaFactory;
 use Deved\FatturaElettronica\XmlValidator;
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi\DatiRiepilogo;
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiBeniServizi\ScontoMaggiorazione;
 use PHPUnit\Framework\TestCase;
 
-class FatturaSempliceTest extends TestCase
+class FatturaScontoMaggiorazioneTest extends TestCase
 {
     /**
      * @return DatiAnagrafici
@@ -107,49 +106,22 @@ class FatturaSempliceTest extends TestCase
         DatiAnagrafici $datiAnagrafici,
         Sede $sede
     ) {
-        $factory->setCessionarioCommittente($datiAnagrafici, $sede, null, 'pippo-pec@pluto.it');
+        $factory->setCessionarioCommittente($datiAnagrafici, $sede);
         $this->assertInstanceOf(FatturaElettronicaFactory::class, $factory);
         return $factory;
     }
 
     /**
-     * @return DatiGenerali\DatiDdt
-     */
-    public function testDatiDdt()
-    {
-        $datiDdt = new DatiGenerali\DatiDdt('A1', '2018-11-10', ['1', '2']);
-        $datiDdt->addDatiDdt(new DatiGenerali\DatiDdt('A2', '2018-12-09', ['3', '4']));
-        $this->assertInstanceOf(DatiGenerali\DatiDdt::class, $datiDdt);
-        return $datiDdt;
-    }
-
-    /**
-     * @return DatiGenerali\DatiSal
-     */
-    public function testDatiSal()
-    {
-        $datiDdt = new DatiGenerali\DatiSal(1);
-        $this->assertInstanceOf(DatiGenerali\DatiSal::class, $datiDdt);
-        return $datiDdt;
-    }
-
-    /**
-     * @depends testDatiDdt
-     * @depends testDatiSal
-     * @param DatiGenerali\DatiDdt $datiDdt
      * @return DatiGenerali
      */
-    public function testCreateDatiGenerali(DatiGenerali\DatiDdt $datiDdt, DatiGenerali\DatiSal $datiSal)
+    public function testCreateDatiGenerali()
     {
         $datiGenerali = new DatiGenerali(
             TipoDocumento::Fattura,
             '2018-11-22',
             '2018221111',
-            122
+            116
         );
-        $datiGenerali->setDatiDdt($datiDdt);
-        $datiGenerali->setDatiSal($datiSal);
-        $datiGenerali->Causale = "Fattura di prova";
         $this->assertInstanceOf(DatiGenerali::class, $datiGenerali);
         return $datiGenerali;
     }
@@ -162,7 +134,7 @@ class FatturaSempliceTest extends TestCase
         $datiPagamento = new DatiPagamento(
             ModalitaPagamento::SEPA_CORE,
             '2018-11-30',
-            122
+            116
         );
         $this->assertInstanceOf(DatiPagamento::class, $datiPagamento);
         return $datiPagamento;
@@ -173,9 +145,16 @@ class FatturaSempliceTest extends TestCase
      */
     public function testCreateLinee()
     {
+        $sc = new ScontoMaggiorazione(ScontoMaggiorazione::SCONTO, 20, null);
+        $mg = new ScontoMaggiorazione(ScontoMaggiorazione::MAGGIORAZIONE, null, 5);
         $linee = [];
-        $linee[] = new Linea('Articolo1', 50, 'ABC');
-        $linee[]= new Linea('Articolo2', 25, '3286340685115', 2, 'pz', 22.00, 'EAN');
+        $linea1 = new Linea('Articolo1', 50, 'ABC',1,'pz',22);
+        $linea1->setScontoMaggiorazione($sc);
+        $linea1->setScontoMaggiorazione($mg);
+        $linee[] = $linea1;
+        $linea2 = new Linea('Articolo2', 50, 'CDE', 1,'pz',22);
+        $linea2->setScontoMaggiorazione($sc);
+        $linee[] = $linea2;
         $this->assertCount(2, $linee);
         return $linee;
     }
@@ -193,13 +172,13 @@ class FatturaSempliceTest extends TestCase
     }
 
     /**
-     * @return DatiVeicoli
+     * @return DatiRiepilogo
      */
-    public function testCreateDatiVeicoli()
+    public function testDatiRiepilogo()
     {
-        $datiVeicoli = new DatiVeicoli(date('Y-m-d'), '100 KM');
-        $this->assertInstanceOf(DatiVeicoli::class, $datiVeicoli);
-        return $datiVeicoli;
+        $datiRiepilogo = new DatiRiepilogo(100,22,'I');
+        $this->assertInstanceOf(DatiRiepilogo::class, $datiRiepilogo);
+        return $datiRiepilogo;
     }
 
     /**
@@ -207,12 +186,12 @@ class FatturaSempliceTest extends TestCase
      * @depends testCreateDatiGenerali
      * @depends testCreateDatiPagamento
      * @depends testCreateDettaglioLinee
-     * @depends testCreateDatiVeicoli
+     * @depends testDatiRiepilogo
      * @param FatturaElettronicaFactory $factory
      * @param DatiGenerali $datiGenerali
      * @param DatiPagamento $datiPagamento
      * @param DettaglioLinee $dettaglioLinee
-     * @param DatiVeicoli $datiVeicoli
+     * @param DatiRiepilogo $datiRiepilogo
      * @return \Deved\FatturaElettronica\FatturaElettronica
      * @throws \Exception
      */
@@ -221,17 +200,9 @@ class FatturaSempliceTest extends TestCase
         DatiGenerali $datiGenerali,
         DatiPagamento $datiPagamento,
         DettaglioLinee $dettaglioLinee,
-        DatiVeicoli $datiVeicoli
+        DatiRiepilogo $datiRiepilogo
     ) {
-        $fattura = $factory->create(
-            $datiGenerali,
-            $datiPagamento,
-            $dettaglioLinee,
-            '12345',
-            null,
-            null,
-            $datiVeicoli
-        );
+        $fattura = $factory->create($datiGenerali, $datiPagamento, $dettaglioLinee, '12345', $datiRiepilogo);
         $this->assertInstanceOf(FatturaElettronica::class, $fattura);
         return $fattura;
     }
@@ -245,6 +216,7 @@ class FatturaSempliceTest extends TestCase
         $name = $fattura->getFileName();
         $this->assertTrue(strlen($name) > 5);
     }
+
 
     /**
      * @depends testCreateFattura

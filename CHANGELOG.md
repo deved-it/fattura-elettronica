@@ -4,6 +4,67 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.25] - 2022-08-29
+### Fixed
+-  Hotfix numero decimali quantità linea #103 by danielebuso
+
+## [1.1.24] - 2022-05-23
+### Fixed
+-  Aggiunta gestione natura iva #102 by @snipershady
+
+## [1.1.23] - 2022-04-13
+### Fixed
+- Hotfix formato trasmissione FPR12/FPA12 in nodo radice #99 by danielebuso
+
+## [1.1.22] - 2022-03-02
+### Fixed
+- Fix DatiContratto su DatiDocumentiCorrelati #98 by danielebuso
+
+## [1.1.21] - 2021-10-06
+### Fixed
+- Fix sconto e maggiorazione su importo #93 by danielebuso
+
+## [1.1.20] - 2021-10-05
+### Fixed
+- Fix sconto e maggiorazione su importo #92 by danielebuso
+
+## [1.1.19] - 2021-09-02
+### Fixed
+- Sistemato ordine Causale fattura #91 by danielebuso
+
+## [1.1.18] - 2021-08-26
+### Added
+- Aggiunto Arrotondamento e TipoCessionePrestazione #90 by danielebuso
+
+## [1.1.17] - 2021-08-25
+### Added
+- Aggiunta impostazione decimali per linea #89 by danielebuso
+
+## [1.1.16] - 2021-05-28
+### Added
+- Aggiunti supporto ai tipi DatiDocumentiCorrelati #88 by danielebuso
+- Aggiunto supporto ScontoMaggiorazione linee #86 by danielebuso 
+- Aggiunto Titolo e CodEORI per TerzoIntermediarioOSoggettoEmittente #85 by danielebuso
+- Aggiunto codice tipo documento TD24 #83 by danielebuso
+
+## [1.1.14] - 2021-01-27
+### Added 
+- Nuovi codici Natura, pull request #79 by vittominacori 
+- Nuovo schema XSD, pull request #79 by vittominacori 
+
+## [1.1.13]
+### Fixed 
+- Bug fix vari
+
+## [1.1.12] - 2019-04-26
+### Added 
+- Aggiunto tipo codice nella linea, pull request #72 by riktar
+- Aggiunto blocco DatiConvenzione, pull request #72 by riktar
+
+## [1.1.11] - 2019-04-26
+### Fixed 
+- Bug fix vari
+
 ## [1.1.10] - 2019-02-05
 ### Added 
 - Aggiunta possibilità di specificare DatiSAL e DatiVeicoli, pull request #51 by manrix

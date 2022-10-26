@@ -27,7 +27,7 @@ class DatiTrasmissione implements XmlSerializableInterface
     /** @var string */
     public $progressivoInvio;
     /** @var string */
-    protected $formatoTrasmissione;
+    public $formatoTrasmissione;
     /** @var string */
     protected $codiceDestinatario;
     /** @var array  */
