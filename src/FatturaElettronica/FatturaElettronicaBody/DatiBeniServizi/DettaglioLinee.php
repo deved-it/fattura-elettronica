@@ -63,7 +63,7 @@ class DettaglioLinee implements \Countable, \Iterator, XmlSerializableInterface
      * @return mixed Can return any type.
      * @since 5.0.0
      */
-    public function current()
+    public function current():mixed
     {
         return $this->linee[$this->currentIndex];
     }
@@ -74,7 +74,7 @@ class DettaglioLinee implements \Countable, \Iterator, XmlSerializableInterface
      * @return void Any returned value is ignored.
      * @since 5.0.0
      */
-    public function next()
+    public function next():void
     {
         $this->currentIndex++;
     }
@@ -85,7 +85,7 @@ class DettaglioLinee implements \Countable, \Iterator, XmlSerializableInterface
      * @return mixed scalar on success, or null on failure.
      * @since 5.0.0
      */
-    public function key()
+    public function key():mixed
     {
         return $this->currentIndex;
     }
@@ -97,7 +97,7 @@ class DettaglioLinee implements \Countable, \Iterator, XmlSerializableInterface
      * Returns true on success or false on failure.
      * @since 5.0.0
      */
-    public function valid()
+    public function valid():bool
     {
         return isset($this->linee[$this->currentIndex]);
     }
@@ -108,7 +108,7 @@ class DettaglioLinee implements \Countable, \Iterator, XmlSerializableInterface
      * @return void Any returned value is ignored.
      * @since 5.0.0
      */
-    public function rewind()
+    public function rewind():void
     {
         $this->currentIndex = 0;
     }
@@ -122,7 +122,7 @@ class DettaglioLinee implements \Countable, \Iterator, XmlSerializableInterface
      * The return value is cast to an integer.
      * @since 5.1.0
      */
-    public function count()
+    public function count():int
     {
         return count($this->linee);
     }
