@@ -25,6 +25,10 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
     protected $imposta;
     /** @var string */
     protected $esigibilitaIVA = "I";
+    /** @var string */
+    protected $natura;
+    /** @var string */
+    protected $RiferimentoNormativo;
     /** @var DatiRiepilogo[] */
     protected $datiRiepilogoAggiuntivi = [];
     /** @var int  */
@@ -40,8 +44,10 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
      * @param $aliquotaIVA
      * @param string $esigibilitaIVA
      * @param bool $imposta
+     * @param string $natura
+     * @param string $RiferimentoNormativo
      */
-    public function __construct($imponibileImporto, $aliquotaIVA, $esigibilitaIVA = "I", $imposta = false, $arrotondamento = null, $decimaliArrotondamento = 2)
+    public function __construct($imponibileImporto, $aliquotaIVA, $esigibilitaIVA = "I", $imposta = false, $natura = null, $RiferimentoNormativo = null, $arrotondamento = null, $decimaliArrotondamento = 2)
     {
         if ($imposta === false) {
             $this->imposta = ($imponibileImporto / 100) * $aliquotaIVA;
@@ -51,6 +57,8 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
         $this->imponibileImporto = $imponibileImporto;
         $this->aliquotaIVA = $aliquotaIVA;
         $this->esigibilitaIVA = $esigibilitaIVA;
+        $this->natura = $natura;
+        $this->RiferimentoNormativo = $RiferimentoNormativo;
         $this->datiRiepilogoAggiuntivi[] = $this;
         $this->arrotondamento = $arrotondamento;
         $this->decimaliArrotondamento = $decimaliArrotondamento;
@@ -64,17 +72,26 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
     {
         /** @var DatiRiepilogo $block */
         foreach ($this as $block) {
-            $natura = $block->natura;
             $writer->startElement('DatiRiepilogo');
             $writer->writeElement('AliquotaIVA', fe_number_format($block->aliquotaIVA, 2));
+
+            // La posizione del campo natura deve essere dopo AliquotaIVA
+            if ($block->natura) {
+                $writer->writeElement('Natura', $block->natura);
+            }
+
             $block->writeXmlField('Natura', $writer);
             if ($block->arrotondamento) {
                 $writer->writeElement('Arrotondamento', fe_number_format($block->arrotondamento, $block->decimaliArrotondamento));
             }
             $writer->writeElement('ImponibileImporto', fe_number_format($block->imponibileImporto, 2));
             $writer->writeElement('Imposta', fe_number_format($block->imposta, 2));
-            if (!$natura) {
+            if ($block->esigibilitaIVA) {
                 $writer->writeElement('EsigibilitaIVA', $block->esigibilitaIVA);
+            }
+
+            if ($block->natura && $block->RiferimentoNormativo) {
+                $writer->writeElement('RiferimentoNormativo', $block->RiferimentoNormativo);
             }
             $block->writeXmlFields($writer);
             $writer->endElement();
@@ -93,7 +110,7 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
      * @return mixed Can return any type.
      * @since 5.0.0
      */
-    public function current()
+    public function current():mixed
     {
         return $this->datiRiepilogoAggiuntivi[$this->currentIndex];
     }
@@ -104,7 +121,7 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
      * @return void Any returned value is ignored.
      * @since 5.0.0
      */
-    public function next()
+    public function next():void
     {
         $this->currentIndex++;
     }
@@ -115,7 +132,7 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
      * @return mixed scalar on success, or null on failure.
      * @since 5.0.0
      */
-    public function key()
+    public function key():mixed
     {
         return $this->currentIndex;
     }
@@ -127,7 +144,7 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
      * Returns true on success or false on failure.
      * @since 5.0.0
      */
-    public function valid()
+    public function valid():bool
     {
         return isset($this->datiRiepilogoAggiuntivi[$this->currentIndex]);
     }
@@ -138,7 +155,7 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
      * @return void Any returned value is ignored.
      * @since 5.0.0
      */
-    public function rewind()
+    public function rewind():void
     {
         $this->currentIndex = 0;
     }
@@ -152,7 +169,7 @@ class DatiRiepilogo implements XmlSerializableInterface, \Countable, \Iterator
      * The return value is cast to an integer.
      * @since 5.1.0
      */
-    public function count()
+    public function count():int
     {
         return count($this->datiRiepilogoAggiuntivi);
     }
