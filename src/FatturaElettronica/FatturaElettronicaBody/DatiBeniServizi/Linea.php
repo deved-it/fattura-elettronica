@@ -44,7 +44,8 @@ class Linea implements XmlSerializableInterface
     /** @var NaturaIvaType|null */
     protected $naturaIva;
     protected $natura;
-
+    /** @var AltriDatiGestionali[]|null */
+    protected $altriDatiGestionali = [];
 
     /**
      * Linea constructor.
@@ -117,7 +118,7 @@ class Linea implements XmlSerializableInterface
         $this->writeXmlField('DataFinePeriodo', $writer);
         $writer->writeElement('PrezzoUnitario', fe_number_format($this->prezzoUnitario, $this->decimaliLinea));
         foreach ($this->scontoMaggiorazione as $item) {
-            $item->toXmlBlock($writer);
+            $writer = $item->toXmlBlock($writer);
         }
         $writer->writeElement('PrezzoTotale', $this->prezzoTotale());
         $writer->writeElement('AliquotaIVA', fe_number_format($this->aliquotaIva, 2));
@@ -128,6 +129,9 @@ class Linea implements XmlSerializableInterface
 
         if ($this->natura) {
             $writer->writeElement('Natura', $this->natura);
+        }
+        foreach ($this->altriDatiGestionali as $item) {
+            $writer = $item->toXmlBlock($writer);
         }
         $this->writeXmlFields($writer);
         $writer->endElement();
@@ -186,5 +190,10 @@ class Linea implements XmlSerializableInterface
     public function setScontoMaggiorazione(ScontoMaggiorazione $scontoMaggiorazione)
     {
         $this->scontoMaggiorazione[] = $scontoMaggiorazione;
+    }
+
+    public function setAltriDatiGestionali(AltriDatiGestionali $altriDatiGestionali)
+    {
+        $this->altriDatiGestionali[] = $altriDatiGestionali;
     }
 }

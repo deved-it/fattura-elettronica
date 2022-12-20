@@ -21,8 +21,7 @@ class ScontoMaggiorazione implements XmlSerializableInterface
     const SCONTO = 'SC';
     const MAGGIORAZIONE = 'MG';
 
-    /** @var ScontoMaggiorazione */
-    protected $scontoMaggiorazione;
+
     /** @var string */
     public $tipo;
     /** @var float */
