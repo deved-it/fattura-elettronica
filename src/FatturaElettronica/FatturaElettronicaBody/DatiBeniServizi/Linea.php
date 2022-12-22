@@ -103,9 +103,6 @@ class Linea implements XmlSerializableInterface
 
             $writer->writeElement('CodiceTipo', $this->codiceTipo);
 
-            $writer->writeElement('CodiceTipo', 'FORN');
-            //todo: implementare altri tipi di codice
-
             $writer->writeElement('CodiceValore', $this->codiceArticolo);
             $writer->endElement();
         }
