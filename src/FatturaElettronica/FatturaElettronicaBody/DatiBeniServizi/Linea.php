@@ -109,7 +109,7 @@ class Linea implements XmlSerializableInterface
         $writer->writeElement('Descrizione', $this->descrizione);
         if ($this->quantita) {
             $writer->writeElement('Quantita', fe_number_format($this->quantita, $this->decimaliQuantita()));
-            $writer->writeElement('UnitaMisura', $this->unitaMisura);
+            if(!empty($this->unitaMisura)) $writer->writeElement('UnitaMisura', $this->unitaMisura);
         }
         $this->writeXmlField('DataInizioPeriodo', $writer);
         $this->writeXmlField('DataFinePeriodo', $writer);
