@@ -26,6 +26,7 @@ class CedentePrestatore implements XmlSerializableInterface
     protected $sede;
     /** @var IscrizioneRea */
     protected $iscrizioneRea;
+    protected $riferimentoAmministrazione;
 
 
     /**
@@ -53,6 +54,14 @@ class CedentePrestatore implements XmlSerializableInterface
     }
 
     /**
+     * @param string $riferimentoAmministrazione
+     */
+    public function setRiferimentoAmministrazione($riferimentoAmministrazione)
+    {
+        $this->riferimentoAmministrazione = $riferimentoAmministrazione;
+    }
+
+    /**
      * @param \XMLWriter $writer
      * @return \XMLWriter
      */
@@ -63,6 +72,9 @@ class CedentePrestatore implements XmlSerializableInterface
             $this->sede->toXmlBlock($writer);
             if ($this->iscrizioneRea) {
                 $this->iscrizioneRea->toXmlBlock($writer);
+            }
+            if ($this->riferimentoAmministrazione) {
+                $writer->writeElement('RiferimentoAmministrazione', $this->riferimentoAmministrazione);
             }
             $this->writeXmlFields($writer);
         $writer->endElement();

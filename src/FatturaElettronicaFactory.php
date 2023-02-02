@@ -100,6 +100,14 @@ class FatturaElettronicaFactory
     }
 
     /**
+     * @param string $riferimentoAmministrazione
+     */
+    public function setRiferimentoAmministrazione($riferimentoAmministrazione)
+    {
+        $this->cedentePrestatore->setRiferimentoAmministrazione($riferimentoAmministrazione);
+    }
+
+    /**
      * @param IdTrasmittente $idTrasmittente
      */
     public function setIdTrasmittente(IdTrasmittente $idTrasmittente)
