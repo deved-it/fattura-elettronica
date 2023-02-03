@@ -124,6 +124,14 @@ class FatturaAdapter implements FatturaElettronicaInterface
     }
 
     /**
+     * @param string $riferimentoAmministrazione
+     */
+    public function setRiferimentoAmministrazione($riferimentoAmministrazione)
+    {
+        $this->fatturaElettronicaHeader->cedentePrestatore->setRiferimentoAmministrazione($riferimentoAmministrazione);
+    }
+
+    /**
      * Verifica l'xml della fattura
      * @return bool
      * @throws \Exception

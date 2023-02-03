@@ -106,4 +106,12 @@ class FatturaElettronica implements XmlSerializableInterface, FatturaElettronica
     {
         $this->fatturaElettronicaHeader->cedentePrestatore->setIscrizioneRea($iscrizioneRea);
     }
+
+    /**
+     * @param string $riferimentoAmministrazione
+     */
+    public function setRiferimentoAmministrazione($riferimentoAmministrazione)
+    {
+        $this->fatturaElettronicaHeader->cedentePrestatore->setRiferimentoAmministrazione($riferimentoAmministrazione);
+    }
 }
