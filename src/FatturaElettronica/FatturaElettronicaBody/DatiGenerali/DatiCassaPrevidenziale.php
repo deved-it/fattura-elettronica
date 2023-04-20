@@ -83,7 +83,17 @@ class DatiCassaPrevidenziale implements XmlSerializableInterface
                 $writer->writeElement('ImponibileCassa', fe_number_format($this->imponibile,2));
                 $writer->writeElement('AliquotaIVA', fe_number_format($this->aliquotaIVA,2));
 		if ($this->ritenuta) {
-			$this->ritenuta->toXmlBlock($writer);
+            /**
+             * Pag.44 documentazione ufficiale
+             *
+             * Ritenuta: indica se il contributo cassa è soggetto a
+             *   ritenuta. Se soggetta (elemento valorizzato con SI) il
+             *   sistema controlla la presenza del blocco DatiRitenuta di
+             *   cui sopra: se questo blocco è assente, il file viene
+             *   scartato con codice errore 00415.
+             */
+            $writer->writeElement('Ritenuta', $this->ritenuta);
+			// $this->ritenuta->toXmlBlock($writer); -- è sbagliato! non è un oggetto ritenuta ma un campo di check per verificare se la ritenuta esiste quindi -> "SI" || **
 		}
 		if ($this->natura) {
 			$this->natura->toXmlBlock($writer);
