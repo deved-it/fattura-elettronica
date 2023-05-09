@@ -95,9 +95,10 @@ class DatiCassaPrevidenziale implements XmlSerializableInterface
             $writer->writeElement('Ritenuta', $this->ritenuta);
 			// $this->ritenuta->toXmlBlock($writer); -- è sbagliato! non è un oggetto ritenuta ma un campo di check per verificare se la ritenuta esiste quindi -> "SI" || **
 		}
-		if ($this->natura) {
-			$this->natura->toXmlBlock($writer);
-		}
+        if ($this->natura) {
+            // $this->natura->toXmlBlock($writer); -- è sbagliato! non è un oggetto ritenuta ma un campo di testuale con la natura quindi -> "N*" || null
+            $writer->writeElement('Natura', $this->natura);
+        }
 		if ($this->riferimentoAmministrazione) {
 			$writer->writeElement('RiferimentoAmministrazione', $this->riferimentoAmministrazione);
 		}
