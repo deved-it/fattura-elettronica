@@ -53,9 +53,7 @@ class DatiCassaPrevidenziale implements XmlSerializableInterface
 */
     /**
      * DatiCassaPrevidenziale constructor.
-     * @param string $numeroDdt
-     * @param string $dataDdt
-     * @param array $riferimentoNumeroLinee
+     * 
      */
     public function __construct($tipo, $alCassa, $importo, $imponibile, $aliquotaIVA, $ritenuta, $natura, $riferimento)
     {
@@ -86,7 +84,7 @@ class DatiCassaPrevidenziale implements XmlSerializableInterface
 			$this->ritenuta->toXmlBlock($writer);
 		}
 		if ($this->natura) {
-			$this->natura->toXmlBlock($writer);
+			$writer->writeElement('Natura', $this->natura);
 		}
 		if ($this->riferimentoAmministrazione) {
 			$writer->writeElement('RiferimentoAmministrazione', $this->riferimentoAmministrazione);
