@@ -59,11 +59,15 @@ class DatiConvenzione implements XmlSerializableInterface {
       }
     }
     $writer->writeElement('IdDocumento', $this->idDocumento);
-    $writer->writeElement('Data', $this->data);
+    if ($this->data) {
+      $writer->writeElement('Data', $this->data);
+    }
     if ($this->numItem) {
       $writer->writeElement('NumItem', $this->numItem);
     }
-    $writer->writeElement('CodiceCommessaConvenzione', $this->codiceCommessaConvenzione);
+    if ($this->codiceCommessaConvenzione) {
+      $writer->writeElement('CodiceCommessaConvenzione', $this->codiceCommessaConvenzione);
+    }
 
     if ($this->codiceCUP) {
       $writer->writeElement('CodiceCUP', $this->codiceCUP);
