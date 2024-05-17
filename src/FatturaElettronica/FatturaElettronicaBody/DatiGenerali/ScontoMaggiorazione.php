@@ -52,7 +52,7 @@ class ScontoMaggiorazione implements XmlSerializableInterface
         $writer->startElement('ScontoMaggiorazione');
         $writer->writeElement('Tipo', $this->tipo);
         if ($this->percentuale) {
-            $writer->writeElement('Percentuale', fe_number_format($this->percentuale, 2));
+            $writer->writeElement('Percentuale', fe_number_format($this->percentuale, 8));
         }
         if ($this->importo) {
             $writer->writeElement('Importo', fe_number_format($this->importo, 2));
