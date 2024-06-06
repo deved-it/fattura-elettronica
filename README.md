@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/deved-it/fattura-elettronica.svg?branch=master)](https://travis-ci.org/deved-it/fattura-elettronica)
 [![Total Downloads](https://img.shields.io/packagist/dt/deved/fattura-elettronica.svg?style=flat-square)](https://packagist.org/packages/deved/fattura-elettronica)
 [![License](https://poser.pugx.org/deved/fattura-elettronica/license)](https://packagist.org/packages/deved/fattura-elettronica)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdeved-it%2Ffattura-elettronica.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fdeved-it%2Ffattura-elettronica?ref=badge_shield)
 
 # Fattura Elettronica verso privati e PA
 
@@ -18,3 +19,7 @@ Potete segnalare qualsiasi necessità o problema
 ## Documentazione
 
 [deved-it.github.io/fattura-elettronica](https://deved-it.github.io/fattura-elettronica)
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdeved-it%2Ffattura-elettronica.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fdeved-it%2Ffattura-elettronica?ref=badge_large)
