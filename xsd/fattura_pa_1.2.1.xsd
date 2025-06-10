@@ -428,6 +428,11 @@
           <xs:documentation>Fattura per autoconsumo o per cessioni gratuite senza rivalsa</xs:documentation>
         </xs:annotation>
       </xs:enumeration>
+      <xs:enumeration value="TD29">
+        <xs:annotation>
+          <xs:documentation>Comunicazione per omessa o irregolare fatturazione (art. 6, comma 8, D.Lgs. 471/97)</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="TipoRitenutaType">
