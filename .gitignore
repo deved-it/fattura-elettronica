@@ -5,4 +5,5 @@
 /phpcs.xml
 /.phpcs-cache
 /phpstan.neon
-/.composer.lock
+composer.lock
+.phpunit.result.cache
