@@ -7,9 +7,7 @@
 # Fattura Elettronica verso privati e PA
 
 ## Descrizione
-La libreria è stata testata generando solo fatture semplici. 
-I casi particolari non sono stati ancora trattati. 
-Potete segnalare qualsiasi necessità o problema 
+Libreria PHP per la generazione di fatture elettroniche italiane in formato XML conforme alle specifiche tecniche dell'Agenzia delle Entrate. La libreria supporta la creazione di fatture sia verso privati (B2B/B2C) che verso la Pubblica Amministrazione (PA).
 [qui](https://github.com/deved-it/fattura-elettronica/issues/new).
 
 ## Installazione
