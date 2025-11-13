@@ -151,6 +151,7 @@ if ($fattura->verifica()) {
 }
 ```
 
+
 ### Esempio con quantità e aliquota IVA
 
 ```php
