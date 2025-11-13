@@ -1,5 +1,5 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/deved/fattura-elettronica.svg?style=flat-square)](https://packagist.org/packages/deved/fattura-elettronica)
-[![Build Status](https://travis-ci.org/deved-it/fattura-elettronica.svg?branch=master)](https://travis-ci.org/deved-it/fattura-elettronica)
+[![Build Status](https://github.com/deved-it/fattura-elettronica/actions/workflows/php.yml/badge.svg)](https://github.com/deved-it/fattura-elettronica/actions/workflows/php.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/deved/fattura-elettronica.svg?style=flat-square)](https://packagist.org/packages/deved/fattura-elettronica)
 [![License](https://poser.pugx.org/deved/fattura-elettronica/license)](https://packagist.org/packages/deved/fattura-elettronica)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdeved-it%2Ffattura-elettronica.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fdeved-it%2Ffattura-elettronica?ref=badge_shield)
