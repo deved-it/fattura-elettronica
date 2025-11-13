@@ -32,7 +32,7 @@ abstract class XmlRepeatedBlock extends XmlBlock implements \Countable, \Iterato
      * @return mixed Can return any type.
      * @since 5.0.0
      */
-    public function current()
+    public function current(): mixed
     {
         return $this->blocks[$this->currentIndex];
     }
@@ -43,7 +43,7 @@ abstract class XmlRepeatedBlock extends XmlBlock implements \Countable, \Iterato
      * @return void Any returned value is ignored.
      * @since 5.0.0
      */
-    public function next()
+    public function next(): void
     {
         $this->currentIndex++;
     }
@@ -54,7 +54,7 @@ abstract class XmlRepeatedBlock extends XmlBlock implements \Countable, \Iterato
      * @return mixed scalar on success, or null on failure.
      * @since 5.0.0
      */
-    public function key()
+    public function key(): mixed
     {
         return $this->currentIndex;
     }
@@ -66,7 +66,7 @@ abstract class XmlRepeatedBlock extends XmlBlock implements \Countable, \Iterato
      * Returns true on success or false on failure.
      * @since 5.0.0
      */
-    public function valid()
+    public function valid(): bool
     {
         return isset($this->blocks[$this->currentIndex]);
     }
@@ -77,7 +77,7 @@ abstract class XmlRepeatedBlock extends XmlBlock implements \Countable, \Iterato
      * @return void Any returned value is ignored.
      * @since 5.0.0
      */
-    public function rewind()
+    public function rewind(): void
     {
         $this->currentIndex = 0;
     }
@@ -91,7 +91,7 @@ abstract class XmlRepeatedBlock extends XmlBlock implements \Countable, \Iterato
      * The return value is cast to an integer.
      * @since 5.1.0
      */
-    public function count()
+    public function count(): int
     {
         return count($this->blocks);
     }

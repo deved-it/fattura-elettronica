@@ -64,7 +64,7 @@ class DatiDocumentoCorrelato implements XmlSerializableInterface, \Countable, \I
      * @return mixed Can return any type.
      * @since 5.0.0
      */
-    public function current()
+    public function current(): mixed
     {
         return $this->datiDocumentiCorrelati[$this->currentIndex];
     }
@@ -75,7 +75,7 @@ class DatiDocumentoCorrelato implements XmlSerializableInterface, \Countable, \I
      * @return void Any returned value is ignored.
      * @since 5.0.0
      */
-    public function next()
+    public function next(): void
     {
         $this->currentIndex++;
     }
@@ -86,7 +86,7 @@ class DatiDocumentoCorrelato implements XmlSerializableInterface, \Countable, \I
      * @return mixed scalar on success, or null on failure.
      * @since 5.0.0
      */
-    public function key()
+    public function key(): mixed
     {
         return $this->currentIndex;
     }
@@ -98,7 +98,7 @@ class DatiDocumentoCorrelato implements XmlSerializableInterface, \Countable, \I
      * Returns true on success or false on failure.
      * @since 5.0.0
      */
-    public function valid()
+    public function valid(): bool
     {
         return isset($this->datiDocumentiCorrelati[$this->currentIndex]);
     }
@@ -109,7 +109,7 @@ class DatiDocumentoCorrelato implements XmlSerializableInterface, \Countable, \I
      * @return void Any returned value is ignored.
      * @since 5.0.0
      */
-    public function rewind()
+    public function rewind(): void
     {
         $this->currentIndex = 0;
     }
@@ -123,7 +123,7 @@ class DatiDocumentoCorrelato implements XmlSerializableInterface, \Countable, \I
      * The return value is cast to an integer.
      * @since 5.1.0
      */
-    public function count()
+    public function count(): int
     {
         return count($this->datiDocumentiCorrelati);
     }

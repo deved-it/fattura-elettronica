@@ -30,13 +30,13 @@ class DatiConvenzione implements XmlSerializableInterface {
    * DatiContratto constructor.
    * @param string $idDocumento
    * @param string $data
-   * @param int[] $riferimentoNumeroLinee
    * @param string $codiceCommessaConvenzione
+   * @param int[] $riferimentoNumeroLinee
    * @param string $numItem
    * @param string $codiceCUP
    * @param string $codiceCIG
    */
-  public function __construct($idDocumento, $data, $riferimentoNumeroLinee = [], $codiceCommessaConvenzione, $numItem = '', $codiceCUP = null, $codiceCIG = null) {
+  public function __construct($idDocumento, $data, $codiceCommessaConvenzione, $riferimentoNumeroLinee = [], $numItem = '', $codiceCUP = null, $codiceCIG = null) {
     $this->idDocumento = $idDocumento;
     $this->riferimentoNumeroLinee = $riferimentoNumeroLinee;
     $this->data = $data;

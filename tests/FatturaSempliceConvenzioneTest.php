@@ -120,7 +120,7 @@ class FatturaSempliceConvenzioneTest extends TestCase {
    * @return DatiGenerali\DatiDdt
    */
   public function testDatiConvenzione() {
-    $datiConvenzione = new DatiGenerali\DatiConvenzione('A1', '2018-11-11', ['1', '2'], 'PO-00001');
+    $datiConvenzione = new DatiGenerali\DatiConvenzione('A1', '2018-11-11', 'PO-00001', ['1', '2']);
     $this->assertInstanceOf(DatiGenerali\DatiConvenzione::class, $datiConvenzione);
     return $datiConvenzione;
   }
