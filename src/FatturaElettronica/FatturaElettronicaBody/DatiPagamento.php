@@ -17,6 +17,7 @@ use Deved\FatturaElettronica\XmlRepeatedBlock;
 class DatiPagamento extends XmlRepeatedBlock
 {
     public $modalitaPagamento;
+    public $dataRiferimentoTerminiPagamento;
     public $dataScadenzaPagamento;
     public $importoPagamento;
     public $iban;
@@ -31,6 +32,7 @@ class DatiPagamento extends XmlRepeatedBlock
      * @param string | null $iban
      * @param string | null $istitutoFinanziario
      * @param string $condizioniPagamento
+     * @param string | null $dataRiferimentoTerminiPagamento
      */
     public function __construct(
         $modalitaPagamento,
@@ -38,9 +40,11 @@ class DatiPagamento extends XmlRepeatedBlock
         $importoPagamento,
         $iban = null,
         $istitutoFinanziario = null,
-        $condizioniPagamento = 'TP02'
+        $condizioniPagamento = 'TP02',
+        $dataRiferimentoTerminiPagamento = null
     ) {
         $this->modalitaPagamento = $modalitaPagamento;
+        $this->dataRiferimentoTerminiPagamento = $dataRiferimentoTerminiPagamento;
         $this->dataScadenzaPagamento = $dataScadenzaPagamento;
         $this->importoPagamento = $importoPagamento;
         $this->iban = $iban;
@@ -61,6 +65,9 @@ class DatiPagamento extends XmlRepeatedBlock
             $writer->writeElement('CondizioniPagamento', $block->condizioniPagamento);
             $writer->startElement('DettaglioPagamento');
             $writer->writeElement('ModalitaPagamento', $block->modalitaPagamento);
+            if ($block->dataRiferimentoTerminiPagamento) {
+                $writer->writeElement('DataRiferimentoTerminiPagamento', $block->dataRiferimentoTerminiPagamento);
+            }
             if ($block->dataScadenzaPagamento) {
                 $writer->writeElement('DataScadenzaPagamento', $block->dataScadenzaPagamento);
             }
