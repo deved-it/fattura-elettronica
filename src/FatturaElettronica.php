@@ -88,9 +88,21 @@ class FatturaElettronica implements XmlSerializableInterface, FatturaElettronica
     public function verifica()
     {
         $this->xmlValidator = new XmlValidator();
+        
+        // Determine which schema to use based on formato trasmissione
+        $formatoTrasmissione = $this->fatturaElettronicaHeader->datiTrasmissione->formatoTrasmissione;
+        
+        if ($formatoTrasmissione === 'FPA12') {
+            $schemaPath = dirname(__FILE__) . '/../xsd/Schema_VFPA12_V1.2.3.xsd';
+        } elseif ($formatoTrasmissione === 'FPR12') {
+            $schemaPath = dirname(__FILE__) . '/../xsd/Schema_VFPR12_v1.2.3.xsd';
+        } else {
+            throw new \Exception("Formato trasmissione non valido: " . $formatoTrasmissione);
+        }
+        
         $isValid = $this->xmlValidator->validate(
             $this->toXml(),
-            dirname(__FILE__) . '/../xsd/fattura_pa_1.2.1.xsd'
+            $schemaPath
         );
         if (!$isValid) {
             throw new \Exception(json_encode($this->xmlValidator->errors));
