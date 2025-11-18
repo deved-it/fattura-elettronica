@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
  
+## [1.1.29] - 2025-11-18
+### Added
+- Aggiunti schemi XSD separati per FPA12 (Schema_VFPA12_V1.2.3.xsd) e FPR12 (Schema_VFPR12_v1.2.3.xsd) #124
+- Aggiunta selezione automatica dello schema in base al formatoTrasmissione
+- Aggiunti test FatturaPA12Test e FatturaPR12Test per validare entrambi i formati
+
 ## [1.1.28] - 2023-11-09
 ### Added
 -   Bug fix
