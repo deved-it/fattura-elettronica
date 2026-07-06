@@ -29,7 +29,7 @@ class FatturaElettronica implements XmlSerializableInterface, FatturaElettronica
     public function __construct(
         FatturaElettronicaHeader $fatturaElettronicaHeader,
         FatturaElettronicaBody $fatturaElettronicaBody,
-        XmlFactory $xmlFactory = null
+        ?XmlFactory $xmlFactory = null
     ) {
         $this->fatturaElettronicaHeader = $fatturaElettronicaHeader;
         $this->fatturaElettronicaBody = $fatturaElettronicaBody;

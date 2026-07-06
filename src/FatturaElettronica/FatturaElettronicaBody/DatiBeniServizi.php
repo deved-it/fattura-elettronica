@@ -31,7 +31,7 @@ class DatiBeniServizi implements XmlSerializableInterface
      * @param DettaglioLinee $dettaglioLinee
      * @param DatiRiepilogo|null $datiRiepilogo
      */
-    public function __construct(DettaglioLinee $dettaglioLinee, DatiRiepilogo $datiRiepilogo = null)
+    public function __construct(DettaglioLinee $dettaglioLinee, ?DatiRiepilogo $datiRiepilogo = null)
     {
         $this->dettaglioLinee = $dettaglioLinee;
         if ($datiRiepilogo) {

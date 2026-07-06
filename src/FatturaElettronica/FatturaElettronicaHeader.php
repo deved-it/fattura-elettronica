@@ -44,7 +44,7 @@ class FatturaElettronicaHeader implements XmlSerializableInterface
         DatiTrasmissione $datiTrasmissione,
         CedentePrestatore $cedentePrestatore,
         CessionarioCommittente $cessionarioCommittente,
-        DatiAnagrafici $terzoIntermediario = null,
+        ?DatiAnagrafici $terzoIntermediario = null,
         $soggettoEmittente = 'TZ'
     ) {
         $this->datiTrasmissione = $datiTrasmissione;

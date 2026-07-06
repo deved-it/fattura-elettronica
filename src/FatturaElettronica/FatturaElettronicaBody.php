@@ -41,9 +41,9 @@ class FatturaElettronicaBody implements XmlSerializableInterface
     public function __construct(
         DatiGenerali $datiGenerali,
         DatiBeniServizi $datiBeniServizi,
-        DatiPagamento $datiPagamento = null,
-        Allegato $allegato = null,
-        DatiVeicoli $datiVeicoli = null
+        ?DatiPagamento $datiPagamento = null,
+        ?Allegato $allegato = null,
+        ?DatiVeicoli $datiVeicoli = null
     ) {
         $this->datGenerali = $datiGenerali;
         $this->datiBeniServizi = $datiBeniServizi;

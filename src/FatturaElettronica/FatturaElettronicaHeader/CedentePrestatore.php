@@ -38,7 +38,7 @@ class CedentePrestatore implements XmlSerializableInterface
     public function __construct(
         DatiAnagrafici $datiAnagrafici,
         Sede $sede,
-        IscrizioneRea $iscrizioneRea = null
+        ?IscrizioneRea $iscrizioneRea = null
     ) {
         $this->datiAnagrafici = $datiAnagrafici;
         $this->sede = $sede;

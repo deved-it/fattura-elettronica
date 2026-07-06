@@ -20,7 +20,7 @@ class XmlFactory
      * XmlFactory constructor.
      * @param \XMLWriter|null $writer
      */
-    public function __construct(\XMLWriter $writer = null)
+    public function __construct(?\XMLWriter $writer = null)
     {
         $this->writer = $writer ? $writer : new \XMLWriter();
     }

@@ -40,7 +40,7 @@ class FatturaAdapter implements FatturaElettronicaInterface
      * @param FatturaInterface $fattura
      * @param XmlFactory|null $xmlFactory
      */
-    public function __construct(FatturaInterface $fattura, XmlFactory $xmlFactory = null)
+    public function __construct(FatturaInterface $fattura, ?XmlFactory $xmlFactory = null)
     {
         if ($xmlFactory) {
             $this->xmlFactory = $xmlFactory;
