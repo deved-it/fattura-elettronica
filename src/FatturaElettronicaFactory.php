@@ -67,7 +67,7 @@ class FatturaElettronicaFactory
         Sede $sedeCedente,
         $telefonoCedente,
         $emailCedente,
-        DatiAnagrafici $terzoIntermediario = null,
+        ?DatiAnagrafici $terzoIntermediario = null,
         $soggettoEmittente = 'TZ'
     ) {
         $this->setCedentePrestatore($datiAnagraficiCedente, $sedeCedente);
@@ -163,9 +163,9 @@ class FatturaElettronicaFactory
 
     /**
      * @param DatiGenerali $datiGenerali
-     * @param DatiPagamento $datiPagamento
+     * @param DatiPagamento|null $datiPagamento
      * @param DettaglioLinee $linee
-     * @param bool $progessivoInvio
+     * @param string|bool $progessivoInvio
      * @param DatiRiepilogo|null $datiRiepilogo
      * @param Allegato|null $allegato
      * @param DatiVeicoli|null $datiVeicoli
@@ -174,12 +174,12 @@ class FatturaElettronicaFactory
      */
     public function create(
         DatiGenerali $datiGenerali,
-        DatiPagamento $datiPagamento = null,
+        ?DatiPagamento $datiPagamento,
         DettaglioLinee $linee,
         $progessivoInvio = false,
-        DatiRiepilogo $datiRiepilogo = null,
-        Allegato $allegato = null,
-        DatiVeicoli $datiVeicoli = null
+        ?DatiRiepilogo $datiRiepilogo = null,
+        ?Allegato $allegato = null,
+        ?DatiVeicoli $datiVeicoli = null
     ) {
         if (!$this->cessionarioCommittente) {
             throw new \Exception('Dati cessionario non presenti!');

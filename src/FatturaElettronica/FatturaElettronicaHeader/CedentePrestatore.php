@@ -24,7 +24,7 @@ class CedentePrestatore implements XmlSerializableInterface
     protected $datiAnagrafici;
     /** @var Sede */
     protected $sede;
-    /** @var IscrizioneRea */
+    /** @var IscrizioneRea|null */
     protected $iscrizioneRea;
     protected $riferimentoAmministrazione;
 
@@ -33,12 +33,12 @@ class CedentePrestatore implements XmlSerializableInterface
      * CedentePrestatore constructor.
      * @param DatiAnagrafici $datiAnagrafici
      * @param Sede $sede
-     * @param IscrizioneRea $iscrizioneRea
+     * @param IscrizioneRea|null $iscrizioneRea
      */
     public function __construct(
         DatiAnagrafici $datiAnagrafici,
         Sede $sede,
-        IscrizioneRea $iscrizioneRea = null
+        ?IscrizioneRea $iscrizioneRea = null
     ) {
         $this->datiAnagrafici = $datiAnagrafici;
         $this->sede = $sede;
