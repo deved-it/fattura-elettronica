@@ -4,7 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
- 
+
+## [Unreleased]
+### Added
+- `DatiPagamento::addDettaglioPagamento()` per più `DettaglioPagamento` (es. rate) nello stesso blocco `DatiPagamento`
+- Beneficiario in `DatiPagamento` (nuovo parametro del costruttore), scritto come primo elemento di `DettaglioPagamento`
+- `Linea::setPrezzoTotale()` per impostare un prezzo totale già arrotondato al posto di quello calcolato
+- Documentazione per ordine di acquisto (CIG / CUP) con `DatiDocumentoCorrelato`
+
+### Fixed
+- Causale oltre i 200 caratteri divisa in più elementi `Causale` (prima l'xml non era valido)
+- Beneficiario impostato come campo magico scritto dopo `IBAN` (xml non valido)
+- Codice destinatario `XXXXXXX` assegnato a un privato italiano senza partita IVA: senza IdPaese vale la nazione della sede
+- Codice destinatario e PEC del cessionario precedente riusati dalla factory per il cessionario successivo
+
 ## [2.0.3] - 2025-11-18
 ### Added
 - Aggiunti schemi XSD separati per FPA12 (Schema_VFPA12_V1.2.3.xsd) e FPR12 (Schema_VFPR12_v1.2.3.xsd) #124

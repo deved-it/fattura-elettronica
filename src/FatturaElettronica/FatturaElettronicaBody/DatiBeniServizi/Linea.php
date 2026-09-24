@@ -44,6 +44,8 @@ class Linea implements XmlSerializableInterface
     protected $tipoCessionePrestazione;
     /** @var NaturaIvaType|null */
     protected $naturaIva;
+    /** @var float|null */
+    protected $prezzoTotale;
 
 
     /**
@@ -133,6 +135,9 @@ class Linea implements XmlSerializableInterface
      */
     public function prezzoTotale($format = true)
     {
+        if ($this->prezzoTotale !== null) {
+            return fe_number_format($this->prezzoTotale, $this->decimaliLinea);
+        }
         $quantita = $this->quantita ?: 1;
         $totale = $this->prezzoUnitario * $quantita;
         if ($format) {
@@ -142,6 +147,19 @@ class Linea implements XmlSerializableInterface
             $totale = $item->applicaScontoMaggiorazione($totale, $quantita, $format ? $this->decimaliLinea : null);
         }
         return fe_number_format($totale, $this->decimaliLinea);
+    }
+
+    /**
+     * Imposta esplicitamente il prezzo totale della linea, al posto di quello
+     * calcolato da prezzo unitario, quantità e sconti/maggiorazioni.
+     * Utile quando il totale arriva già arrotondato dal gestionale e il
+     * prodotto prezzo unitario x quantità differisce per arrotondamento.
+     *
+     * @param float|null $prezzoTotale null per tornare al calcolo automatico
+     */
+    public function setPrezzoTotale($prezzoTotale)
+    {
+        $this->prezzoTotale = $prezzoTotale;
     }
 
     /**

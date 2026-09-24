@@ -150,15 +150,32 @@ class FatturaElettronicaFactory
         $pa = false
     ) {
         $this->cessionarioCommittente = new CessionarioCommittente($datiAnagrafici, $sede);
+        // la factory può generare più fatture: i dati di recapito del
+        // cessionario precedente non devono passare al successivo
+        $this->codiceDestinatario = '0000000';
+        $this->pec = null;
         if ($codiceDestinatario) {
             $this->codiceDestinatario = $codiceDestinatario;
-        } else if ($datiAnagrafici->idPaese != 'IT') {
-        	$this->codiceDestinatario = 'XXXXXXX';
+        } else if ($this->isCessionarioEstero($datiAnagrafici, $sede)) {
+            $this->codiceDestinatario = 'XXXXXXX';
         }
         if ($pec) {
             $this->pec = $pec;
         }
         $this->pa = $pa;
+    }
+
+    /**
+     * Un cessionario senza partita IVA (es. privato con solo codice fiscale)
+     * non ha IdPaese: in quel caso vale la nazione della sede
+     * @param DatiAnagrafici $datiAnagrafici
+     * @param Sede $sede
+     * @return bool
+     */
+    protected function isCessionarioEstero(DatiAnagrafici $datiAnagrafici, Sede $sede)
+    {
+        $paese = $datiAnagrafici->idPaese ?: $sede->getNazione();
+        return strtoupper((string) $paese) !== 'IT';
     }
 
     /**

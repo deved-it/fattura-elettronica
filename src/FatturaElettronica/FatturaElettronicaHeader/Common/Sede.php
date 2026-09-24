@@ -51,6 +51,14 @@ class Sede implements XmlSerializableInterface
     }
 
     /**
+     * @return string
+     */
+    public function getNazione()
+    {
+        return $this->nazione;
+    }
+
+    /**
      * @param \XMLWriter $writer
      * @return \XMLWriter
      */

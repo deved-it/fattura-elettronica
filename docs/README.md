@@ -169,6 +169,17 @@ $linee = [$linea];
 $dettaglioLinee = new DettaglioLinee($linee);
 ```
 
+### Prezzo totale della linea
+
+Il `PrezzoTotale` di una linea viene calcolato come prezzo unitario × quantità, applicando sconti e maggiorazioni. Se il totale arriva già arrotondato dal gestionale (es. 3 × 33,33 = 100,00 invece di 99,99) si può impostare esplicitamente:
+
+```php
+$linea = new Linea('Soggiorno 3 notti', 33.33, null, 3, null, 10.00);
+$linea->setPrezzoTotale(100.00);  // null per tornare al calcolo automatico
+```
+
+Il riepilogo IVA calcolato automaticamente usa il prezzo totale impostato.
+
 ### Fattura con aliquote IVA multiple
 
 Quando si hanno righe con aliquote IVA diverse, è necessario specificare i dati di riepilogo:
@@ -304,6 +315,28 @@ $datiConvenzione->Data = '2024-01-01';
 $datiGenerali->setDatiConvenzione($datiConvenzione);
 ```
 
+### Fattura con ordine di acquisto (CIG / CUP)
+
+Gli ordini di acquisto (e gli altri documenti correlati) si impostano con `DatiDocumentoCorrelato`:
+
+```php
+use Deved\FatturaElettronica\Codifiche\TipoDocumentoCorrelato;
+use Deved\FatturaElettronica\FatturaElettronica\FatturaElettronicaBody\DatiGenerali\DatiDocumentoCorrelato;
+
+$ordineAcquisto = new DatiDocumentoCorrelato(
+    TipoDocumentoCorrelato::OrdineAcquisto,
+    'ORD-2024-001',     // IdDocumento (obbligatorio)
+    '2024-01-10',       // Data
+    [],                 // Riferimenti alle righe
+    '',                 // CodiceCommessaConvenzione
+    '',                 // NumItem
+    'J12B34000560001',  // CodiceCUP
+    'B1A2C3D4E5'        // CodiceCIG
+);
+
+$datiGenerali->setDatiDocumentoCorrelato($ordineAcquisto);
+```
+
 ### Fattura con SAL (Stato Avanzamento Lavori)
 
 ```php
@@ -409,6 +442,39 @@ $cassaPrevidenziale = new DatiCassaPrevidenziale(
 $datiGenerali->setDatiCassaPrevidenziale($cassaPrevidenziale);
 ```
 
+### Pagamento a rate e beneficiario
+
+Ogni `DatiPagamento` genera un blocco `DatiPagamento` con un `DettaglioPagamento`. Le rate di uno stesso pagamento vanno nello stesso blocco con `addDettaglioPagamento()`; `addBlock()` crea invece un nuovo blocco `DatiPagamento`.
+
+```php
+use Deved\FatturaElettronica\Codifiche\ModalitaPagamento;
+
+$datiPagamento = new DatiPagamento(
+    ModalitaPagamento::Bonifico,
+    '2024-02-15',                    // Scadenza prima rata
+    61.00,                           // Importo prima rata
+    'IT60X0542811101000000123456',   // IBAN
+    null,                            // Istituto finanziario
+    'TP01',                          // Condizioni pagamento: a rate
+    null,                            // Data riferimento termini pagamento
+    'Acme SpA'                       // Beneficiario
+);
+$datiPagamento->addDettaglioPagamento(new DatiPagamento(
+    ModalitaPagamento::Bonifico,
+    '2024-03-15',                    // Scadenza seconda rata
+    61.00
+));
+// CondizioniPagamento del dettaglio aggiunto viene ignorata: vale quella del blocco
+```
+
+### Causale
+
+```php
+$datiGenerali->setCausale('Soggiorno dal 10 al 13 gennaio');
+```
+
+Il tipo `Causale` accetta al massimo 200 caratteri per elemento: un testo più lungo viene diviso automaticamente in più elementi `Causale`.
+
 ### Fattura con cliente estero
 
 ```php
@@ -426,7 +492,9 @@ $sedeCessionario = new Sede(
     null               // Provincia (null per estero)
 );
 
-// Il codice destinatario sarà automaticamente impostato a 'XXXXXXX'
+// Il codice destinatario sarà automaticamente impostato a 'XXXXXXX'.
+// Senza IdPaese (es. privato senza partita IVA) vale la nazione della sede:
+// un privato italiano con solo codice fiscale riceve '0000000'.
 $fatturaFactory->setCessionarioCommittente(
     $anagraficaCessionario,
     $sedeCessionario
