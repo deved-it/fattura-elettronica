@@ -23,6 +23,10 @@ class DatiPagamento extends XmlRepeatedBlock
     public $iban;
     public $istitutoFinanziario;
     public $condizioniPagamento;
+    public $beneficiario;
+
+    /** @var DatiPagamento[] */
+    protected $dettagliPagamento = [];
 
     /**
      * DatiPagamento constructor.
@@ -33,6 +37,7 @@ class DatiPagamento extends XmlRepeatedBlock
      * @param string | null $istitutoFinanziario
      * @param string $condizioniPagamento
      * @param string | null $dataRiferimentoTerminiPagamento
+     * @param string | null $beneficiario
      */
     public function __construct(
         $modalitaPagamento,
@@ -41,7 +46,8 @@ class DatiPagamento extends XmlRepeatedBlock
         $iban = null,
         $istitutoFinanziario = null,
         $condizioniPagamento = 'TP02',
-        $dataRiferimentoTerminiPagamento = null
+        $dataRiferimentoTerminiPagamento = null,
+        $beneficiario = null
     ) {
         $this->modalitaPagamento = $modalitaPagamento;
         $this->dataRiferimentoTerminiPagamento = $dataRiferimentoTerminiPagamento;
@@ -50,7 +56,21 @@ class DatiPagamento extends XmlRepeatedBlock
         $this->iban = $iban;
         $this->istitutoFinanziario = $istitutoFinanziario;
         $this->condizioniPagamento = $condizioniPagamento;
+        $this->beneficiario = $beneficiario;
         parent::__construct();
+    }
+
+    /**
+     * Aggiunge un DettaglioPagamento allo stesso blocco DatiPagamento
+     * (es. le rate di un pagamento TP01). Del dettaglio aggiunto viene usato
+     * solo il contenuto di DettaglioPagamento: CondizioniPagamento resta
+     * quella di questo blocco.
+     * Per un nuovo blocco DatiPagamento usare invece addBlock().
+     * @param DatiPagamento $dettaglio
+     */
+    public function addDettaglioPagamento(DatiPagamento $dettaglio)
+    {
+        $this->dettagliPagamento[] = $dettaglio;
     }
 
     /**
@@ -63,25 +83,45 @@ class DatiPagamento extends XmlRepeatedBlock
         foreach ($this->blocks as $block) {
             $writer->startElement('DatiPagamento');
             $writer->writeElement('CondizioniPagamento', $block->condizioniPagamento);
-            $writer->startElement('DettaglioPagamento');
-            $writer->writeElement('ModalitaPagamento', $block->modalitaPagamento);
-            if ($block->dataRiferimentoTerminiPagamento) {
-                $writer->writeElement('DataRiferimentoTerminiPagamento', $block->dataRiferimentoTerminiPagamento);
+            $block->dettaglioPagamentoToXmlBlock($writer);
+            foreach ($block->dettagliPagamento as $dettaglio) {
+                $dettaglio->dettaglioPagamentoToXmlBlock($writer);
             }
-            if ($block->dataScadenzaPagamento) {
-                $writer->writeElement('DataScadenzaPagamento', $block->dataScadenzaPagamento);
-            }
-            $writer->writeElement('ImportoPagamento', fe_number_format($block->importoPagamento, 2));
-            if ($block->istitutoFinanziario) {
-                $writer->writeElement('IstitutoFinanziario', $block->istitutoFinanziario);
-            }
-            if ($block->iban) {
-                $writer->writeElement('IBAN', $block->iban);
-            }
-            $block->writeXmlFields($writer);
-            $writer->endElement();
             $writer->endElement();
         }
+        return $writer;
+    }
+
+    /**
+     * @param \XMLWriter $writer
+     * @return \XMLWriter
+     */
+    protected function dettaglioPagamentoToXmlBlock(\XMLWriter $writer)
+    {
+        $writer->startElement('DettaglioPagamento');
+        // Beneficiario è il primo elemento di DettaglioPagamento: anche se
+        // impostato come campo magico ($datiPagamento->Beneficiario) va scritto qui
+        $beneficiario = $this->beneficiario ?: $this->Beneficiario;
+        if ($beneficiario) {
+            $writer->writeElement('Beneficiario', $beneficiario);
+        }
+        $this->hideXmlField('Beneficiario');
+        $writer->writeElement('ModalitaPagamento', $this->modalitaPagamento);
+        if ($this->dataRiferimentoTerminiPagamento) {
+            $writer->writeElement('DataRiferimentoTerminiPagamento', $this->dataRiferimentoTerminiPagamento);
+        }
+        if ($this->dataScadenzaPagamento) {
+            $writer->writeElement('DataScadenzaPagamento', $this->dataScadenzaPagamento);
+        }
+        $writer->writeElement('ImportoPagamento', fe_number_format($this->importoPagamento, 2));
+        if ($this->istitutoFinanziario) {
+            $writer->writeElement('IstitutoFinanziario', $this->istitutoFinanziario);
+        }
+        if ($this->iban) {
+            $writer->writeElement('IBAN', $this->iban);
+        }
+        $this->writeXmlFields($writer);
+        $writer->endElement();
         return $writer;
     }
 }
