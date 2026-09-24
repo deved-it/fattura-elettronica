@@ -27,6 +27,9 @@ class DatiGenerali implements XmlSerializableInterface
 {
     use MagicFieldsTrait;
 
+    /** Lunghezza massima di un elemento Causale (String200LatinType) */
+    const LUNGHEZZA_MASSIMA_CAUSALE = 200;
+
     /** @var string */
     protected $tipoDocumento;
     /** @var string */
@@ -127,6 +130,11 @@ class DatiGenerali implements XmlSerializableInterface
         $this->datiSal = $datiSal;
     }
 
+    /**
+     * La Causale può superare i 200 caratteri: in fase di generazione dell'xml
+     * viene suddivisa in più elementi Causale (maxOccurs="unbounded")
+     * @param string $causale
+     */
     public function setCausale(string $causale)
     {
         $this->causale = $causale;
@@ -157,9 +165,16 @@ class DatiGenerali implements XmlSerializableInterface
             $this->scontoMaggiorazione->toXmlBlock($writer);
         }
         $writer->writeElement('ImportoTotaleDocumento', fe_number_format($this->importoTotaleDocumento, 2));
-        if ($this->causale) {
-            $writer->writeElement('Causale', $this->causale);
+        // la Causale impostata come campo magico ($datiGenerali->Causale) viene
+        // scritta qui, suddivisa come quella di setCausale()
+        foreach ([$this->causale, $this->Causale] as $causale) {
+            if ($causale) {
+                foreach (self::dividiCausale($causale) as $parte) {
+                    $writer->writeElement('Causale', $parte);
+                }
+            }
         }
+        $this->hideXmlField('Causale');
         $this->writeXmlFields($writer);
         $writer->endElement();
 
@@ -179,7 +194,23 @@ class DatiGenerali implements XmlSerializableInterface
             $this->datiDdt->toXmlBlock($writer);
         }
         $writer->endElement();
-        //todo: implementare DatiOrdineAcquisto, DatiContratto etc. (facoltativi)
         return $writer;
+    }
+
+    /**
+     * Suddivide la causale in parti da LUNGHEZZA_MASSIMA_CAUSALE caratteri
+     * (caratteri, non byte: il pattern dell'XSD conta i caratteri)
+     * @param string $causale
+     * @return string[]
+     */
+    protected static function dividiCausale($causale)
+    {
+        $causale = (string) $causale;
+        $pattern = '/.{1,' . self::LUNGHEZZA_MASSIMA_CAUSALE . '}/su';
+        if (preg_match_all($pattern, $causale, $parti) === false) {
+            // stringa non UTF-8 valida: divisione per byte
+            return str_split($causale, self::LUNGHEZZA_MASSIMA_CAUSALE);
+        }
+        return $parti[0];
     }
 }
